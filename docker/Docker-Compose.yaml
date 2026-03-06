@@ -1,0 +1,38 @@
+name: 2026-tibble-bot
+services:
+  2026-tibble-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    network_mode: host              # Share the same network stack as the host
+    ipc: host                       # Prevents Fast DDS error with memory sharing
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1        # (optional, avoids some shared memory issues)
+      - XDG_RUNTIME_DIR=/tmp/runtime-ubuntu
+      - ROS_DOMAIN_ID=0
+      - DISPLAY=:0
+      - QT_QPA_PLATFORM=xcb
+    volumes:
+      - type: bind                 # udev database
+        source: /run/udev
+        target: /run/udev
+        read_only: true
+      - type: bind
+        source: ..
+        target: /workspaces/2026-Tibble-Bot
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - type: bind
+        source: /dev/serial/by-id
+        target: /dev/serial/by-id
+        read_only: true
+      - /dev:/dev
+    cap_add:
+      - SYS_NICE               # For real-time scheduling
+    tty: true
+    stdin_open: true
+    group_add:
+      - dialout
+      - video
+      - input
