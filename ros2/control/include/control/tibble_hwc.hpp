@@ -18,9 +18,9 @@
 
 #include "control/arduino_comms.hpp"
 
-namespace tibble_hwc
+namespace terrence_hwc
 {
-    class TibbleHWC : public hardware_interface::SystemInterface
+    class TerrenceHWC : public hardware_interface::SystemInterface
     {
 
         struct Config
@@ -42,7 +42,7 @@ namespace tibble_hwc
         };
 
         public:
-            RCLCPP_SHARED_PTR_DEFINITIONS(TibbleHWC)
+            RCLCPP_SHARED_PTR_DEFINITIONS(TerrenceHWC)
 
             // Lifecycle
             hardware_interface::CallbackReturn on_init(
@@ -92,7 +92,7 @@ namespace tibble_hwc
             double loader_pos_{0.0};
             double hopper_pos_{0.0};
     };
-}   // namespace tibble_hwc
+}   // namespace terrence_hwc
 
 
 #endif // TERRENCE_HWC_HPP
