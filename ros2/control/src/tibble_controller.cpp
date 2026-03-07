@@ -401,65 +401,8 @@ namespace tibble_controller
     }
 
     // THE UPDATE FUNCTION
-    loader_cmd_idx_].set_value(loader_cmd_val_);
-        (void)command_interfaces_[hopper_cmd_idx_].set_value(hopper_cmd_val_);
-
-        // Open loop odom
-        double wl = 0.0, wr = 0.0;
-        if (left_vel_state_idx_ >= 0 && right_vel_state_idx_ >= 0)
-        {
-            wl = state_interfaces_[left_vel_state_idx_].get_optional().value_or(0.0);
-            wr = state_interfaces_[right_vel_state_idx_].get_optional().value_or(0.0);
-        }
-        else
-        {
-            wl = command_interfaces_[left_cmd_idx_].get_optional().value_or(0.0);
-            wr = command_interfaces_[right_cmd_idx_].get_optional().value_or(0.0);
-        }
-
-        const double dt_raw = period.seconds();
-        const double dt = (std::isfinite(dt_raw) && dt_raw > 0.0 && dt_raw < 0.5) ? dt_raw : 0.0;
-
-        // Convert wheel angular velocity (rad/s) to linear (m/s)
-        const double vl = wl * wheel_radius_m_;
-        const double vr = wr * wheel_radius_m_;
-
-        // Body-frame velocities
-        const double v = 0.5 * (vr + vl);
-        const double wz = (wheel_separation_m_ > 1e-6) ? ((vr - vl) / wheel_separation_m_) : 0.0;
-
-        // Integrate pose
-        yaw_ += wz * dt;
-
-        // Optional: wrap yaw to [-pi, pi] to avoid unbounded growth
-        while (yaw_ > M_PI)  yaw_ -= 2.0 * M_PI;
-        while (yaw_ < -M_PI) yaw_ += 2.0 * M_PI;
-
-        x_ += v * std::cos(yaw_) * dt;
-        y_ += v * std::sin(yaw_) * dt;
-
-        // yaw -> quaternion (2D)
-        const double cy = std::cos(yaw_ * 0.5);
-        const double sy = std::sin(yaw_ * 0.5);
-
-        // Publish odom
-        if (odom_pub_rt_ && odom_pub_rt_->trylock())
-        {
-            auto & msg = odom_pub_rt_->msg_;
-            msg.header.stamp = time;
-            msg.header.frame_id = odom_frame_id_;
-            msg.child_frame_id = base_frame_id_;
-
-            msg.pose.pose.position.x = x_;
-            msg.pose.pose.position.y = y_;
-            msg.pose.pose.position.z = 0.0;
-
-            msg.pose.pose.orientation.x = 0.0;
-            msg.pose.pose.orientation.y = 0.0;
-            msg.pose.pose.orientation.z = sy;
-            msg.pose.pose.orientation.w = cy;
-
-            msg.twist.twist.linear.x =controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
+    // THE UPDATE FUNCTION
+    controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
     {
         // If fault latched, enforce safe outputs
         if (fault_latched_ || mode_ == Mode::FAULT)
@@ -560,7 +503,65 @@ namespace tibble_controller
         }
 
         // Write commands to interfaces
-        (void)command_interfaces_[ v;
+        (void)command_interfaces_[loader_cmd_idx_].set_value(loader_cmd_val_);
+        (void)command_interfaces_[hopper_cmd_idx_].set_value(hopper_cmd_val_);
+
+        // Open loop odom
+        double wl = 0.0, wr = 0.0;
+        if (left_vel_state_idx_ >= 0 && right_vel_state_idx_ >= 0)
+        {
+            wl = state_interfaces_[left_vel_state_idx_].get_optional().value_or(0.0);
+            wr = state_interfaces_[right_vel_state_idx_].get_optional().value_or(0.0);
+        }
+        else
+        {
+            wl = command_interfaces_[left_cmd_idx_].get_optional().value_or(0.0);
+            wr = command_interfaces_[right_cmd_idx_].get_optional().value_or(0.0);
+        }
+
+        const double dt_raw = period.seconds();
+        const double dt = (std::isfinite(dt_raw) && dt_raw > 0.0 && dt_raw < 0.5) ? dt_raw : 0.0;
+
+        // Convert wheel angular velocity (rad/s) to linear (m/s)
+        const double vl = wl * wheel_radius_m_;
+        const double vr = wr * wheel_radius_m_;
+
+        // Body-frame velocities
+        const double v = 0.5 * (vr + vl);
+        const double wz = (wheel_separation_m_ > 1e-6) ? ((vr - vl) / wheel_separation_m_) : 0.0;
+
+        // Integrate pose
+        yaw_ += wz * dt;
+
+        // Optional: wrap yaw to [-pi, pi] to avoid unbounded growth
+        while (yaw_ > M_PI)  yaw_ -= 2.0 * M_PI;
+        while (yaw_ < -M_PI) yaw_ += 2.0 * M_PI;
+
+        x_ += v * std::cos(yaw_) * dt;
+        y_ += v * std::sin(yaw_) * dt;
+
+        // yaw -> quaternion (2D)
+        const double cy = std::cos(yaw_ * 0.5);
+        const double sy = std::sin(yaw_ * 0.5);
+
+        // Publish odom
+        if (odom_pub_rt_ && odom_pub_rt_->trylock())
+        {
+            auto & msg = odom_pub_rt_->msg_;
+            msg.header.stamp = time;
+            msg.header.frame_id = odom_frame_id_;
+            msg.child_frame_id = base_frame_id_;
+
+            msg.pose.pose.position.x = x_;
+            msg.pose.pose.position.y = y_;
+            msg.pose.pose.position.z = 0.0;
+
+            msg.pose.pose.orientation.x = 0.0;
+            msg.pose.pose.orientation.y = 0.0;
+            msg.pose.pose.orientation.z = sy;
+            msg.pose.pose.orientation.w = cy;
+
+            msg.twist.twist.linear.x = v;
             msg.twist.twist.linear.y = 0.0;
             msg.twist.twist.angular.z = wz;
 

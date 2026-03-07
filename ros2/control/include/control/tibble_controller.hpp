@@ -1,5 +1,5 @@
-#ifndef TERRENCE_CONTROLLER_HPP
-#define TERRENCE_CONTROLLER_HPP
+#ifndef TIBBLE_CONTROLLER_HPP
+#define TIBBLE_CONTROLLER_HPP
 
 #include <controller_interface/controller_interface.hpp>
 #include <geometry_msgs/msg/twist.hpp>
@@ -162,4 +162,4 @@ namespace tibble_controller
     };
 } // namespace tibble_controller
 
-#endif // TERRENCE_CONTROLLER_HPP
+#endif // TIBBLE_CONTROLLER_HPP
