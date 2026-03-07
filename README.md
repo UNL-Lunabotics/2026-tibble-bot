@@ -73,3 +73,9 @@ The robot is moving forward slowly with the opper tilted backwards to slowly dum
 1. unlatch hopper
 2. extend LA's to DUMP
 3. start the vibration motor
+
+## Procedure for Fixing URDFs
+1. It uses the wrong import mesh thing, fix that
+2. Need to manually add a base link
+3. Xacro cleanup stuff
+4. It gets the axes wrong every time
