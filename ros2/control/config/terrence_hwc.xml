@@ -1,0 +1,8 @@
+<library path="tibble_hwc">
+  <class
+    name="tibble_hwc/TibbleHWC"
+    type="tibble_hwc::TibbleHWC"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>Hardware plugin for tibble</description>
+  </class>
+</library>

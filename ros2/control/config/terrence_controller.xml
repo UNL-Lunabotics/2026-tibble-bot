@@ -1,0 +1,10 @@
+<library path="tibble_controller">
+  <class
+    name="tibble_controller/TibbleController"
+    type="tibble_controller::TibbleController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>
+      Tibble supervisor controller with mode gating (IDLE/DRIVE/DIG/DUMP/FAULT).
+    </description>
+  </class>
+</library>
