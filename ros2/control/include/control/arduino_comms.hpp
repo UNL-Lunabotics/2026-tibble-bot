@@ -1,16 +1,13 @@
 #ifndef ARDUINO_COMMS_HPP
 #define ARDUINO_COMMS_HPP
 
-// #include <cstring>
 #include <sstream>
-// #include <cstdlib>
 #include <libserial/SerialPort.h>
 #include <iostream>
 
 
 LibSerial::BaudRate convert_baud_rate(int baud_rate)
 {
-  // Just handle some common baud rates
   switch (baud_rate)
   {
     case 1200: return LibSerial::BaudRate::BAUD_1200;
@@ -59,22 +56,8 @@ public:
     serial_conn_.FlushIOBuffers(); // Just in case
     serial_conn_.Write(msg_to_send);
 
-    // Reading from serial was blocking input, making this function write only
-    // std::string response = "";
-    // try
-    // {
-    //   // Responses end with \r\n so we will read up to (and including) the \n.
-    //   serial_conn_.ReadLine(response, '\n', timeout_ms_);
-    // }
-    // catch (const LibSerial::ReadTimeout&)
-    // {
-    //     std::cerr << "The ReadByte() call has timed out." << std::endl ;
-    // }
-
-    // if (print_output)
-    // {
-    //   std::cout << "Sent: " << msg_to_send << " Recv: " << response << std::endl;
-    // }
+    // Reading from the serial port is too slow and bottlenecks the entire program
+    // Do not read from serial in this function ever
 
     return msg_to_send;
   }

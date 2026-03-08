@@ -33,6 +33,8 @@ Hopper Actuators (Super Duty)
 Hopper Servo (GoBuilda 2000 Dual Mode)
 - https://www.gobilda.com/2000-series-dual-mode-servo-25-2-torque/ 
 
+2 roboclaws, the excav motor, 
+
 ## State Machine Design
 
 The linear actuators will have their own states, REST, EXCAV, and DUMP to correspond to the encoder positions for where it should be.
