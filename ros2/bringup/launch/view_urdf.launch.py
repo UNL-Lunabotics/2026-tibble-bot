@@ -14,7 +14,7 @@ def generate_launch_description():
             " ",
             PathSubstitution(FindPackageShare("description"))
             / "urdf"
-            / "tibbs.urdf.xacro",
+            / "tibble.urdf.xacro",
         ]
     )
 
@@ -42,7 +42,7 @@ def generate_launch_description():
                 parameters=[
                     {
                         "robot_description": robot_description_str
-                    }d
+                    },
                 ],
             ),
             # RViz2 node
