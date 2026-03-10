@@ -30,7 +30,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/base_link.STL" />
+          filename="file://$(find description)/meshes/Chassis.STL" />
       </geometry>
       <material
         name="">
@@ -44,7 +44,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/base_link.STL" />
+          filename="file://$(find description)/meshes/Chassis.STL" />
       </geometry>
     </collision>
   </link>
