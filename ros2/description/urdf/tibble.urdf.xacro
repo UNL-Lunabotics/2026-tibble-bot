@@ -112,7 +112,7 @@
     <child
       link="DL_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="DR_Wheel">
@@ -165,7 +165,7 @@
     <child
       link="DR_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="BLA">
@@ -334,7 +334,7 @@
     <child
       link="TLA" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
       upper="0"
@@ -450,7 +450,7 @@
     <child
       link="Hopper_Door" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
       upper="0"
@@ -508,7 +508,7 @@
     <child
       link="Hopper_Latch" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
       upper="0"
@@ -566,7 +566,7 @@
     <child
       link="Excavation" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="FL_Wheel">
@@ -619,7 +619,7 @@
     <child
       link="FL_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="ML_Wheel">
@@ -672,7 +672,7 @@
     <child
       link="ML_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="BL_Wheel">
@@ -725,7 +725,7 @@
     <child
       link="BL_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="TL_Wheel">
@@ -778,7 +778,7 @@
     <child
       link="TL_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="FR_Wheel">
@@ -831,7 +831,7 @@
     <child
       link="FR_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="MR_Wheel">
@@ -884,7 +884,7 @@
     <child
       link="MR_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="BR_Wheel">
@@ -937,7 +937,7 @@
     <child
       link="BR_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="TR_Wheel">
@@ -990,6 +990,6 @@
     <child
       link="TR_Wheel" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
 </robot>
