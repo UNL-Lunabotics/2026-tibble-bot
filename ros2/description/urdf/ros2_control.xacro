@@ -3,14 +3,44 @@
 
     <!-- Load the real robot ROS2 Control information -->
     <xacro:unless value="$(arg sim_mode)">
-        <!-- Almost everything should go in this ros2_control tag -->
-        <ros2_control name="name" type="system">  <!-- This should almost always be system -->
+        <ros2_control name="Tibble" type="system">
 
             <hardware>  <!-- This defines all the params needed for the hardware component -->
-            <!-- This includes wheel names, which serial device/port to listen to, baud_rate, loop_rate, etc -->
+                <plugin>tibble_hwc/TibbleHWC</plugin>
             </hardware>
 
             <!-- Define all the joints that will have a command or state interface -->
+            <joint name="DL_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+
+            <joint name="DR_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+
+            <joint name="LA_Extend">
+                <command_interface name="position"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="Excavation_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
 
         </ros2_control>
     </xacro:unless>
@@ -31,7 +61,7 @@
 
         <gazebo>
             <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
-                <parameters>$(find control)/config/controllersname.yaml</parameters>
+                <parameters>$(find control)/config/tibble_controller.yaml</parameters>
             </plugin>
         </gazebo>
     </xacro:if>
