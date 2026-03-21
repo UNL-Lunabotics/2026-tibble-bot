@@ -53,7 +53,7 @@
     type="fixed">
     <origin
       xyz="0 0 0"
-      rpy="0 0 0" />
+      rpy="${-pi/2} 0 0" />
     <parent
       link="base_link" />
     <child
@@ -112,7 +112,7 @@
     <child
       link="DL_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="DR_Wheel">
@@ -165,7 +165,7 @@
     <child
       link="DR_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="BLA">
@@ -619,7 +619,7 @@
     <child
       link="FL_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="ML_Wheel">
@@ -672,7 +672,7 @@
     <child
       link="ML_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="BL_Wheel">
@@ -725,7 +725,7 @@
     <child
       link="BL_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="TL_Wheel">
@@ -778,7 +778,7 @@
     <child
       link="TL_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="FR_Wheel">
@@ -831,7 +831,7 @@
     <child
       link="FR_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="MR_Wheel">
@@ -884,7 +884,7 @@
     <child
       link="MR_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="BR_Wheel">
@@ -937,7 +937,7 @@
     <child
       link="BR_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="TR_Wheel">
@@ -990,6 +990,6 @@
     <child
       link="TR_Wheel" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
 </robot>
