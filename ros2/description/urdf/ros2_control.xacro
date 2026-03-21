@@ -42,6 +42,14 @@
                 <state_interface name="velocity"/>
             </joint>
 
+            <gpio name="vibe_control">
+                <command_interface name="vibe_enabled"/>
+            </gpio>
+
+            <gpio name="latch_control">
+                <command_interface name="hop_latched"/>
+            </gpio>
+
         </ros2_control>
     </xacro:unless>
 
