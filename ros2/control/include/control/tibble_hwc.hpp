@@ -16,35 +16,17 @@
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 
+// Communication layers
 #include "control/arduino_comms.hpp"
+// #include "control/can_comms.hpp"
 
 namespace tibble_hwc
 {
     class TibbleHWC : public hardware_interface::SystemInterface
     {
-
-        struct Config
-        {
-            std::string left_wheel_name = "";
-            std::string right_wheel_name = "";
-            std::string loader_name = "LoaderJoint";
-            std::string hopper_name = "HopperJoint";
-
-            float loop_rate = 0.0;
-            std::string device = "";
-            int baud_rate = 0;
-            int timeout_ms = 0;
-            double max_radps = 0.0;
-            int pid_p = 0;
-            int pid_d = 0;
-            int pid_i = 0;
-            int pid_o = 0;
-        };
-
         public:
             RCLCPP_SHARED_PTR_DEFINITIONS(TibbleHWC)
 
-            // Lifecycle
             hardware_interface::CallbackReturn on_init(
                 const hardware_interface::HardwareComponentInterfaceParams & params) override;
             
@@ -59,40 +41,59 @@ namespace tibble_hwc
             
             hardware_interface::CallbackReturn on_deactivate(
                 const rclcpp_lifecycle::State & previous_state) override;
+
+            std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+            std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
             
-            // rw
             hardware_interface::return_type read(
                 const rclcpp::Time & time, const rclcpp::Duration & period) override;
             
             hardware_interface::return_type write(
                 const rclcpp::Time & time, const rclcpp::Duration & period) override;
             
-            // util
-            static inline double finite_or_zero(double x) {
-                // checks to see if a double is finite, if it isn't, set to 0 to guard against NaN
-                return std::isfinite(x) ? x : 0.0;
-            }
-        
         private:
-            ArduinoComms comms_;
-            Config config_;
-            std::string left_vel_if_;
-            std::string right_vel_if_;
-            std::string left_pos_if_;
-            std::string right_pos_if_;
-            std::string loader_cmd_if_;
-            std::string loader_pos_if_;
-            std::string hopper_cmd_if_;
-            std::string hopper_pos_if_;
+            // --- Communication Objects ---
+            ArduinoComms teensy_comms_;
+            // CanComms can_comms_;
 
-            double left_pos_{0.0};
-            double right_pos_{0.0};
-            double left_vel_state_{0.0};
-            double right_vel_state_{0.0};
-            double loader_pos_{0.0};
-            double hopper_pos_{0.0};
+            // --- Hardware Parameters (Pulled from URDF) ---
+            std::string serial_port_;
+            int baud_rate_;
+            std::string can_interface_;
+
+            // Firgelli 450lb Super Duty: 41.1 pulses/mm
+            const double LA_TICKS_PER_METER = 41100.0;
+            const double LA_SYNC_TOLERANCE_METERS = 0.02; // Throw error if > 20mm out of sync
+            
+            // goBILDA 5203 (117 RPM)
+            const double EXCAV_MAX_RAD_S = 12.25;
+            const int ROBOCLAW_MAX_PWM = 127;
+
+            // --- Internal Joint Memory ---
+            
+            // Drivetrain (CAN)
+            double cmd_left_wheel_vel_{0.0};
+            double cmd_right_wheel_vel_{0.0};
+            double state_left_wheel_pos_{0.0};
+            double state_left_wheel_vel_{0.0};
+            double state_right_wheel_pos_{0.0};
+            double state_right_wheel_vel_{0.0};
+
+            // Linear Actuators (Serial)
+            double cmd_la_pos_{0.0};
+            double cmd_la_reset_{0.0};   // 1.0 triggers an encoder zeroing
+            double state_la_pos_{0.0};   // Averaged state of both LAs
+            
+            // Mechanisms (Serial)
+            double cmd_excav_vel_{0.0};
+            double cmd_vibe_enabled_{0.0};
+            double cmd_hop_latched_{1.0}; // Default to latched (1.0)
+            
+            // Raw internal tracking
+            int32_t raw_la_1_ticks_{0};
+            int32_t raw_la_2_ticks_{0};
+            int32_t raw_excav_ticks_{0};
     };
 }   // namespace tibble_hwc
-
 
 #endif // TIBBLE_HWC_HPP

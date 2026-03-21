@@ -7,6 +7,9 @@
 
             <hardware>  <!-- This defines all the params needed for the hardware component -->
                 <plugin>tibble_hwc/TibbleHWC</plugin>
+                <param name="serial_port">/dev/ttyACM0</param>
+                <param name="baud_rate">9600</param>
+                <param name="can_interface">can0</param>
             </hardware>
 
             <!-- Define all the joints that will have a command or state interface -->
@@ -30,6 +33,7 @@
 
             <joint name="LA_Extend">
                 <command_interface name="position"/>
+                <command_interface name="la_reset"/>
                 <state_interface name="position"/>
             </joint>
 

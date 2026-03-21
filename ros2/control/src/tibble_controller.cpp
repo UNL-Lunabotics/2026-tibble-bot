@@ -18,7 +18,8 @@ namespace tibble_controller
             linear_actuator_name_ + "/position",
             excavation_name_ + "/position",
             vibe_gpio_name_ + "/vibe_enabled",
-            latch_gpio_name_ + "/hop_latched"
+            latch_gpio_name_ + "/hop_latched",
+            linear_actuator_name_ + "/la_reset"
         };
 
         return config;
