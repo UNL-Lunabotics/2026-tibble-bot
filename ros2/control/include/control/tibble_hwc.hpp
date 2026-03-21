@@ -18,7 +18,7 @@
 
 // Communication layers
 #include "control/arduino_comms.hpp"
-// #include "control/can_comms.hpp"
+#include "control/can_comms.hpp"
 
 namespace tibble_hwc
 {
