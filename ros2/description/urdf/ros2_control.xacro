@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Load the real robot ROS2 Control information -->
+    <xacro:unless value="$(arg sim_mode)">
+        <!-- Almost everything should go in this ros2_control tag -->
+        <ros2_control name="name" type="system">  <!-- This should almost always be system -->
+
+            <hardware>  <!-- This defines all the params needed for the hardware component -->
+            <!-- This includes wheel names, which serial device/port to listen to, baud_rate, loop_rate, etc -->
+            </hardware>
+
+            <!-- Define all the joints that will have a command or state interface -->
+
+        </ros2_control>
+    </xacro:unless>
+
+
+
+    <!-- Load the ROS2 Control information for just sim purposes -->
+    <xacro:if value="$(arg use_sim)">
+        <ros2_control name="name" type="system">
+
+            <hardware>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </hardware>
+
+            <!-- Define all joints and their command/state interfaces necessary for sim -->
+
+        </ros2_control>
+
+        <gazebo>
+            <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
+                <parameters>$(find control)/config/controllersname.yaml</parameters>
+            </plugin>
+        </gazebo>
+    </xacro:if>
+
+</robot>
+

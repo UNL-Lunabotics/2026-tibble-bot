@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link
+    name="chassis_link">
+    <inertial>
+      <origin
+        xyz="0.88193 1.2843 1.595"
+        rpy="0 0 0" />
+      <mass
+        value="5.3252" />
+      <inertia
+        ixx="0.016501"
+        ixy="-1.6464E-09"
+        ixz="0.0014196"
+        iyy="0.28053"
+        iyz="3.4252E-11"
+        izz="0.27372" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Chassis.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.25098 0.25098 0.25098 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Chassis.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="chassis"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="${-pi/2} 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="chassis_link" />
+  </joint>
+
+
+  <link
+    name="DL_Wheel">
+    <inertial>
+      <origin
+        xyz="-2.6735E-11 -2.2271E-11 5.6577E-12"
+        rpy="0 0 0" />
+      <mass
+        value="0.17677" />
+      <inertia
+        ixx="0.00011937"
+        ixy="-6.5392E-14"
+        ixz="3.4896E-14"
+        iyy="0.00011937"
+        iyz="-1.0101E-14"
+        izz="0.00021546" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/DL_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/DL_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="DL_Rotate"
+    type="continuous">
+    <origin
+      xyz="1.1775 -1.6339 1.5673"
+      rpy="3.1416 0 0.5236" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="DL_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="DR_Wheel">
+    <inertial>
+      <origin
+        xyz="-2.67351696336959E-11 -2.22715179631905E-11 5.65791857809472E-12"
+        rpy="0 0 0" />
+      <mass
+        value="0.176769243894823" />
+      <inertia
+        ixx="0.000119374362744726"
+        ixy="-6.53920243420727E-14"
+        ixz="3.48950358018505E-14"
+        iyy="0.000119374363023012"
+        iyz="-1.01023471885648E-14"
+        izz="0.000215461530204446" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/DR_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/DR_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="DR_Rotate"
+    type="continuous">
+    <origin
+      xyz="1.1775 -1.6339 1.0014"
+      rpy="3.1416 0 0.5236" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="DR_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="BLA">
+    <inertial>
+      <origin
+        xyz="-0.0172681243630312 -0.116440645758096 0.212737229814056"
+        rpy="0 0 0" />
+      <mass
+        value="0.97023402841067" />
+      <inertia
+        ixx="0.00819569952353813"
+        ixy="0.000828153171744282"
+        ixz="-1.42662335730119E-06"
+        iyy="0.000699830914870433"
+        iyz="3.45710523187761E-06"
+        izz="0.00867844294735175" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BLA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BLA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LLA_Rotate"
+    type="revolute">
+    <origin
+      xyz="0.56252 -1.6364 1.0715"
+      rpy="0 0 0.88895" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="BLA" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LA">
+    <inertial>
+      <origin
+        xyz="0.0420523159099391 0.0218514549059925 3.83189571184772E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.0898377249563414" />
+      <inertia
+        ixx="0.000634301272313686"
+        ixy="-3.23718441672287E-11"
+        ixz="-1.23742704912369E-10"
+        iyy="4.44119295047458E-06"
+        iyz="1.42114602862497E-10"
+        izz="0.000634330189167566" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/LA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/LA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LA_Extend"
+    type="prismatic">
+    <origin
+      xyz="0.042052 -0.26173 0.40387"
+      rpy="-3.1416 0 3.1416" />
+    <parent
+      link="BLA" />
+    <child
+      link="LA" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="TLA">
+    <inertial>
+      <origin
+        xyz="0.042052315909939 0.0118514549059932 3.83189571184772E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.0898377249563407" />
+      <inertia
+        ixx="0.00063430127231368"
+        ixy="-3.23718437638293E-11"
+        ixz="-1.23742704915399E-10"
+        iyy="4.44119295047454E-06"
+        iyz="1.42114603355188E-10"
+        izz="0.00063433018916756" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TLA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TLA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="TLA_Rotate"
+    type="revolute">
+    <origin
+      xyz="0 0.01 0"
+      rpy="0 0 0" />
+    <parent
+      link="LA" />
+    <child
+      link="TLA" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Hopper">
+    <inertial>
+      <origin
+        xyz="-0.218032737839366 -0.048578033407676 0.255785650299991"
+        rpy="0 0 0" />
+      <mass
+        value="7.0102265846381" />
+      <inertia
+        ixx="0.239055753793241"
+        ixy="-3.42031876735411E-05"
+        ixz="-5.68944981457304E-05"
+        iyy="0.257861535313843"
+        iyz="-0.00276345589773509"
+        izz="0.186808546830502" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.866666666666667 0.909803921568627 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Hopper_Rotate"
+    type="revolute">
+    <origin
+      xyz="0.37173 -1.5824 1.0636"
+      rpy="0.03431 1.5708 0" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="Hopper" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Hopper_Door">
+    <inertial>
+      <origin
+        xyz="0.00554435941506543 0.171225176428278 -0.188564630106416"
+        rpy="0 0 0" />
+      <mass
+        value="0.968967421343555" />
+      <inertia
+        ixx="0.0182103518534373"
+        ixy="8.66065621809038E-05"
+        ixz="8.88514841015581E-08"
+        iyy="0.00808230146606889"
+        iyz="8.31128238595449E-07"
+        izz="0.0104108728341979" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper_Door.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.866666666666667 0.909803921568627 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper_Door.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HopperDoorRotate"
+    type="revolute">
+    <origin
+      xyz="-0.39068 0.10314 -0.0253"
+      rpy="1.5708 1.5696 -1.5708" />
+    <parent
+      link="Hopper" />
+    <child
+      link="Hopper_Door" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Hopper_Latch">
+    <inertial>
+      <origin
+        xyz="0.014135326811236 0.0366536254235186 0.00510338841919555"
+        rpy="0 0 0" />
+      <mass
+        value="0.043273779837236" />
+      <inertia
+        ixx="3.50242085840612E-05"
+        ixy="1.46801247554554E-05"
+        ixz="1.43064392076516E-08"
+        iyy="2.96338504024743E-05"
+        iyz="-4.64519640409973E-08"
+        izz="6.39136126816271E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper_Latch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Hopper_Latch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="H-Latch_Rotate"
+    type="revolute">
+    <origin
+      xyz="0.034925 -0.026035 -0.16264"
+      rpy="3.1416 0 -3.1416" />
+    <parent
+      link="Hopper_Door" />
+    <child
+      link="Hopper_Latch" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Excavation">
+    <inertial>
+      <origin
+        xyz="-2.22044604925031E-16 -4.08562073062058E-14 0.194999999999965"
+        rpy="0 0 0" />
+      <mass
+        value="0.0165497454663206" />
+      <inertia
+        ixx="0.000209824338891714"
+        ixy="8.470329472543E-22"
+        ixz="5.27679950257026E-19"
+        iyy="0.000209824338891714"
+        iyz="4.90565008973881E-17"
+        izz="1.12630212201348E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Excavation.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/Excavation.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Excavation_Rotate"
+    type="continuous">
+    <origin
+      xyz="0 -0.18376 0.47135"
+      rpy="1.5708 -0.045099 -1.5708" />
+    <parent
+      link="Hopper" />
+    <child
+      link="Excavation" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="FL_Wheel">
+    <inertial>
+      <origin
+        xyz="4.44089209850063E-16 0 -0.000586101371657266"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966066" />
+      <inertia
+        ixx="0.000563838521772274"
+        ixy="-2.16840434497101E-19"
+        ixz="1.8311839473242E-17"
+        iyy="0.000563838521772274"
+        iyz="-3.77089444366336E-17"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/FL_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/FL_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="1.0632 -1.5139 1.5673"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="FL_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="ML_Wheel">
+    <inertial>
+      <origin
+        xyz="0 1.11022302462516E-16 -0.000586101371657044"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966066" />
+      <inertia
+        ixx="0.000563838521772274"
+        ixy="-1.76182853028894E-19"
+        ixz="1.83041390170256E-17"
+        iyy="0.000563838521772274"
+        iyz="-3.77096094221266E-17"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/ML_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/ML_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ML_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.8092 -1.5139 1.5673"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="ML_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="BL_Wheel">
+    <inertial>
+      <origin
+        xyz="0 -5.55111512312578E-17 -0.000586101371656822"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966067" />
+      <inertia
+        ixx="0.000563838521772273"
+        ixy="-2.57498015965307E-19"
+        ixz="1.8272469633062E-17"
+        iyy="0.000563838521772273"
+        iyz="-3.75948135606288E-17"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BL_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BL_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BL_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.5552 -1.5139 1.5673"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="BL_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="TL_Wheel">
+    <inertial>
+      <origin
+        xyz="-5.55111512312578E-17 0 -0.00138135898913294"
+        rpy="0 0 0" />
+      <mass
+        value="0.146434890659902" />
+      <inertia
+        ixx="8.80633224784676E-05"
+        ixy="-2.39106895777931E-22"
+        ixz="-1.34026306833892E-19"
+        iyy="8.80633224784676E-05"
+        iyz="-4.00087992203459E-19"
+        izz="0.000154471460357356" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TL_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TL_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="TL_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.42815 -1.6339 1.5673"
+      rpy="0 0 -3.1416" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="TL_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="FR_Wheel">
+    <inertial>
+      <origin
+        xyz="-2.22044604925031E-16 -1.11022302462516E-16 -0.000586101371656822"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966066" />
+      <inertia
+        ixx="0.000563838521772273"
+        ixy="-1.76182853028894E-19"
+        ixz="-1.19865857234061E-21"
+        iyy="0.000563838521772273"
+        iyz="-1.58967976315217E-19"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/FR_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/FR_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="1.0632 -1.5139 1.0014"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="FR_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="MR_Wheel">
+    <inertial>
+      <origin
+        xyz="0 1.11022302462516E-16 -0.000586101371656822"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966066" />
+      <inertia
+        ixx="0.000563838521772272"
+        ixy="-4.47233396150271E-19"
+        ixz="-1.78381945985912E-20"
+        iyy="0.000563838521772273"
+        iyz="-1.59538016271387E-19"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/MR_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/MR_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="MR_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.8092 -1.5139 1.0014"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="MR_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="BR_Wheel">
+    <inertial>
+      <origin
+        xyz="0 0 -0.000586101371656822"
+        rpy="0 0 0" />
+      <mass
+        value="0.345126563966066" />
+      <inertia
+        ixx="0.000563838521772273"
+        ixy="-1.76182853028894E-19"
+        ixz="3.58897772280872E-20"
+        iyy="0.000563838521772272"
+        iyz="-2.30995085200635E-19"
+        izz="0.00109267711939339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BR_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/BR_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BR_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.5552 -1.5139 1.0014"
+      rpy="3.1416 0 -1.0687" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="BR_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="TR_Wheel">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TR_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find description)/meshes/TR_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="TR_Wheel_Rotate"
+    type="continuous">
+    <origin
+      xyz="0.42815 -1.6339 1.0014"
+      rpy="3.1416 0 0" />
+    <parent
+      link="chassis_link" />
+    <child
+      link="TR_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+</robot>
