@@ -110,6 +110,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="DR_Wheel">
     <inertial>
@@ -163,6 +165,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="BLA">
     <inertial>
@@ -217,10 +221,12 @@
       xyz="0 0 -1" />
     <limit
       lower="0"
-      upper="0"
+      upper="0.1"
       effort="0"
       velocity="0" />
   </joint>
+
+
   <link
     name="LA">
     <inertial>
@@ -272,13 +278,15 @@
     <child
       link="LA" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 -1 0" />
     <limit
       lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      upper="0.254" 
+      effort="2000"
+      velocity="0.006" /> <!-- upper: 10 inch stroke. effort: 250lbs max load into newtons. velocity: 6mm/s into m/s -->
   </joint>
+
+
   <link
     name="TLA">
     <inertial>
@@ -337,6 +345,8 @@
       effort="0"
       velocity="0" />
   </joint>
+
+
   <link
     name="Hopper">
     <inertial>
@@ -390,11 +400,13 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
+      lower="-1"
+      upper="1"
       effort="0"
       velocity="0" />
   </joint>
+
+
   <link
     name="Hopper_Door">
     <inertial>
@@ -449,10 +461,12 @@
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="0"
+      upper="0.1"
       effort="0"
       velocity="0" />
   </joint>
+
+
   <link
     name="Hopper_Latch">
     <inertial>
@@ -507,10 +521,12 @@
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="0"
+      upper="0.1"
       effort="0"
       velocity="0" />
   </joint>
+
+
   <link
     name="Excavation">
     <inertial>
@@ -564,6 +580,8 @@
     <axis
       xyz="0 0 1" />
   </joint>
+
+
   <link
     name="FL_Wheel">
     <inertial>
@@ -617,6 +635,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="ML_Wheel">
     <inertial>
@@ -670,6 +690,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="BL_Wheel">
     <inertial>
@@ -723,6 +745,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="TL_Wheel">
     <inertial>
@@ -776,6 +800,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="FR_Wheel">
     <inertial>
@@ -829,6 +855,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="MR_Wheel">
     <inertial>
@@ -882,6 +910,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="BR_Wheel">
     <inertial>
@@ -935,6 +965,8 @@
     <axis
       xyz="0 0 -1" />
   </joint>
+
+
   <link
     name="TR_Wheel">
     <inertial>
