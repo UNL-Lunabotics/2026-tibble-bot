@@ -1,0 +1,26 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # This is in Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    tibble_controller:
+      type: "tibble_controller/TibbleController"
+
+tibble_controller:
+  ros__parameters:
+    # left_joint_name: "DS_Joint"
+    # right_joint_name: "PS_Joint"
+
+    # wheel_radius_m: 0.05
+    # wheel_separation_m: 0.292
+
+    # max_wheel_radps: 10.0
+    # cmd_timeout_s: 0.25
+    # moving_eps_radps: 0.05
+
+    odom_topic: "/odom"
+    odom_frame_id: "odom"
+    base_frame_id: "base_link"
+    publish_odom_tf: true
