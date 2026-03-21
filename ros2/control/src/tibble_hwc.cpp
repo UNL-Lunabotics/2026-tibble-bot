@@ -23,6 +23,9 @@ namespace tibble_hwc
         baud_rate_ = std::stoi(info_.hardware_parameters["baud_rate"]);
         can_interface_ = info_.hardware_parameters["can_interface"];
 
+        teensy_comms_.setup(serial_port_, baud_rate_, 100);
+        can_comms_.setup(can_interface_, 1, 2); // placeholder IDs
+
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
 
         return hardware_interface::CallbackReturn::SUCCESS;
@@ -120,9 +123,11 @@ namespace tibble_hwc
         // 3. Average the LAs for the ROS Controller State
         state_la_pos_ = (la_1_meters + la_2_meters) / 2.0;
 
-        // 4. Read from CAN bus for wheels (Placeholder)
-        // state_left_wheel_pos_ = can_comms_.get_left_pos();
-        // state_right_wheel_pos_ = can_comms_.get_right_pos();
+        // 4. Read from CAN bus for wheels
+        state_left_wheel_pos_ = can_comms_.get_left_pos();
+        state_right_wheel_pos_ = can_comms_.get_right_pos();
+        state_left_wheel_vel_ = can_comms_.get_left_vel();
+        state_right_wheel_vel_ = can_comms_.get_right_vel();
 
         return hardware_interface::return_type::OK;
     }
@@ -169,7 +174,7 @@ namespace tibble_hwc
         teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
 
         // 7. Write to Drivetrain via CAN (Placeholder)
-        // can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
+        can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
 
         return hardware_interface::return_type::OK;
     }

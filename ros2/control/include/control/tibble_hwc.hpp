@@ -54,7 +54,7 @@ namespace tibble_hwc
         private:
             // --- Communication Objects ---
             ArduinoComms teensy_comms_;
-            // CanComms can_comms_;
+            CanComms can_comms_;
 
             // --- Hardware Parameters (Pulled from URDF) ---
             std::string serial_port_;
