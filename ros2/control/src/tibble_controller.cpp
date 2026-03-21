@@ -36,7 +36,6 @@ namespace tibble_controller
             right_wheel_name_ + "/velocity",
             right_wheel_name_ + "/position",
             linear_actuator_name_ + "/position",
-            excavation_name_ + "/velocity",
             excavation_name_ + "/position"
         };
 
@@ -85,8 +84,8 @@ namespace tibble_controller
             });
         
         // ROS publishers
-
-        // Do other things like set modes or fault latched state
+        odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>("~/odom", rclcpp::SystemDefaultsQoS());
+        tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*get_node());
 
         RCLCPP_INFO(get_node()->get_logger(), "Configured TibbleController.");
         
@@ -100,6 +99,12 @@ namespace tibble_controller
 
         twist_cmd_buffer_.reset();
         joy_cmd_buffer_.reset();
+
+        // Odom reset
+        odom_x_ = 0.0;
+        odom_y_ = 0.0;
+        odom_theta_ = 0.0;
+        first_update_ = true;
 
         if (command_interfaces_.empty() || state_interfaces_.empty()) {
             RCLCPP_ERROR(get_node()->get_logger(), "Missing controller interfaces.");
@@ -119,14 +124,80 @@ namespace tibble_controller
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
+
     controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
     {
+        (void)time; // Silence unused param warning
+
         // --- First, read inputs ---
+        double current_left_pos = state_interfaces_[0].get_optional().value_or(0.0);
+        // Skip velocity states [1] and [3] for now
+        double current_right_pos = state_interfaces_[2].get_optional().value_or(0.0);
+        double current_la_pos = state_interfaces_[4].get_optional().value_or(0.0);
+
+
+        // --- Second, odometry math ---
+        if (first_update_) {
+            last_left_wheel_pos_ = current_left_pos;
+            last_right_wheel_pos_ = current_right_pos;
+            first_update_ = false;
+        }
+
+        // Calculate how much the wheels moved in radians since last tick
+        double delta_left = current_left_pos - last_left_wheel_pos_;
+        double delta_right = current_right_pos - last_right_wheel_pos_;
+
+        // Convert radians to linear distance (meters)
+        double distance_left = delta_left * wheel_radius_;
+        double distance_right = delta_right * wheel_radius_;
+
+        // Calculate robot's translation and rotation
+        double linear_distance = (distance_right + distance_left) / 2.0;
+        double angular_distance = (distance_right - distance_left) / wheel_separation_;
+
+        // Update global pose using Runge-Kutta 2nd order approximation
+        odom_theta_ += angular_distance;
+        odom_x_ += linear_distance * std::cos(odom_theta_ - angular_distance / 2.0);
+        odom_y_ += linear_distance * std::sin(odom_theta_ - angular_distance / 2.0);
+
+        // Save current positions for the next loop
+        last_left_wheel_pos_ = current_left_pos;
+        last_right_wheel_pos_ = current_right_pos;
+
+        // Publish Odometry & TF (Helper struct for quaternion math)
+        double half_yaw = odom_theta_ * 0.5;
+        double q_z = std::sin(half_yaw);
+        double q_w = std::cos(half_yaw);
+
+        if (odom_pub_->get_subscription_count() > 0) {
+            nav_msgs::msg::Odometry odom_msg;
+            odom_msg.header.stamp = get_node()->get_clock()->now();
+            odom_msg.header.frame_id = "odom";
+            odom_msg.child_frame_id = "base_link";
+            odom_msg.pose.pose.position.x = odom_x_;
+            odom_msg.pose.pose.position.y = odom_y_;
+            odom_msg.pose.pose.orientation.z = q_z;
+            odom_msg.pose.pose.orientation.w = q_w;
+            odom_msg.twist.twist.linear.x = linear_distance / period.seconds();
+            odom_msg.twist.twist.angular.z = angular_distance / period.seconds();
+            odom_pub_->publish(odom_msg);
+        }
+
+        geometry_msgs::msg::TransformStamped tf_msg;
+        tf_msg.header.stamp = get_node()->get_clock()->now();
+        tf_msg.header.frame_id = "odom";
+        tf_msg.child_frame_id = "base_link";
+        tf_msg.transform.translation.x = odom_x_;
+        tf_msg.transform.translation.y = odom_y_;
+        tf_msg.transform.rotation.z = q_z;
+        tf_msg.transform.rotation.w = q_w;
+        tf_broadcaster_->sendTransform(tf_msg);
+
+
+        // --- Third, state logic ---
         auto twist_msg = twist_cmd_buffer_.readFromRT();
         auto joy_msg = joy_cmd_buffer_.readFromRT();
 
-
-        // --- Second, state logic ---
         if (joy_msg && joy_msg->buttons.size() >= 4) {
             if (joy_msg->buttons[STATE_IDLE_B] == 1) {
                 current_state_ = TibbleState::IDLE;
@@ -148,7 +219,7 @@ namespace tibble_controller
         }
 
 
-        // --- Third, kinematics and output commands ---
+        // --- Fourth, kinematics and output commands ---
         double target_v = 0.0;
         double target_w = 0.0;
         
@@ -187,8 +258,8 @@ namespace tibble_controller
                 // Sequence 2: Set LA's to EXCAV
                 cmd_la_pos = LA_EXCAV_POS;
 
-                // Sequence 3: Start paddles once LAs have had time to retract
-                if (state_timer_ > EXCAVATE_PADDLE_DELAY) {
+                // Sequence 3: Only start paddles if LA is fully retracted (within error)
+                if (std::abs(current_la_pos - LA_EXCAV_POS) < 0.01) {
                     cmd_excav_vel = paddle_speed_;
                 }
                 break;
@@ -224,12 +295,12 @@ namespace tibble_controller
         // --- Fourth, write commands ---
         
         // Order is declaration order in command_interface_configuration()
-        command_interfaces_[0].set_value(cmd_left_wheel);
-        command_interfaces_[1].set_value(cmd_right_wheel);
-        command_interfaces_[2].set_value(cmd_la_pos);
-        command_interfaces_[3].set_value(cmd_excav_vel);
-        command_interfaces_[4].set_value(cmd_vibe);
-        command_interfaces_[5].set_value(cmd_latch);
+        (void)command_interfaces_[0].set_value(cmd_left_wheel);
+        (void)command_interfaces_[1].set_value(cmd_right_wheel);
+        (void)command_interfaces_[2].set_value(cmd_la_pos);
+        (void)command_interfaces_[3].set_value(cmd_excav_vel);
+        (void)command_interfaces_[4].set_value(cmd_vibe);
+        (void)command_interfaces_[5].set_value(cmd_latch);
 
         return controller_interface::return_type::OK;
     }

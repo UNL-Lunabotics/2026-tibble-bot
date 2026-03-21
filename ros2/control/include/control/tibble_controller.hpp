@@ -3,13 +3,17 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "controller_interface/controller_interface.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/joy.hpp"
-#include "realtime_tools/realtime_buffer.h"
+#include "realtime_tools/realtime_buffer.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "tf2_ros/transform_broadcaster.h"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 
 namespace tibble_controller
 {
@@ -50,6 +54,10 @@ namespace tibble_controller
             rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
             rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
 
+            // Pubs/Broadcasters
+            std::shared_ptr<rclcpp::Publisher<nav_msgs::msg::Odometry>> odom_pub_;
+            std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+
             // Realtime buffers
             realtime_tools::RealtimeBuffer<geometry_msgs::msg::Twist> twist_cmd_buffer_;
             realtime_tools::RealtimeBuffer<sensor_msgs::msg::Joy> joy_cmd_buffer_;
@@ -86,6 +94,13 @@ namespace tibble_controller
             const int STATE_EXCAVATE_B = 0;
             const int STATE_DUMP_B = 0;
 
+            // Odometry vars
+            double odom_x_ = 0.0;
+            double odom_y_ = 0.0;
+            double odom_theta_ = 0.0;
+            double last_left_wheel_pos_ = 0.0;
+            double last_right_wheel_pos_ = 0.0;
+            bool first_update_ = true;
     };
 } // namespace tibble_controller
 
