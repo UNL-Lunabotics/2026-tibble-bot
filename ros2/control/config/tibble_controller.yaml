@@ -10,16 +10,13 @@ controller_manager:
 
 tibble_controller:
   ros__parameters:
-    # left_joint_name: "DS_Joint"
-    # right_joint_name: "PS_Joint"
+    wheel_radius_m: 0.15      # placeholder
+    wheel_separation_m: 0.60  # placeholder
 
-    # wheel_radius_m: 0.05
-    # wheel_separation_m: 0.292
+    excavate_speed_multiplier: 0.5
+    paddle_speed: 1 # placeholder
 
-    # max_wheel_radps: 10.0
-    # cmd_timeout_s: 0.25
-    # moving_eps_radps: 0.05
-
+    # technically not used anywhere
     odom_topic: "/odom"
     odom_frame_id: "odom"
     base_frame_id: "base_link"
