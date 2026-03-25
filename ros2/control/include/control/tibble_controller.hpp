@@ -78,9 +78,9 @@ namespace tibble_controller
             TibbleState previous_state_ = TibbleState::IDLE;
 
             // LA target positions (in meters)
-            const double LA_REST_POS = 0.0; // not true, fix later TODO
+            const double LA_REST_POS = 0.00762; // 0.3 inches
             const double LA_EXCAV_POS = 0.0;
-            const double LA_DUMP_POS = 0.254; // 10 inch
+            const double LA_DUMP_POS = 0.07112; // 2.8 inches
 
             // Timers/timer values for sequential state management
             double state_timer_ = 0.0;
