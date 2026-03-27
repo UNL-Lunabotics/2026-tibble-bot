@@ -11,7 +11,7 @@
 #define KRAKEN_LEFT_PIN 9   // placeholder
 
 // bullshit PWM values
-const unsigned int LA_POS = 1;  // in ticks
+const unsigned int LA_POS = 0.0;
 const unsigned int HOP_SERVO_POS = 180;
 const int VIBE_SPEED = 127;
 const int EXCAV_SPEED = 127;
