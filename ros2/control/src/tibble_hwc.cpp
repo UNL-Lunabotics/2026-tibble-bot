@@ -100,8 +100,8 @@ namespace tibble_hwc
         command_interfaces.emplace_back(hardware_interface::CommandInterface("LA_Extend", "la_reset", &cmd_la_reset_));
         
         command_interfaces.emplace_back(hardware_interface::CommandInterface("Excavation_Rotate", hardware_interface::HW_IF_VELOCITY, &cmd_excav_vel_));
-        command_interfaces.emplace_back(hardware_interface::CommandInterface("vibe_port", "vibe_enabled", &cmd_vibe_enabled_));
-        command_interfaces.emplace_back(hardware_interface::CommandInterface("latch_port", "hop_latched", &cmd_hop_latched_));
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("vibe_control", "vibe_enabled", &cmd_vibe_enabled_));
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("latch_control", "hop_latched", &cmd_hop_latched_));
 
         return command_interfaces;
     }
