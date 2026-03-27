@@ -1,4 +1,4 @@
-<library path="tibble_controller">
+<library path="tibble_plugins">
   <class
     name="tibble_controller/TibbleController"
     type="tibble_controller::TibbleController"
