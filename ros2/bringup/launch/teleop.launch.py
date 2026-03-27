@@ -13,7 +13,7 @@ def generate_launch_description():
     description_pkg = FindPackageShare("description")
     bringup_pkg = FindPackageShare("bringup")
 
-    robot_description = ParameterValue(
+    robot_description_content = ParameterValue(
         Command(
             [
                 "xacro ",
@@ -22,7 +22,7 @@ def generate_launch_description():
         ),
         value_type=str
     )
-    # robot_description = {"robot_description": robot_description_content}
+    robot_description = {"robot_description": robot_description_content}
 
     # --- Nodes ---
     joy_node = Node(
