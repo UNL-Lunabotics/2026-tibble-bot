@@ -5,11 +5,11 @@
 #define ROBOCLAW_BAUD 115200
 #define PC_BAUD 9600
 
-#define ROBOCLAW_ADDRESS_1 0x82   // Linear Actuators
-#define ROBOCLAW_ADDRESS_2 0x83   // Vibe and Excav
-#define HOPPER_SERVO_PIN 7  // placeholder
+#define ROBOCLAW_ADDRESS_1 0x82     // Linear Actuators
+#define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
+#define HOPPER_SERVO_PIN 7          // correct
 
-RoboClaw roboclaw(&Serial2, 10000); 
+RoboClaw roboclaw(&Serial2, 10000);
 Servo hopper_latch;
 
 unsigned long last_telemetry_time = 0;
