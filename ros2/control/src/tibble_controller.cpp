@@ -64,8 +64,8 @@ namespace tibble_controller
     controller_interface::CallbackReturn TibbleController::on_configure(const rclcpp_lifecycle::State &)
     {
         // Set local variables to the node parameter values
-        wheel_radius_ = get_node()->get_parameter("wheel_radius").as_double();
-        wheel_separation_ = get_node()->get_parameter("wheel_separation").as_double();
+        wheel_radius_ = get_node()->get_parameter("wheel_radius_m").as_double();
+        wheel_separation_ = get_node()->get_parameter("wheel_separation_m").as_double();
         paddle_speed_ = get_node()->get_parameter("paddle_speed").as_double();
 
         // Initialize the realtime buffers if you have any
