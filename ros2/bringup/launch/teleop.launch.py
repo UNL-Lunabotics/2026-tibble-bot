@@ -6,7 +6,7 @@ from launch.substitutions import Command, LaunchConfiguration, PathSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.parameter_description import ParameterValue
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     control_pkg = FindPackageShare("control")
