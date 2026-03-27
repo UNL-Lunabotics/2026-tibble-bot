@@ -12,6 +12,148 @@
         <mu2 value="0.0"/>
     </gazebo>
 
+    <gazebo reference="DL_Wheel">
+        <material>
+            <color rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="DR_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="BLA">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- TODO: Any other configurations for Linear Actuators -->
+    </gazebo>
+
+    <gazebo reference="LA">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- TODO: Any other configurations for Linear Actuators -->
+    </gazebo>
+
+    <!-- Not sure if this is a wheel or a linear actuator -->
+    <gazebo reference="TLA">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Included in case its a wheel -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="Hopper">
+        <material>
+            <color rgba="0.866666666666667 0.909803921568627 1 1" />
+        </material>
+        <!-- TODO: Any other configurations for the Hopper -->
+    </gazebo>
+
+    <gazebo reference="Hopper_Door">
+        <material>
+            <color rgba="0.866666666666667 0.909803921568627 1 1" />
+        </material>
+        <!-- TODO: Any other configurations for the Hopper Door -->
+    </gazebo>
+
+    <gazebo reference="Hopper_Latch">
+        <material>
+            <color rgba="1 0 1 1" />
+        </material>
+        <!-- TODO: Any other configurations for the Hopper Latch -->
+    </gazebo>
+
+    <gazebo reference="Excavation">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- TODO: Any other configurations for Excavation -->
+    </gazebo>
+
+    <gazebo reference="FL_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="ML_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="BL_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="TL_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="FR_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="MR_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="BR_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <gazebo reference="TR_Wheel">
+        <material>
+            <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+        <!-- Arbitrary friction values -->
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
     <!-- Define Gazebo info for any sensors -->
     <gazebo reference="laser_frame">
         <material>Gazebo/Red</material>
