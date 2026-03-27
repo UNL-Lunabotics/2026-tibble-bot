@@ -48,8 +48,8 @@ namespace tibble_controller
         try
         {
             // Receive params from tibble_controller.yaml
-            auto_declare<double>("wheel_radius", 0.0);
-            auto_declare<double>("wheel_separation", 0.0);
+            auto_declare<double>("wheel_radius_m", 0.0);
+            auto_declare<double>("wheel_separation_m", 0.0);
             auto_declare<double>("paddle_speed", 0.0);
         }
         catch(const std::exception& e)
@@ -129,9 +129,12 @@ namespace tibble_controller
     {
         (void)time; // Silence unused param warning
 
+        if (period.seconds() <= 0.0) {
+            return controller_interface::return_type::OK;
+        }
+
         // --- First, read inputs ---
-        double current_left_pos = state_interfaces_[0].get_optional().value_or(0.0);
-        // Skip velocity states [1] and [3] for now
+        double current_left_pos = state_interfaces_[1].get_optional().value_or(0.0);
         double current_right_pos = state_interfaces_[2].get_optional().value_or(0.0);
         double current_la_pos = state_interfaces_[4].get_optional().value_or(0.0);
 
