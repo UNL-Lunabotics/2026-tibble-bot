@@ -16,7 +16,7 @@ namespace tibble_controller
             left_wheel_name_ + "/velocity",
             right_wheel_name_ + "/velocity",
             linear_actuator_name_ + "/position",
-            excavation_name_ + "/position",
+            excavation_name_ + "/velocity",
             vibe_gpio_name_ + "/vibe_enabled",
             latch_gpio_name_ + "/hop_latched",
             linear_actuator_name_ + "/la_reset"
@@ -36,8 +36,7 @@ namespace tibble_controller
             left_wheel_name_ + "/position",
             right_wheel_name_ + "/velocity",
             right_wheel_name_ + "/position",
-            linear_actuator_name_ + "/position",
-            excavation_name_ + "/position"
+            linear_actuator_name_ + "/position"
         };
 
         return config;
