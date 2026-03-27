@@ -18,6 +18,8 @@ def generate_launch_description():
             [
                 "xacro ",
                 PathSubstitution(description_pkg) / "urdf" / "tibble.urdf.xacro",
+                " use_sim:=false",
+                " use_control:=true"
             ]
         ),
         value_type=str
