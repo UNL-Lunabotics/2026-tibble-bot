@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- Load the real robot ROS2 Control information -->
-    <xacro:unless value="$(arg sim_mode)">
+    <xacro:unless value="$(arg use_sim)">
         <ros2_control name="Tibble" type="system">
 
             <hardware>  <!-- This defines all the params needed for the hardware component -->
