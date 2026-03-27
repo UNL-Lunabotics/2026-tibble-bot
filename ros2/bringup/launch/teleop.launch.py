@@ -6,17 +6,21 @@ from launch.substitutions import Command, LaunchConfiguration, PathSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_description import ParameterValue
 
 def generate_launch_description():
     control_pkg = FindPackageShare("control")
     description_pkg = FindPackageShare("description")
     bringup_pkg = FindPackageShare("bringup")
 
-    robot_description_content = Command(
-        [
-            "xacro ",
-            PathSubstitution(description_pkg) / "urdf" / "tibble.urdf.xacro",
-        ]
+    robot_description_content = ParameterValue(
+        Command(
+            [
+                "xacro ",
+                PathSubstitution(description_pkg) / "urdf" / "tibble.urdf.xacro",
+            ]
+        ),
+        value_type=str
     )
     robot_description = {"robot_description": robot_description_content}
 
