@@ -3,7 +3,7 @@ project(control)
 
 # Compiler settings
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20) # THIS HAS TO BE 20 OR MORE FOR PHOENIX6
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -24,15 +24,15 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   nav_msgs
   tf2
   tf2_ros
+  phoenix6
+  Threads
+  SDL2
 )
 
 find_package(ament_cmake REQUIRED)
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
-
-# Phoenix 6 API (For Kraken X60/Talon FX)
-find_package(ctre-phoenix6 REQUIRED)
 
 # Create a single plugin library for both HWC and Controller
 add_library(tibble_plugins SHARED
@@ -46,14 +46,14 @@ target_include_directories(tibble_plugins PUBLIC
 )
 
 # Link everything
-# ament_target_dependencies handles the ROS packages
 ament_target_dependencies(tibble_plugins PUBLIC
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
 )
 
-# Manually link the non-Ament Phoenix library
+# Link directly to the compiled CTRE library in /usr/lib
 target_link_libraries(tibble_plugins PUBLIC
-  ctre::phoenix6
+  phoenix6
+  pthread
 )
 
 # Export Plugins
@@ -74,5 +74,5 @@ install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 
 # Ament Exports
 ament_export_targets(export_tibble_plugins HAS_LIBRARY_TARGET)
-ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS} ctre-phoenix6)
+ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 ament_package()
