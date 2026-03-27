@@ -1,4 +1,4 @@
-<library path="tibble_hwc">
+<library path="tibble_plugins">
   <class
     name="tibble_hwc/TibbleHWC"
     type="tibble_hwc::TibbleHWC"
