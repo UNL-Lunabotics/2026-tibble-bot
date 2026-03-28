@@ -89,7 +89,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument("gui", default_value="true"),
+        DeclareLaunchArgument("gui", default_value="false"),
         joy_node,
         teleop_node,
         control_node,
