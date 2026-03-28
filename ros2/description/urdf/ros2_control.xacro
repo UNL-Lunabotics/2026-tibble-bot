@@ -33,6 +33,7 @@
 
             <joint name="LA_Extend">
                 <command_interface name="position"/>
+                <command_interface name="la_reset"/>
                 <state_interface name="position"/>
             </joint>
 
