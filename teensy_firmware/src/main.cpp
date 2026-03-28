@@ -57,6 +57,8 @@ void execute_command(const char* cmd) {
                 roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
                 
                 hopper_latch.write(latch);
+
+                digitalWrite(LED_BUILTIN, HIGH);
             }
             break;
         }
@@ -96,6 +98,7 @@ void loop() {
         // Only send back to PC if the RoboClaw actually returned valid data
         if (v1 && v2 && v3) {
             Serial.printf("e %ld %ld\n", enc_la1, enc_la2);
+            digitalWrite(LED_BUILTIN, LOW);
         }
     }
 
