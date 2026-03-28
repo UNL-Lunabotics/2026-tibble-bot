@@ -31,9 +31,7 @@ def generate_launch_description():
         package='joy',
         executable='joy_node',
         name='joy_node',
-        parameters=[{
-            'dev': '/dev/input/by-id/usb-8BitDo_8BitDo_Ultimate_2C_Wireless_Controller_F0F618A7C0-joystick' # just for bluetooth bullshit
-        }],
+        parameters=[{'device_id': 0}],
         remappings=[('/joy', '/tibble_controller/joy')]
     )
 
