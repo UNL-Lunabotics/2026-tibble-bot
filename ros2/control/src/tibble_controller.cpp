@@ -201,7 +201,7 @@ namespace tibble_controller
         auto twist_msg = twist_cmd_buffer_.readFromRT();
         auto joy_msg = joy_cmd_buffer_.readFromRT();
 
-        if (joy_msg && joy_msg->buttons.size() >= STATE_DUMP_B) {
+        if (joy_msg && joy_msg->buttons.size() >= (long)STATE_DUMP_B) {
             if (joy_msg->buttons[STATE_IDLE_B] == 1) {
                 current_state_ = TibbleState::IDLE;
             } else if (joy_msg->buttons[STATE_TRAVEL_B] == 1) {
