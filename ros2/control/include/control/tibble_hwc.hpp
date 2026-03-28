@@ -81,7 +81,6 @@ namespace tibble_hwc
 
             // Linear Actuators (Serial)
             double cmd_la_pos_{0.0};
-            double cmd_la_reset_{0.0};   // 1.0 triggers an encoder zeroing
             double state_la_pos_{0.0};   // Averaged state of both LAs
             
             // Mechanisms (Serial)

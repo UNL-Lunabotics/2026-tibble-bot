@@ -44,8 +44,8 @@ namespace tibble_hwc
             }
 
             // Set Baud Rate (Assuming 115200 for your RoboClaw passthrough/Teensy setup)
-            cfsetospeed(&tty, B9600);
-            cfsetispeed(&tty, B9600);
+            cfsetospeed(&tty, B115200);
+            cfsetispeed(&tty, B115200);
 
             // 8N1 standard serial setup (8 bits, no parity, 1 stop bit)
             tty.c_cflag &= ~PARENB; // Clear parity bit
@@ -105,11 +105,7 @@ namespace tibble_hwc
             send_string("s\n");
         }
 
-        inline void send_reset_command() {
-            send_string("r\n");
-        }
-
-        inline void read_encoder_values(int32_t &la1_enc, int32_t &la2_enc, int32_t &excav_enc) {
+        inline void read_encoder_values(int32_t &la1_enc, int32_t &la2_enc) {
             if (!is_connected_) return;
 
             char read_buf[256];
@@ -129,13 +125,12 @@ namespace tibble_hwc
 
                 // If found at least one complete line, parse it
                 if (!last_valid_line.empty() && last_valid_line[0] == 'e') {
-                    int temp_la1 = 0, temp_la2 = 0, temp_excav = 0;
+                    int temp_la1 = 0, temp_la2 = 0;
                     
-                    if (sscanf(last_valid_line.c_str(), "e %d %d %d", &temp_la1, &temp_la2, &temp_excav) == 3) {
+                    if (sscanf(last_valid_line.c_str(), "e %d %d", &temp_la1, &temp_la2) == 2) {
                         // Successfully parsed 3 values, update the references passed in!
                         la1_enc = static_cast<int32_t>(temp_la1);
                         la2_enc = static_cast<int32_t>(temp_la2);
-                        excav_enc = static_cast<int32_t>(temp_excav);
                     }
                 }
             }
