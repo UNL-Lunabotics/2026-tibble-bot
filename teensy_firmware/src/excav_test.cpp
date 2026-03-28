@@ -13,20 +13,22 @@
 // bullshit PWM values
 // const unsigned int LA_POS = 41100.0 * 0.00762;  // ticks/meter * 0.3 inches in meters
 const unsigned int LA_POS = 0;   // just to see if theyll move
-const unsigned int HOP_SERVO_POS = 0;
+const unsigned int HOP_SERVO_POS = 180;
 const int VIBE_SPEED = 70;
 const int EXCAV_SPEED = 70;
 const int DRIVETRAIN_SPEED = 110;
 
 unsigned int time_limit = 60 * 1000; // seconds
 
-RoboClaw roboclaw(&Serial3, 10000); 
+RoboClaw roboclaw_1(&Serial1, 10000); 
+RoboClaw roboclaw_2(&Serial4, 10000);
 Servo hopper_latch;
 Servo kraken_right;
 Servo kraken_left;
 
 void setup() {
-    roboclaw.begin(ROBOCLAW_BAUD);
+    roboclaw_1.begin(ROBOCLAW_BAUD);
+    roboclaw_2.begin(ROBOCLAW_BAUD);
 
     hopper_latch.attach(HOPPER_SERVO_PIN);
 
@@ -36,10 +38,10 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     
     // Ensure all motors are STOPPED on boot
-    roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
-    roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
-    roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-    roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+    roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
+    roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
+    roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
+    roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
     kraken_left.write(90);
     kraken_right.write(90);
 
@@ -50,24 +52,24 @@ void setup() {
 }
 
 // goal
-// drivetrain forward and LA's DUMP, vibe motor on, Latch open, Excav off (dump)
+// drivetrain forward and LA's EXCAVATE, vibe motor on, Latch closed, Excav on (excav)
 void loop() {
     // if (millis() >= time_limit) {
     if (false) {
         // set everything to rest or stop motors
-        roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
-        roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
-        roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-        roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+        roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
+        roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
+        roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
+        roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
         kraken_left.write(64);
         kraken_right.write(64);
     } else {
-        roboclaw.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
-        roboclaw.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
-        roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, VIBE_SPEED);
-        roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, EXCAV_SPEED);
+        roboclaw_1.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
+        roboclaw_1.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
+        roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, VIBE_SPEED);
+        roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, EXCAV_SPEED);
         kraken_left.write(DRIVETRAIN_SPEED);
         kraken_right.write(DRIVETRAIN_SPEED);
-        hopper_latch.write(HOP_SERVO_POS);  // just close it
+        hopper_latch.write(HOP_SERVO_POS);
     }
 }
