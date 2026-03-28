@@ -95,7 +95,7 @@ void loop() {
 
         // Only send back to PC if the RoboClaw actually returned valid data
         if (v1 && v2 && v3) {
-            Serial.printf("e %ld %ld %ld\n", enc_la1, enc_la2, enc_excav);
+            Serial.printf("e %ld %ld\n", enc_la1, enc_la2);
         }
     }
 
