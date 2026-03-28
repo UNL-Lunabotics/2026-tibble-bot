@@ -88,14 +88,14 @@ void loop() {
         bool v1, v2, v3;
         uint8_t status; // Dummy variable to catch RoboClaw status flags safely
         
-        // int32_t enc_la1 = roboclaw.ReadEncM1(ROBOCLAW_ADDRESS_1, &status, &v1);
-        // int32_t enc_la2 = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
-        // int32_t enc_excav = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_2, &status, &v3);
+        int32_t enc_la1 = roboclaw.ReadEncM1(ROBOCLAW_ADDRESS_1, &status, &v1);
+        int32_t enc_la2 = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
+        int32_t enc_excav = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_2, &status, &v3);
 
-        // // Only send back to PC if the RoboClaw actually returned valid data
-        // if (v1 && v2 && v3) {
-        //     Serial.printf("e %ld %ld %ld\n", enc_la1, enc_la2, enc_excav);
-        // }
+        // Only send back to PC if the RoboClaw actually returned valid data
+        if (v1 && v2 && v3) {
+            Serial.printf("e %ld %ld %ld\n", enc_la1, enc_la2, enc_excav);
+        }
     }
 
     // receive commands

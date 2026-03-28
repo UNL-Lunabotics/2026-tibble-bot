@@ -72,13 +72,13 @@ namespace tibble_controller
 
         // ROS subscriptions
         cmd_vel_sub_ = get_node()->create_subscription<geometry_msgs::msg::Twist>(
-            "~/cmd_vel", rclcpp::SystemDefaultsQoS(),
+            "/cmd_vel", rclcpp::SystemDefaultsQoS(),
             [this](const geometry_msgs::msg::Twist::SharedPtr msg) {
                 twist_cmd_buffer_.writeFromNonRT(*msg);
             });
         
         joy_sub_ = get_node()->create_subscription<sensor_msgs::msg::Joy>(
-            "~/joy", rclcpp::SystemDefaultsQoS(),
+            "/joy", rclcpp::SystemDefaultsQoS(),
             [this](const sensor_msgs::msg::Joy::SharedPtr msg) {
                 joy_cmd_buffer_.writeFromNonRT(*msg);
             });
