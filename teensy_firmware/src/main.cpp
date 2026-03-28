@@ -9,6 +9,8 @@
 #define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
 #define HOPPER_SERVO_PIN 7          // correct
 
+// NEVER EVER TOUCH PINS 33 AND 34 THEY'RE JUMPERS NOW
+
 RoboClaw roboclaw(&Serial2, 10000);
 Servo hopper_latch;
 
@@ -90,7 +92,6 @@ void loop() {
         
         int32_t enc_la1 = roboclaw.ReadEncM1(ROBOCLAW_ADDRESS_1, &status, &v1);
         int32_t enc_la2 = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
-        int32_t enc_excav = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_2, &status, &v3);
 
         // Only send back to PC if the RoboClaw actually returned valid data
         if (v1 && v2 && v3) {
