@@ -31,19 +31,14 @@ def generate_launch_description():
         package='joy',
         executable='joy_node',
         name='joy_node',
-        parameters=[{'device_id': 0}],
-        remappings=[('/joy', '/tibble_controller/joy')]
+        parameters=[{'device_id': 0}]
     )
 
     teleop_node = Node(
         package='teleop_twist_joy',
         executable='teleop_node',
         name='teleop_twist_joy_node',
-        parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"],
-        remappings=[
-            ('/cmd_vel', '/tibble_controller/cmd_vel'),
-            ('/joy', '/tibble_controller/joy')
-        ]
+        parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"]
     )
 
     control_node = Node(
