@@ -5,7 +5,7 @@ teleop_twist_joy_node:
     axis_angular:
       yaw: 3  # Right stick horizontal
     scale_linear:
-      x: 0.5
+      x: 1.0
     scale_angular:
       yaw: 1.0
 

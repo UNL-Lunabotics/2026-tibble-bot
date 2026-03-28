@@ -89,10 +89,10 @@ namespace tibble_controller
             const double DUMP_VIBE_DELAY = 1.0;    // Wait for LA to extend before vibrating
 
             // Button scheme
-            const int STATE_TRAVEL_B = 1;   // b
-            const int STATE_IDLE_B = 0;     // a
-            const int STATE_EXCAVATE_B = 2; // x
-            const int STATE_DUMP_B = 3;     // y
+            const int STATE_TRAVEL_B = 7;   // 8
+            const int STATE_IDLE_B = 6;     // 7
+            const int STATE_EXCAVATE_B = 8; // 9
+            const int STATE_DUMP_B = 9;     // 10
 
             // general control schema [wireless 8bit]
             // in order, left to right, starting at 0
