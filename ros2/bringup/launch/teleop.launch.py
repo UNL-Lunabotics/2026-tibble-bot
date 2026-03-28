@@ -40,7 +40,10 @@ def generate_launch_description():
         executable='teleop_node',
         name='teleop_twist_joy_node',
         parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"],
-        remappings=[('/cmd_vel', '/tibble_controller/cmd_vel')]
+        remappings=[
+            ('/cmd_vel', '/tibble_controller/cmd_vel'),
+            ('/joy', '/tibble_controller/joy')
+        ]
     )
 
     control_node = Node(

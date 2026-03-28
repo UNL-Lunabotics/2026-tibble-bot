@@ -72,19 +72,19 @@ namespace tibble_hwc
         inline double get_left_pos() {
             // GetPosition() returns the last cached value. To ensure ROS2 gets 
             // fresh odometry data off the CAN bus, call Refresh() first.
-            return left_talon_->GetPosition().Refresh().GetValue().value() * 2.0 * M_PI;
+            return left_talon_->GetPosition().GetValue().value() * 2.0 * M_PI;
         }
 
         inline double get_right_pos() {
-            return right_talon_->GetPosition().Refresh().GetValue().value() * 2.0 * M_PI;
+            return right_talon_->GetPosition().GetValue().value() * 2.0 * M_PI;
         }
 
         inline double get_left_vel() {
-            return left_talon_->GetVelocity().Refresh().GetValue().value() * 2.0 * M_PI;
+            return left_talon_->GetVelocity().GetValue().value() * 2.0 * M_PI;
         }
 
         inline double get_right_vel() {
-            return right_talon_->GetVelocity().Refresh().GetValue().value() * 2.0 * M_PI;
+            return right_talon_->GetVelocity().GetValue().value() * 2.0 * M_PI;
         }
 
     private:
