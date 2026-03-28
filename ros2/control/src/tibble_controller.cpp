@@ -135,7 +135,7 @@ namespace tibble_controller
 
         // --- First, read inputs ---
         double current_left_pos = state_interfaces_[1].get_optional().value_or(0.0);
-        double current_right_pos = state_interfaces_[2].get_optional().value_or(0.0);
+        double current_right_pos = state_interfaces_[3].get_optional().value_or(0.0);
         double current_la_pos = state_interfaces_[4].get_optional().value_or(0.0);
 
 
@@ -201,7 +201,7 @@ namespace tibble_controller
         auto twist_msg = twist_cmd_buffer_.readFromRT();
         auto joy_msg = joy_cmd_buffer_.readFromRT();
 
-        if (joy_msg && joy_msg->buttons.size() >= 4) {
+        if (joy_msg && joy_msg->buttons.size() >= STATE_DUMP_B) {
             if (joy_msg->buttons[STATE_IDLE_B] == 1) {
                 current_state_ = TibbleState::IDLE;
             } else if (joy_msg->buttons[STATE_TRAVEL_B] == 1) {

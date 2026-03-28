@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 #define ROBOCLAW_BAUD 115200
-#define PC_BAUD 9600
+#define PC_BAUD 115200
 
 #define ROBOCLAW_ADDRESS_1 0x82     // Linear Actuators
 #define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
