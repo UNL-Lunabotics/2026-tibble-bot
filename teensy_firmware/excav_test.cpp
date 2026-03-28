@@ -5,18 +5,18 @@
 #define ROBOCLAW_BAUD 115200
 
 #define ROBOCLAW_ADDRESS_1 0x82   // Linear Actuators
-#define ROBOCLAW_ADDRESS_2 0x80   // Vibe and Excav
+#define ROBOCLAW_ADDRESS_2 0x83   // Vibe and Excav
 #define HOPPER_SERVO_PIN 9  // placeholder
 #define KRAKEN_RIGHT_PIN 13  // placeholder
 #define KRAKEN_LEFT_PIN 14   // placeholder
 
 // bullshit PWM values
 // const unsigned int LA_SPEED = 41100.0 * 0.00762;  // ticks/meter * 0.3 inches in meters
-const unsigned int LA_SPEED = 50;   // just to see if theyll move - 64 is stop
+const unsigned int LA_SPEED = 1;   // just to see if theyll move - 64 is stop, set to 1 for min
 const unsigned int HOP_SERVO_POS = 0; // closed
-const int VIBE_SPEED = 70;
-const int EXCAV_SPEED = 70;
-const int DRIVETRAIN_SPEED = 100; // 90 is stop
+const unsigned int VIBE_SPEED = 100;
+const unsigned int EXCAV_SPEED = 100;
+const unsigned int DRIVETRAIN_SPEED = 100; // 90 is stop
 
 unsigned int time_limit = 60 * 1000; // seconds
 

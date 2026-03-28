@@ -16,7 +16,7 @@ const unsigned int LA_SPEED = 64;   // just to see if theyll move
 const unsigned int HOP_SERVO_POS = 0; // closed
 const int VIBE_SPEED = 64;
 const int EXCAV_SPEED = 64;
-const int DRIVETRAIN_SPEED = 100;
+const int DRIVETRAIN_SPEED = 60;
 
 unsigned int time_limit = 60 * 1000; // seconds
 
