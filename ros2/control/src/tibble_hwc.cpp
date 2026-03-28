@@ -107,7 +107,7 @@ namespace tibble_hwc
 
     hardware_interface::return_type TibbleHWC::read(const rclcpp::Time &, const rclcpp::Duration &)
     {
-        teensy_comms_.read_encoder_values(raw_la_1_ticks_, raw_la_2_ticks_, raw_excav_ticks_);
+        teensy_comms_.read_encoder_values(raw_la_1_ticks_, raw_la_2_ticks_);
 
         // 2. Linear Actuator Sync Check
         double la_1_meters = raw_la_1_ticks_ / LA_TICKS_PER_METER;
