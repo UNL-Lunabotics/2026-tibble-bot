@@ -56,7 +56,6 @@ namespace tibble_hwc
         cmd_left_wheel_vel_ = 0.0;
         cmd_right_wheel_vel_ = 0.0;
         cmd_la_pos_ = 0.0;
-        cmd_la_reset_ = 0.0;
         cmd_excav_vel_ = 0.0;
         cmd_vibe_enabled_ = 0.0;
         cmd_hop_latched_ = 1.0;
@@ -97,7 +96,6 @@ namespace tibble_hwc
         command_interfaces.emplace_back(hardware_interface::CommandInterface("DR_Rotate", hardware_interface::HW_IF_VELOCITY, &cmd_right_wheel_vel_));
         
         command_interfaces.emplace_back(hardware_interface::CommandInterface("LA_Extend", hardware_interface::HW_IF_POSITION, &cmd_la_pos_));
-        command_interfaces.emplace_back(hardware_interface::CommandInterface("LA_Extend", "la_reset", &cmd_la_reset_));
         
         command_interfaces.emplace_back(hardware_interface::CommandInterface("Excavation_Rotate", hardware_interface::HW_IF_VELOCITY, &cmd_excav_vel_));
         command_interfaces.emplace_back(hardware_interface::CommandInterface("vibe_control", "vibe_enabled", &cmd_vibe_enabled_));
@@ -135,14 +133,6 @@ namespace tibble_hwc
 
     hardware_interface::return_type TibbleHWC::write(const rclcpp::Time &, const rclcpp::Duration &)
     {
-        // 1. Handle Encoder Reset Request
-        if (cmd_la_reset_ >= 1.0) {
-            teensy_comms_.send_reset_command(); // Reset linear encoders
-            
-            cmd_la_reset_ = 0.0; // Instantly consume the command
-            return hardware_interface::return_type::OK; // Skip the rest of the loop for this tick
-        }
-
         // 2. Linear Actuator Position -> PWM Conversion (P-Controller)
         double la_error_meters = cmd_la_pos_ - state_la_pos_;
         double kP = 2000.0; // Tuning parameter: higher = more aggressive approach

@@ -70,17 +70,6 @@ void execute_command(const char* cmd) {
             roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
             break;
         }
-        case 'r': {
-            // Reset Encoders
-            roboclaw.SetEncM1(ROBOCLAW_ADDRESS_1, 0);
-            roboclaw.SetEncM2(ROBOCLAW_ADDRESS_1, 0);
-            
-            // Visual feedback that reset occurred
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(10);
-            digitalWrite(LED_BUILTIN, LOW);
-            break;
-        }
     }
 }
 
