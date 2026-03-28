@@ -11,17 +11,17 @@
 #define KRAKEN_LEFT_PIN 14   // placeholder
 
 // bullshit PWM values
-// const unsigned int LA_POS = 41100.0 * 0.00762;  // ticks/meter * 0.3 inches in meters
-const unsigned int LA_POS = 0;   // just to see if theyll move
-const unsigned int HOP_SERVO_POS = 180;
+// const unsigned int LA_SPEED = 41100.0 * 0.00762;  // ticks/meter * 0.3 inches in meters
+const unsigned int LA_SPEED = 50;   // just to see if theyll move
+const unsigned int HOP_SERVO_POS = 0; // closed
 const int VIBE_SPEED = 70;
 const int EXCAV_SPEED = 70;
-const int DRIVETRAIN_SPEED = 110;
+const int DRIVETRAIN_SPEED = 100;
 
 unsigned int time_limit = 60 * 1000; // seconds
 
 RoboClaw roboclaw_1(&Serial1, 10000); 
-RoboClaw roboclaw_2(&Serial4, 10000);
+RoboClaw roboclaw_2(&Serial2, 10000);
 Servo hopper_latch;
 Servo kraken_right;
 Servo kraken_left;
@@ -64,8 +64,8 @@ void loop() {
         kraken_left.write(64);
         kraken_right.write(64);
     } else {
-        roboclaw_1.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
-        roboclaw_1.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, 1000, 5000, 5000, LA_POS, 1);
+        roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, LA_SPEED);
+        roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, LA_SPEED);
         roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, VIBE_SPEED);
         roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, EXCAV_SPEED);
         kraken_left.write(DRIVETRAIN_SPEED);
