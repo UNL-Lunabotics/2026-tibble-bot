@@ -67,6 +67,123 @@
 
             <!-- Define all joints and their command/state interfaces necessary for sim -->
 
+            <joint name="DL_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="DR_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="LLA_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="LA_Extend">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="TLA_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="Hopper_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="HopperDoorRotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="H-Latch_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="Excavation_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="ML_Wheel_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="MR_Wheel_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="TL_Wheel_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="TR_Wheel_Rotate">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="velocity"/>
+                <state_interface name="position"/>
+            </joint>
+
             <joint name="FL_Wheel_Rotate">
                 <command_interface name="velocity">
                     <param name="min">-10</param>
