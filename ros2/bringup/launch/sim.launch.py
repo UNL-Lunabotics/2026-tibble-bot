@@ -16,22 +16,23 @@ def generate_launch_description():
   bringup_pkg = FindPackageShare("bringup")
   slam_toolbox_pkg = FindPackageShare("slam_toolbox")
   nav2_bringup_pkg = FindPackageShare("nav2_bringup")
+  ros_gz_sim_pkg = FindPackageShare("ros_gz_sim")
     
   bridge_params = os.path.join(
-      FindPackageShare("bringup").find("bringup"),
+      bringup_pkg.find("bringup"),
       "config",
       "gz_bridge.yaml"
   )
   
   world_path = os.path.join(
-    FindPackageShare("description").find("description"),
+    description_pkg.find("description"),
     "worlds",
     "artemis_arena.sdf"
   )
   
   gazebo = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(
-        [PathSubstitution(FindPackageShare("ros_gz_sim")), "/launch/gz_sim.launch.py"]
+        [PathSubstitution(ros_gz_sim_pkg), "/launch/gz_sim.launch.py"]
       ),
       launch_arguments={"gz_args": "-r " + world_path}.items(),
   )
@@ -133,7 +134,7 @@ def generate_launch_description():
       name="rviz2",
       output="log",
       arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
-      condition=IfCondition(LaunchConfiguration("gui"))  # singular
+      condition=IfCondition(LaunchConfiguration("gui"))
   )
   
   foxglove_bridge = Node(
