@@ -10,6 +10,14 @@ controller_manager:
 
 tibble_controller:
   ros__parameters:
+
+    left_wheel_names:
+      - FL_Wheel_Rotate
+      - BL_Wheel_Rotate
+    right_wheel_names:
+      - FR_Wheel_Rotate
+      - BR_Wheel_Rotate
+
     wheel_radius_m: 0.929      # allegedly correct 929 mm
     wheel_separation_m: 0.5659  # allegedly correct 5659 mm
 
