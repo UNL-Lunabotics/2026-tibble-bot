@@ -34,7 +34,7 @@ def generate_launch_description():
       PythonLaunchDescriptionSource(
           [ros_gz_sim_pkg, "/launch/gz_sim.launch.py"]
       ),
-      launch_arguments={"gz_args": "-r " + world_path}.items(),
+      launch_arguments={"gz_args": "-r -v 4 " + world_path}.items(),
   )
   
   robot_description_content = ParameterValue(
@@ -96,7 +96,7 @@ def generate_launch_description():
     executable = "create",
     arguments=[
       "-topic", "robot_description",
-      "-name", "terrence",
+      "-name", "tibble",
       "-z", "0.5",
     ],
     output = "both"
@@ -105,13 +105,15 @@ def generate_launch_description():
   joint_state_broadcaster_spawner = Node(
     package = "controller_manager",
     executable = "spawner",
-    arguments = ["joint_state_broadcaster", "--controller-manager", "/controller_manager"]
+    arguments = ["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    parameters=[{"use_sim_time": True}]
   )
   
   tibble_controller_spawner = Node(
     package="controller_manager",
     executable="spawner",
-    arguments=["tibble_controller", "--controller-manager", "/controller_manager"]
+    arguments=["tibble_controller", "--controller-manager", "/controller_manager"],
+    parameters=[{"use_sim_time": True}]
   )
   
   delay_joint_state_broadcaster_spawner = RegisterEventHandler(
@@ -178,7 +180,7 @@ def generate_launch_description():
     gazebo,
     joy_node,
     teleop_node,
-    control_node,
+    # control_node,
     robot_state_pub_node,
     bridge,
     spawn_tibble,
