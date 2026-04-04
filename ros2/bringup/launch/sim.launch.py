@@ -31,8 +31,8 @@ def generate_launch_description():
   )
   
   gazebo = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(
-        [PathSubstitution(ros_gz_sim_pkg), "/launch/gz_sim.launch.py"]
+      PythonLaunchDescriptionSource(
+          [ros_gz_sim_pkg, "/launch/gz_sim.launch.py"]
       ),
       launch_arguments={"gz_args": "-r " + world_path}.items(),
   )
