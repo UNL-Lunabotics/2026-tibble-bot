@@ -106,15 +106,13 @@ def generate_launch_description():
   joint_state_broadcaster_spawner = Node(
     package = "controller_manager",
     executable = "spawner",
-    arguments = ["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
-    parameters=[{"use_sim_time": True}]
+    arguments = ["joint_state_broadcaster"]
   )
   
   tibble_controller_spawner = Node(
     package="controller_manager",
     executable="spawner",
-    arguments=["tibble_controller", "--controller-manager", "/controller_manager"],
-    parameters=[{"use_sim_time": True}]
+    arguments=["tibble_controller"]
   )
   
   delay_joint_state_broadcaster_spawner = RegisterEventHandler(
@@ -126,7 +124,7 @@ def generate_launch_description():
   
   delay_tibble_controller_spawner = RegisterEventHandler(
     event_handler=OnProcessExit(
-      target_action=joint_state_broadcaster_spawner,
+      target_action=spawn_tibble,
       on_exit=[tibble_controller_spawner]
     )
   )
@@ -190,8 +188,8 @@ def generate_launch_description():
     robot_state_pub_node,
     bridge,
     spawn_tibble,
-    delay_joint_state_broadcaster_spawner,
     delay_tibble_controller_spawner,
+    delay_joint_state_broadcaster_spawner,
     rviz_node,
     foxglove_bridge,
     slam_toolbox,
