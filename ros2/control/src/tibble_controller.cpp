@@ -122,6 +122,8 @@ namespace tibble_controller
     {
         current_state_ = TibbleState::IDLE;
 
+        odom_pub_->on_deactivate();
+
         RCLCPP_INFO(get_node()->get_logger(), "Deactivated TibbleController.");
         return controller_interface::CallbackReturn::SUCCESS;
     }
