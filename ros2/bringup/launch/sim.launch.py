@@ -1,6 +1,6 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, RegisterEventHandler, DeclareLaunchArgument
+from launch.actions import AppendEnvironmentVariable, IncludeLaunchDescription, RegisterEventHandler, DeclareLaunchArgument
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathSubstitution, LaunchConfiguration
@@ -176,6 +176,11 @@ def generate_launch_description():
     ]
   )
   
+  environment_vars = AppendEnvironmentVariable(
+    name='GZ_SIM_SYSTEM_PLUGIN_PATH',
+    value='/opt/ros/jazzy/lib'
+  )
+  
   return LaunchDescription([
     DeclareLaunchArgument("gui", default_value="true", description="Whether to launch RViz"),
     gazebo,
@@ -191,5 +196,7 @@ def generate_launch_description():
     foxglove_bridge,
     slam_toolbox,
     nav2_bringup,
-    ekf_node
+    ekf_node,
+    
+    environment_vars
   ])
