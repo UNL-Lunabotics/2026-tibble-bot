@@ -84,7 +84,7 @@ namespace tibble_controller
             });
         
         // ROS publishers
-        odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>("~/odom", rclcpp::SystemDefaultsQoS());
+        odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>("/odom", rclcpp::SystemDefaultsQoS());
         tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*get_node());
 
         RCLCPP_INFO(get_node()->get_logger(), "Configured TibbleController.");
@@ -105,6 +105,8 @@ namespace tibble_controller
         odom_y_ = 0.0;
         odom_theta_ = 0.0;
         first_update_ = true;
+
+        odom_pub_->on_activate();
 
         if (command_interfaces_.empty() || state_interfaces_.empty()) {
             RCLCPP_ERROR(get_node()->get_logger(), "Missing controller interfaces.");

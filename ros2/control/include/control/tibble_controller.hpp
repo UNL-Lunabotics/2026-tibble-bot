@@ -55,7 +55,7 @@ namespace tibble_controller
             rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
 
             // Pubs/Broadcasters
-            std::shared_ptr<rclcpp::Publisher<nav_msgs::msg::Odometry>> odom_pub_;
+            std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>> odom_pub_;
             std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
             // Realtime buffers
