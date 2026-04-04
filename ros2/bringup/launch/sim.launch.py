@@ -67,7 +67,7 @@ def generate_launch_description():
     executable = "ros2_control_node",
     parameters = [
       robot_description,
-      PathSubstitution(control_pkg) / "config" / "controllers.yaml"
+      PathSubstitution(control_pkg) / "config" / "tibble_controller.yaml"
     ],
     output = "both"
   )
