@@ -76,12 +76,12 @@ void execute_command(const char* cmd) {
         hop_val = (hop_latch == 1) ? 0 : 180;
 
         // Address 1: Linear Actuators
-        roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la_val);
-        roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la_val);
+        roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la_val);
+        roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la_val);
         
         // Address 2: Vibe and Excav
-        roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe_val);
-        roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
+        roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe_val);
+        roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
         
         hopper_latch.write(hop_val);
         kraken_left.write(left);
