@@ -19,7 +19,7 @@ const unsigned int EXCAV_SPEED = 100;
 const unsigned int DRIVETRAIN_SPEED = 90; // 90 is stop
 
 unsigned int time_limit = 60 * 1000; // seconds
-unsigned int extend_time_limit = 10 * 1000;
+unsigned int extend_time_limit = 8 * 1000;
 
 RoboClaw roboclaw_1(&Serial1, 10000); 
 RoboClaw roboclaw_2(&Serial2, 10000);
