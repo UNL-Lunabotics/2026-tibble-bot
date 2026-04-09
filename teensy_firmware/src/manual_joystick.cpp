@@ -88,6 +88,8 @@ void execute_command(const char* cmd) {
         kraken_right.write(right);
 
         digitalWrite(LED_BUILTIN, HIGH);
+    } else {
+        digitalWrite(LED_BUILTIN, LOW);
     }
 }
 
