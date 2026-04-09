@@ -14,8 +14,8 @@
 // const unsigned int LA_SPEED = 41100.0 * 0.00762;  // ticks/meter * 0.3 inches in meters
 const unsigned int LA_SPEED = 1;   // just to see if theyll move - 64 is stop, set to 1 for min
 const unsigned int HOP_SERVO_POS = 0; // closed
-const unsigned int VIBE_SPEED = 100;
-const unsigned int EXCAV_SPEED = 100;
+const unsigned int VIBE_SPEED = 80;
+const unsigned int EXCAV_SPEED = 50;
 const unsigned int DRIVETRAIN_SPEED = 100; // 90 is stop
 
 unsigned int time_limit = 60 * 1000; // seconds
@@ -66,10 +66,15 @@ void loop() {
     } else {
         // roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, LA_SPEED);
         // roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, LA_SPEED);
-        roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, VIBE_SPEED);
-        roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, EXCAV_SPEED);
+        // roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, VIBE_SPEED);
+        // roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, EXCAV_SPEED);
         // kraken_left.write(DRIVETRAIN_SPEED);
         // kraken_right.write(DRIVETRAIN_SPEED);
-        hopper_latch.write(HOP_SERVO_POS);
+        // hopper_latch.write(HOP_SERVO_POS);
+
+
+        // LA bullshit
+        roboclaw_1.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, 10000, 10000, 10000, 15000, 1);
+        roboclaw_1.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, 10000, 10000, 10000, 15000, 1);
     }
 }
