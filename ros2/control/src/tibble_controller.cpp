@@ -17,9 +17,9 @@ namespace tibble_controller
             right_wheel_name_ + "/velocity",
             linear_actuator_name_ + "/position",
             excavation_name_ + "/velocity",
-            vibe_gpio_name_ + "/vibe_enabled",
-            latch_gpio_name_ + "/hop_latched",
-            linear_actuator_name_ + "/la_reset"
+            // vibe_gpio_name_ + "/vibe_enabled",
+            // latch_gpio_name_ + "/hop_latched",
+            // linear_actuator_name_ + "/la_reset"
         };
 
         return config;
@@ -127,7 +127,7 @@ namespace tibble_controller
     }
 
 
-    controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
+    controller_interface::return_type TibbleController::update (const rclcpp::Time & time, const rclcpp::Duration & period)
     {
         (void)time; // Silence unused param warning
 

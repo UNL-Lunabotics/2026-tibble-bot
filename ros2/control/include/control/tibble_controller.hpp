@@ -47,8 +47,8 @@ namespace tibble_controller
             const std::string right_wheel_name_ = "DR_Rotate";
             const std::string linear_actuator_name_ = "LA_Extend";
             const std::string excavation_name_ = "Excavation_Rotate";
-            const std::string vibe_gpio_name_ = "vibe_control";
-            const std::string latch_gpio_name_ = "latch_control";
+            // const std::string vibe_gpio_name_ = "vibe_control";
+            // const std::string latch_gpio_name_ = "latch_control";
 
             // Subs
             rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
