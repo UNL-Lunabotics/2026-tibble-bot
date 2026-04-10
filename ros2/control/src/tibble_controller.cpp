@@ -302,10 +302,10 @@ namespace tibble_controller
         // Order is declaration order in command_interface_configuration()
         (void)command_interfaces_[0].set_value(cmd_left_wheel);
         (void)command_interfaces_[1].set_value(cmd_right_wheel);
-        (void)command_interfaces_[2].set_value(cmd_la_pos);
+        // (void)command_interfaces_[2].set_value(cmd_la_pos);
         (void)command_interfaces_[3].set_value(cmd_excav_vel);
-        (void)command_interfaces_[4].set_value(cmd_vibe);
-        (void)command_interfaces_[5].set_value(cmd_latch);
+        // (void)command_interfaces_[4].set_value(cmd_vibe);
+        // (void)command_interfaces_[5].set_value(cmd_latch);
 
         return controller_interface::return_type::OK;
     }
