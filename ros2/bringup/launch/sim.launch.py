@@ -27,7 +27,7 @@ def generate_launch_description():
   world_path = os.path.join(
     description_pkg.find("description"),
     "worlds",
-    "artemis_arena.sdf"
+    "empty.sdf"
   )
   
   gazebo = IncludeLaunchDescription(
@@ -60,7 +60,7 @@ def generate_launch_description():
     executable = "teleop_node",
     name = "teleop_twist_joy_node",
     parameters = [PathSubstitution(control_pkg) / "config" / "joystick.yaml"],
-    remappings = [("/cmd_vel", "/tibble_controller/cmd_vel")]
+    # remappings = [("/cmd_vel", "/tibble_controller/cmd_vel")]
   )
   
   # control_node = Node(
