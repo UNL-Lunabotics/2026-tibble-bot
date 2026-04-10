@@ -28,16 +28,19 @@ void setup() {
     roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
 
     // Flash LED to show boot is complete
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(200);
-    digitalWrite(LED_BUILTIN, LOW);
     delay(1000);
 }
 
 void loop() {
     if (!move_commanded) {
-        roboclaw_1.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, LA_SPEED, LA_SPEED, LA_SPEED, LA_POS, 0);
-        roboclaw_1.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, LA_SPEED, LA_SPEED, LA_SPEED, LA_POS, 0);
+        // roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, LA_SPEED);
+        // roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, LA_SPEED);
+        roboclaw_1.SpeedAccelDeccelPositionM1(ROBOCLAW_ADDRESS_1, 1000, LA_SPEED, 1000, LA_POS, 0);
+        roboclaw_1.SpeedAccelDeccelPositionM2(ROBOCLAW_ADDRESS_1, 1000, LA_SPEED, 1000, LA_POS, 0);
+
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(200);
+        digitalWrite(LED_BUILTIN, LOW);
         
         move_commanded = true;
     }
