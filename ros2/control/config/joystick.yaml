@@ -3,13 +3,13 @@ teleop_twist_joy_node:
     axis_linear:
       x: 1  # Left stick vertical
     axis_angular:
-      yaw: 3  # Right stick horizontal
+      yaw: 2  # Right stick horizontal
     scale_linear:
-      x: 1.0
+      x: 0.5
     scale_angular:
-      yaw: 1.0
+      yaw: 0.5
 
-    deadzone: 0.5
+    deadzone: 0.05
 
     # enable_button: 4
     # enable_turbo_button: 5
