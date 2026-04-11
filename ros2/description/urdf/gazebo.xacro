@@ -3,17 +3,23 @@
 
     <!-- Add any Gazebo references to links/joints including color and friction values -->
     <gazebo reference="chassis_link">
-        <material>Gazebo/White</material>
+        <material>
+            <ambient>0.35 0.35 0.38 1</ambient>
+        </material>
     </gazebo>
 
     <gazebo reference="Castor">
-        <material>Gazebo/Blue</material>
+        <material>
+            <ambient>1 1 1 1</ambient>
+        </material>
         <mu1 value="0.0"/>  <!-- This is friction -->
         <mu2 value="0.0"/>
     </gazebo>
 
     <gazebo reference="DL_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.00 0.60 1.00 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -27,7 +33,9 @@
     </gazebo>
 
     <gazebo reference="DR_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.00 0.85 0.40 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -41,18 +49,24 @@
     </gazebo>
 
     <gazebo reference="BLA">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.65 0.45 0.20 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for Linear Actuators -->
     </gazebo>
 
     <gazebo reference="LA">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>1.00 0.08 0.58 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for Linear Actuators -->
     </gazebo>
 
     <!-- Not sure if this is a wheel or a linear actuator -->
     <gazebo reference="TLA">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>1.00 0.85 0.00 1</ambient>
+        </material>
         <!-- Included in case its a wheel -->
         <collision>
             <surface>
@@ -67,27 +81,37 @@
     </gazebo>
 
     <gazebo reference="Hopper">
-        <material>Gazebo/White</material>
+        <material>
+            <ambient>0.55 0.62 0.68 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for the Hopper -->
     </gazebo>
 
     <gazebo reference="Hopper_Door">
-        <material>Gazebo/White</material>
+        <material>
+            <ambient>0.60 0.40 0.65 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for the Hopper Door -->
     </gazebo>
 
     <gazebo reference="Hopper_Latch">
-        <material>Gazebo/Purple</material>
+        <material>
+            <ambient>1.00 0.27 0.00 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for the Hopper Latch -->
     </gazebo>
 
     <gazebo reference="Excavation">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.00 1.00 0.80 1</ambient>
+        </material>
         <!-- TODO: Any other configurations for Excavation -->
     </gazebo>
 
     <gazebo reference="FL_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.95 0.20 0.20 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -101,7 +125,9 @@
     </gazebo>
 
     <gazebo reference="ML_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.10 0.70 0.90 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -115,7 +141,9 @@
     </gazebo>
 
     <gazebo reference="BL_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.80 0.00 0.80 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -129,7 +157,9 @@
     </gazebo>
 
     <gazebo reference="TL_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.10 0.45 1.00 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -143,7 +173,9 @@
     </gazebo>
 
     <gazebo reference="FR_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>1.00 0.55 0.00 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -157,7 +189,9 @@
     </gazebo>
 
     <gazebo reference="MR_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.20 0.90 0.50 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -169,9 +203,11 @@
             </surface>
         </collision>
     </gazebo>
-
+    
     <gazebo reference="BR_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.70 0.20 1.00 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
@@ -185,7 +221,9 @@
     </gazebo>
 
     <gazebo reference="TR_Wheel">
-        <material>Gazebo/SkyBlue</material>
+        <material>
+            <ambient>0.00 0.90 0.70 1</ambient>
+        </material>
         <collision>
             <surface>
                 <friction>
