@@ -43,8 +43,8 @@ namespace tibble_controller
 
         private:
             // URDF joint names
-            const std::string left_wheel_name_ = "DL_Rotate";
-            const std::string right_wheel_name_ = "DR_Rotate";
+            const std::string left_wheel_name_ = "ML_Wheel_Rotate";
+            const std::string right_wheel_name_ = "MR_Wheel_Rotate";
             const std::string linear_actuator_name_ = "LA_Extend";
             const std::string excavation_name_ = "Excavation_Rotate";
             // const std::string vibe_gpio_name_ = "vibe_control";
@@ -89,10 +89,10 @@ namespace tibble_controller
             const double DUMP_VIBE_DELAY = 1.0;    // Wait for LA to extend before vibrating
 
             // Button scheme
-            const int STATE_TRAVEL_B = 7;   // 8
-            const int STATE_IDLE_B = 6;     // 7
-            const int STATE_EXCAVATE_B = 8; // 9
-            const int STATE_DUMP_B = 9;     // 10
+            const int STATE_TRAVEL_B = 0;   // A
+            const int STATE_IDLE_B = 1;     // B
+            const int STATE_EXCAVATE_B = 3; // X
+            const int STATE_DUMP_B = 4;     // Y
 
             // general control schema [wireless 8bit]
             // in order, left to right, starting at 0

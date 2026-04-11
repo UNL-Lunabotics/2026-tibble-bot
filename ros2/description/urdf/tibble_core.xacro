@@ -34,7 +34,7 @@
           rgba="0.35 0.35 0.38 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -42,7 +42,7 @@
         <mesh
           filename="file://$(find description)/meshes/Chassis.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="chassis"
@@ -87,7 +87,7 @@
           rgba="0.00 0.60 1.00 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -95,7 +95,7 @@
         <mesh
           filename="file://$(find description)/meshes/DL_Wheel.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="DL_Rotate"
@@ -142,7 +142,7 @@
           rgba="0.00 0.85 0.40 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -150,7 +150,7 @@
         <mesh
           filename="file://$(find description)/meshes/DR_Wheel.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="DR_Rotate"
@@ -197,7 +197,7 @@
           rgba="0.65 0.45 0.20 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -205,7 +205,7 @@
         <mesh
           filename="file://$(find description)/meshes/BLA.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="LLA_Rotate"
@@ -257,7 +257,7 @@
           rgba="1.00 0.08 0.58 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -265,7 +265,7 @@
         <mesh
           filename="file://$(find description)/meshes/LA.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="LA_Extend"
@@ -317,7 +317,7 @@
           rgba="1.00 0.85 0.00 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -325,7 +325,7 @@
         <mesh
           filename="file://$(find description)/meshes/TLA.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="TLA_Rotate"
@@ -377,7 +377,7 @@
           rgba="0.55 0.62 0.68 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -385,7 +385,7 @@
         <mesh
           filename="file://$(find description)/meshes/Hopper.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="Hopper_Rotate"
@@ -437,7 +437,7 @@
           rgba="0.60 0.40 0.65 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -445,7 +445,7 @@
         <mesh
           filename="file://$(find description)/meshes/Hopper_Door.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="HopperDoorRotate"
@@ -497,7 +497,7 @@
           rgba="1.00 0.27 0.00 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -505,7 +505,7 @@
         <mesh
           filename="file://$(find description)/meshes/Hopper_Latch.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="H-Latch_Rotate"
@@ -619,7 +619,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/FL_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -635,6 +635,7 @@
       link="FL_Wheel" />
     <axis
       xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -675,7 +676,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/ML_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -731,7 +732,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/BL_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -747,6 +748,7 @@
       link="BL_Wheel" />
     <axis
       xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -780,7 +782,7 @@
           rgba="0.10 0.45 1.00 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -788,7 +790,7 @@
         <mesh
           filename="file://$(find description)/meshes/TL_Wheel.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="TL_Wheel_Rotate"
@@ -842,7 +844,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/FR_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -858,6 +860,7 @@
       link="FR_Wheel" />
     <axis
       xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -898,7 +901,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/MR_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -954,7 +957,7 @@
       <geometry>
         <!-- <mesh
           filename="file://$(find description)/meshes/BR_Wheel.STL" /> -->
-          <sphere radius="0.0929"/>
+          <sphere radius="0.076835"/>
       </geometry>
     </collision>
   </link>
@@ -970,6 +973,7 @@
       link="BR_Wheel" />
     <axis
       xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -1003,7 +1007,7 @@
           rgba="0.00 0.90 0.70 1" />
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -1011,7 +1015,7 @@
         <mesh
           filename="file://$(find description)/meshes/TR_Wheel.STL" />
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint
     name="TR_Wheel_Rotate"

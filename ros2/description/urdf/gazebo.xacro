@@ -12,8 +12,16 @@
         <material>
             <ambient>1 1 1 1</ambient>
         </material>
-        <mu1 value="0.0"/>  <!-- This is friction -->
-        <mu2 value="0.0"/>
+        <collision>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>0.0001</mu> <!-- This is friction -->
+                        <mu2>0.0001</mu2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
     </gazebo>
 
     <gazebo reference="DL_Wheel">
@@ -24,8 +32,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -40,8 +48,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -72,8 +80,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>1.0</mu>
+                        <mu2>0.1</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -116,24 +124,29 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
         </collision>
     </gazebo>
 
+    <gazebo reference="FL_Wheel_Rotate">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <dynamics damping="0.01" friction="0.0"/>
+    </gazebo>
+
     <gazebo reference="ML_Wheel">
         <material>
-            <ambient>0.10 0.70 0.90 1</ambient>
+            <ambient>0.50 0.70 0.90 1</ambient>
         </material>
         <collision>
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>1.0</mu>
+                        <mu2>0.5</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -148,24 +161,29 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
         </collision>
     </gazebo>
 
+    <gazebo reference="BL_Wheel_Rotate">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <dynamics damping="0.01" friction="0.0"/>
+    </gazebo>
+
     <gazebo reference="TL_Wheel">
         <material>
-            <ambient>0.10 0.45 1.00 1</ambient>
+            <ambient>0.50 0.45 1.00 1</ambient>
         </material>
         <collision>
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -180,12 +198,17 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
         </collision>
+    </gazebo>
+
+    <gazebo reference="FR_Wheel_Rotate">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <dynamics damping="0.01" friction="0.0"/>
     </gazebo>
 
     <gazebo reference="MR_Wheel">
@@ -196,8 +219,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>1.0</mu>
+                        <mu2>0.5</mu2>
                     </ode>
                 </friction>
             </surface>
@@ -212,12 +235,17 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
         </collision>
+    </gazebo>
+
+    <gazebo reference="BR_Wheel_Rotate">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <dynamics damping="0.01" friction="0.0"/>
     </gazebo>
 
     <gazebo reference="TR_Wheel">
@@ -228,8 +256,8 @@
             <surface>
                 <friction>
                     <ode>
-                        <mu>0.001</mu>
-                        <mu2>0.001</mu2>
+                        <mu>0.0001</mu>
+                        <mu2>0.0001</mu2>
                     </ode>
                 </friction>
             </surface>
