@@ -617,8 +617,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/FL_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/FL_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
@@ -672,8 +673,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/ML_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/ML_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
@@ -727,8 +729,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/BL_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/BL_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
@@ -837,8 +840,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/FR_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/FR_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
@@ -892,8 +896,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/MR_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/MR_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
@@ -947,8 +952,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="file://$(find description)/meshes/BR_Wheel.STL" />
+        <!-- <mesh
+          filename="file://$(find description)/meshes/BR_Wheel.STL" /> -->
+          <sphere radius="0.0929"/>
       </geometry>
     </collision>
   </link>
