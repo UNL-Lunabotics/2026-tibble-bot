@@ -98,7 +98,7 @@ def generate_launch_description():
     arguments=[
       "-topic", "robot_description",
       "-name", "tibble",
-      "-z", "0.5",
+      "-z", "1",
     ],
     output = "both"
   )
