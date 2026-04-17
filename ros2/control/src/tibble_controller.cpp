@@ -113,6 +113,10 @@ namespace tibble_controller
             return controller_interface::CallbackReturn::ERROR;
         }
 
+        for (auto& iface : command_interfaces_) {
+            iface.set_value(0.0);
+        }
+        
         RCLCPP_INFO(get_node()->get_logger(), "Activated TibbleController.");
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -149,8 +153,8 @@ namespace tibble_controller
         }
 
         // Calculate how much the wheels moved in radians since last tick
-        double delta_left = current_left_pos - last_left_wheel_pos_;
-        double delta_right = current_right_pos - last_right_wheel_pos_;
+        double delta_left = std::remainder(current_left_pos - last_left_wheel_pos_, 2.0 * M_PI);
+        double delta_right = std::remainder(current_right_pos - last_right_wheel_pos_, 2.0 * M_PI);
 
         // Convert radians to linear distance (meters)
         double distance_left = delta_left * wheel_radius_;
