@@ -159,15 +159,15 @@ def generate_launch_description():
     launch_arguments={"use_sim_time": "true"}.items(),
   )
   
-  # nav2_bringup = IncludeLaunchDescription(
-  #   PythonLaunchDescriptionSource(
-  #     [PathSubstitution(nav2_bringup_pkg), "/launch/navigation_launch.py"]
-  #   ),
-  #   launch_arguments={
-  #     "use_sim_time": "true",
-  #     "params_file" : [PathSubstitution(bringup_pkg), "/config/nav2_params.yaml"]
-  #     }.items(),
-  # )
+  nav2_bringup = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+      [PathSubstitution(nav2_bringup_pkg), "/launch/navigation_launch.py"]
+    ),
+    launch_arguments={
+      "use_sim_time": "true",
+      "params_file" : [PathSubstitution(bringup_pkg), "/config/nav2_params.yaml"]
+      }.items(),
+  )
   
   ekf_node = Node(
     package="robot_localization",
@@ -201,7 +201,7 @@ def generate_launch_description():
     rviz_node,
     foxglove_bridge,
     slam_toolbox,
-    # nav2_bringup,
+    nav2_bringup,
     ekf_node,
     
     environment_vars
