@@ -6,11 +6,11 @@
   direction: GZ_TO_ROS
 
 # 2. Sensors (Lidar)
-# - ros_topic_name: "scan"
-#   gz_topic_name: "scan"
-#   ros_type_name: "sensor_msgs/msg/LaserScan"
-#   gz_type_name: "gz.msgs.LaserScan"
-#   direction: GZ_TO_ROS
+- ros_topic_name: "scan"
+  gz_topic_name: "scan"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: GZ_TO_ROS
 
 # 3. Sensors (Camera Info)
 - ros_topic_name: "camera/camera_info"
