@@ -11,7 +11,8 @@
 
 // NEVER EVER TOUCH PINS 33 AND 34 THEY'RE JUMPERS NOW
 
-RoboClaw roboclaw(&Serial2, 10000);
+RoboClaw roboclaw_1(&Serial1, 10000); 
+RoboClaw roboclaw_2(&Serial2, 10000);
 Servo hopper_latch;
 
 unsigned long last_telemetry_time = 0;
@@ -22,16 +23,17 @@ int rx_index = 0;
 
 void setup() {
     Serial.begin(PC_BAUD);
-    roboclaw.begin(ROBOCLAW_BAUD);
+    roboclaw_1.begin(ROBOCLAW_BAUD);
+    roboclaw_2.begin(ROBOCLAW_BAUD);
 
     hopper_latch.attach(HOPPER_SERVO_PIN);
     pinMode(LED_BUILTIN, OUTPUT);
     
     // Ensure all motors are STOPPED on boot
-    roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
-    roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
-    roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-    roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+    roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
+    roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
+    roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
+    roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
 
     // Flash LED to show boot is complete
     digitalWrite(LED_BUILTIN, HIGH);
@@ -49,12 +51,12 @@ void execute_command(const char* cmd) {
             // Parse the 5 variables sent from the PC
             if (sscanf(cmd, "c %d %d %d %d %d", &la1, &la2, &vibe, &excav, &latch) == 5) {
                 // Address 1: Linear Actuators
-                roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la1);
-                roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la2);
+                roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la1);
+                roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la2);
                 
                 // Address 2: Vibe and Excav
-                roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe);
-                roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
+                roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe);
+                roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
                 
                 hopper_latch.write(latch);
 
@@ -64,16 +66,16 @@ void execute_command(const char* cmd) {
         }
         case 's': {
             // Emergency Stop
-            roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
-            roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
-            roboclaw.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-            roboclaw.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+            roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
+            roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
+            roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
+            roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
             break;
         }
         case 'r': {
             // Reset Encoders
-            roboclaw.SetEncM1(ROBOCLAW_ADDRESS_1, 0);
-            roboclaw.SetEncM2(ROBOCLAW_ADDRESS_1, 0);
+            roboclaw_1.SetEncM1(ROBOCLAW_ADDRESS_1, 0);
+            roboclaw_1.SetEncM2(ROBOCLAW_ADDRESS_1, 0);
             
             // Visual feedback that reset occurred
             digitalWrite(LED_BUILTIN, HIGH);
@@ -92,8 +94,8 @@ void loop() {
         bool v1, v2;
         uint8_t status; // Dummy variable to catch RoboClaw status flags safely
         
-        int32_t enc_la1 = roboclaw.ReadEncM1(ROBOCLAW_ADDRESS_1, &status, &v1);
-        int32_t enc_la2 = roboclaw.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
+        int32_t enc_la1 = roboclaw_1.ReadEncM1(ROBOCLAW_ADDRESS_1, &status, &v1);
+        int32_t enc_la2 = roboclaw_1.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
 
         // Only send back to PC if the RoboClaw actually returned valid data
         if (v1 && v2) {

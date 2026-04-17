@@ -22,6 +22,10 @@ Servo kraken_left;
 char rx_buffer[128];
 int rx_index = 0;
 
+// NEW: Proper variables for toggle tracking
+int last_hop_button_state = 0;
+int hopper_pos = 0;
+
 void setup() {
     roboclaw_1.begin(ROBOCLAW_BAUD);
     roboclaw_2.begin(ROBOCLAW_BAUD);
@@ -47,13 +51,11 @@ void setup() {
     digitalWrite(LED_BUILTIN, LOW);
 }
 
-// NOTE: Removed 'const' so strtok can safely operate without crashing the Teensy
 void execute_command(char* cmd) {
     float left = 0.0, right = 0.0, excav = 0.0;
     int la_extend = 0, la_retract = 0, vibe = 0, hop_latch = 0;
 
-    // Parse values in the exact order Python sends them: 
-    // left, right, excav, la_retract, la_extend, vib, hop_latch
+    // Parse values: left, right, excav, la_retract, la_extend, vib, hop_latch
     char *ptr = strtok(cmd, ",");
     if (ptr != NULL) left = atof(ptr);
     
@@ -88,8 +90,8 @@ void execute_command(char* cmd) {
     left_us = constrain(left_us, 1000, 2000);
     right_us = constrain(right_us, 1000, 2000);
 
-    // Actuator logic correctly separated so they don't overwrite each other
-    int la_val = 64; // Default to stop
+    // Actuator logic
+    int la_val = 64; 
     if (la_extend == 1 && la_retract == 0) {
         la_val = 126;
     } else if (la_retract == 1 && la_extend == 0) {
@@ -97,25 +99,25 @@ void execute_command(char* cmd) {
     }
 
     int vibe_val = (vibe == 1) ? 126 : 64;
-    int hop_val = (hop_latch == 1) ? 0 : 180;
+    
+    if (hop_latch == 1 && last_hop_button_state == 0) {
+        hopper_pos = (hopper_pos == 0) ? 180 : 0; 
+    }
+    last_hop_button_state = hop_latch; 
 
-    // Address 1: Linear Actuators
+    // Command Hardware
     roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la_val);
     roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la_val);
     
-    // Address 2: Vibe and Excav
     roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, excav_val);
     roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, vibe_val);
     
-    hopper_latch.write(hop_val);
+    hopper_latch.write(hopper_pos); // Use the toggled variable!
     kraken_left.writeMicroseconds(left_us);
     kraken_right.writeMicroseconds(right_us);
 
-    // Toggle LED to visually confirm parsing is working
+    // Toggle LED on success
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-    
-    // Print back to PC for debugging (Using proper %f for floats)
-    Serial.printf("%.2f %.2f %.2f %d %d %d %d\n", left, right, excav, la_retract, la_extend, vibe, hop_latch);
 }
 
 void loop() {
