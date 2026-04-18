@@ -7,7 +7,7 @@
 
 #define ROBOCLAW_ADDRESS_1 0x82     // Linear Actuators
 #define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
-#define HOPPER_SERVO_PIN 7          // correct
+#define HOPPER_SERVO_PIN 9          // correct
 
 // NEVER EVER TOUCH PINS 33 AND 34 THEY'RE JUMPERS NOW
 
