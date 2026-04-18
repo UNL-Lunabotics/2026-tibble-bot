@@ -60,8 +60,8 @@ namespace tibble_hwc
 
             // double left_rps = left_rad_s / (2.0 * M_PI);
             // double right_rps = right_rad_s / (2.0 * M_PI);
-            double left_pct = std::clamp(left_rad_s / 10.0, -1.0, 1.0);
-            double right_pct = std::clamp(right_rad_s / 10.0, -1.0, 1.0);
+            double left_pct = std::clamp(left_rad_s / 5.0, -1.0, 1.0);
+            double right_pct = std::clamp(right_rad_s / 5.0, -1.0, 1.0);
 
             // Use the specific units requested by the Phoenix 6 C++ API
             // controls::VelocityVoltage left_cmd{units::angular_velocity::turns_per_second_t(left_rps)};

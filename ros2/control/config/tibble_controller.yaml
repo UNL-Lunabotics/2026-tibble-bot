@@ -14,8 +14,10 @@ tibble_controller:
     wheel_separation_m: 0.5659  # allegedly correct 5659 mm
 
     excavate_speed_multiplier: 0.5
-    paddle_speed: 6.28318530718 # 2pi
-    manual_paddle_max_speed: 6.28318530718
+    # paddle_speed: 6.28318530718 # 2pi
+    # manual_paddle_max_speed: 6.28318530718
+    paddle_speed: 12.25
+    manual_paddle_max_speed: 12.25
     manual_la_speed: 0.01
 
     # technically not used anywhere
