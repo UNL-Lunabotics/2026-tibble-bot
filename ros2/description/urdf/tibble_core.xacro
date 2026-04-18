@@ -294,7 +294,7 @@
         <mesh filename="file://$(find description)/meshes/Excavation.STL" />
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.00 1.00 0.80 1" />
       </material>
     </visual>
     <collision>
@@ -340,6 +340,7 @@
     <parent link="chassis_link" />
     <child link="FL_Wheel" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -402,6 +403,7 @@
     <parent link="chassis_link" />
     <child link="BL_Wheel" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -463,6 +465,7 @@
     <parent link="chassis_link" />
     <child link="FR_Wheel" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
@@ -526,6 +529,7 @@
     <parent link="chassis_link" />
     <child link="BR_Wheel" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.001" friction="0.0"/>
   </joint>
 
 
