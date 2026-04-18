@@ -44,8 +44,8 @@ namespace tibble_hwc
             }
 
             // Set Baud Rate (Assuming 115200 for your RoboClaw passthrough/Teensy setup)
-            cfsetospeed(&tty, B9600);
-            cfsetispeed(&tty, B9600);
+            cfsetospeed(&tty, B115200);
+            cfsetispeed(&tty, B115200);
 
             // 8N1 standard serial setup (8 bits, no parity, 1 stop bit)
             tty.c_cflag &= ~PARENB; // Clear parity bit

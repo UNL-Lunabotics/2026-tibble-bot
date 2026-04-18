@@ -11,8 +11,8 @@
 
 // NEVER EVER TOUCH PINS 33 AND 34 THEY'RE JUMPERS NOW
 
-RoboClaw roboclaw_1(&Serial1, 10000); 
-RoboClaw roboclaw_2(&Serial2, 10000);
+RoboClaw roboclaw_1(&Serial1, 10); 
+RoboClaw roboclaw_2(&Serial2, 10);
 Servo hopper_latch;
 
 unsigned long last_telemetry_time = 0;
