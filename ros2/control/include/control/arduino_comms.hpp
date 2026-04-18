@@ -131,7 +131,7 @@ namespace tibble_hwc
                 if (!last_valid_line.empty() && last_valid_line[0] == 'e') {
                     int temp_la1 = 0, temp_la2 = 0;
                     
-                    if (sscanf(last_valid_line.c_str(), "e %d %d", &temp_la1, &temp_la2) == 3) {
+                    if (sscanf(last_valid_line.c_str(), "e %d %d", &temp_la1, &temp_la2) == 2) {
                         // Successfully parsed 3 values, update the references passed in!
                         la1_enc = static_cast<int32_t>(temp_la1);
                         la2_enc = static_cast<int32_t>(temp_la2);
