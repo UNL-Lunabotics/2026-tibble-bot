@@ -251,12 +251,14 @@ namespace tibble_controller
             if (joy_msg) {
                 bool extending = (joy_msg->buttons[MANUAL_LA_EXTEND_B] == 1);
                 bool retracting = (joy_msg->buttons[MANUAL_LA_RETRACT_B] == 1);
-                
+
                 // Linear Actuator (Pseudo-Velocity)
-                if (joy_msg->buttons[MANUAL_LA_EXTEND_B] == 1) {
+                if (extending) {
                     manual_la_pos_ += manual_la_speed_ * period.seconds();
-                } else if (joy_msg->buttons[MANUAL_LA_RETRACT_B] == 1) {
+                } else if (retracting) {
                     manual_la_pos_ -= manual_la_speed_ * period.seconds();
+                } else {
+                    // Do nothing
                 }
                 // Clamp LA position between physical bounds
                 manual_la_pos_ = std::clamp(manual_la_pos_, -0.2, LA_DUMP_POS);
