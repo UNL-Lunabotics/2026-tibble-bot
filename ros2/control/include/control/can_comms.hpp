@@ -58,8 +58,10 @@ namespace tibble_hwc
             // a periodic enable signal. This keeps the motors active for 100ms.
             ctre::phoenix::unmanaged::FeedEnable(100); 
 
-            double left_rps = left_rad_s / (2.0 * M_PI);
-            double right_rps = right_rad_s / (2.0 * M_PI);
+            // double left_rps = left_rad_s / (2.0 * M_PI);
+            // double right_rps = right_rad_s / (2.0 * M_PI);
+            double left_pct = std::clamp(left_rad_s / 10.0, -1.0, 1.0);
+            double right_pct = std::clamp(right_rad_s / 10.0, -1.0, 1.0);
 
             // Use the specific units requested by the Phoenix 6 C++ API
             controls::VelocityVoltage left_cmd{units::angular_velocity::turns_per_second_t(left_rps)};
