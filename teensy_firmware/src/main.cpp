@@ -55,6 +55,7 @@ void execute_command(const char* cmd) {
                 roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la2);
                 
                 // Address 2: Vibe and Excav
+                int inverted_excav = 64 - (excav - 64); // fix this later its sloppy
                 roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, excav);
                 roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, vibe);
                 
