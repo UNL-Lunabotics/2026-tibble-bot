@@ -64,8 +64,11 @@ namespace tibble_hwc
             double right_pct = std::clamp(right_rad_s / 10.0, -1.0, 1.0);
 
             // Use the specific units requested by the Phoenix 6 C++ API
-            controls::VelocityVoltage left_cmd{units::angular_velocity::turns_per_second_t(left_rps)};
-            controls::VelocityVoltage right_cmd{units::angular_velocity::turns_per_second_t(right_rps)};
+            // controls::VelocityVoltage left_cmd{units::angular_velocity::turns_per_second_t(left_rps)};
+            // controls::VelocityVoltage right_cmd{units::angular_velocity::turns_per_second_t(right_rps)};
+
+            controls::DutyCycleOut left_cmd{left_pct};
+            controls::DutyCycleOut right_cmd{right_pct};
 
             left_talon_->SetControl(left_cmd);
             right_talon_->SetControl(right_cmd);
