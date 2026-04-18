@@ -245,6 +245,7 @@ namespace tibble_controller
 
         // --- Fourth, Mode Execution Logic ---
         if (manual_mode_) {
+            println("==========================================\nMANUAL MODE ACTIVATED\n==========================================")
             // ==========================================
             // MANUAL MODE LOGIC
             // ==========================================
