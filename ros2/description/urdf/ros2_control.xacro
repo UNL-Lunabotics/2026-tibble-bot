@@ -5,7 +5,7 @@
     <xacro:unless value="$(arg use_sim)">
         <ros2_control name="Tibble" type="system">
 
-            <hardware>  <!-- This defines all the params needed for the hardware component -->
+            <hardware>                <!-- This defines all the params needed for the hardware component -->
                 <plugin>tibble_hwc/TibbleHWC</plugin>
                 <param name="serial_port">/dev/ttyACM0</param>
                 <param name="baud_rate">115200</param>
