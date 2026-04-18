@@ -249,6 +249,9 @@ namespace tibble_controller
             // MANUAL MODE LOGIC
             // ==========================================
             if (joy_msg) {
+                bool extending = (joy_msg->buttons[MANUAL_LA_EXTEND_B] == 1);
+                bool retracting = (joy_msg->buttons[MANUAL_LA_RETRACT_B] == 1);
+                
                 // Linear Actuator (Pseudo-Velocity)
                 if (joy_msg->buttons[MANUAL_LA_EXTEND_B] == 1) {
                     manual_la_pos_ += manual_la_speed_ * period.seconds();
