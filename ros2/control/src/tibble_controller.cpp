@@ -25,7 +25,6 @@ namespace tibble_controller
         return config;
     }
 
-
     controller_interface::InterfaceConfiguration TibbleController::state_interface_configuration() const
     {
         controller_interface::InterfaceConfiguration config;
@@ -42,7 +41,6 @@ namespace tibble_controller
         return config;
     }
 
-
     controller_interface::CallbackReturn TibbleController::on_init()
     {
         try
@@ -51,6 +49,8 @@ namespace tibble_controller
             auto_declare<double>("wheel_radius_m", 0.0);
             auto_declare<double>("wheel_separation_m", 0.0);
             auto_declare<double>("paddle_speed", 0.0);
+            auto_declare<double>("manual_paddle_max_speed", 0.0);
+            auto_declare<double>("manual_la_speed", 0.0);
         }
         catch(const std::exception& e)
         {
@@ -60,15 +60,14 @@ namespace tibble_controller
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-
     controller_interface::CallbackReturn TibbleController::on_configure(const rclcpp_lifecycle::State &)
     {
         // Set local variables to the node parameter values
         wheel_radius_ = get_node()->get_parameter("wheel_radius_m").as_double();
         wheel_separation_ = get_node()->get_parameter("wheel_separation_m").as_double();
         paddle_speed_ = get_node()->get_parameter("paddle_speed").as_double();
-
-        // Initialize the realtime buffers if you have any
+        manual_paddle_max_speed_ = get_node()->get_parameter("manual_paddle_max_speed").as_double();
+        manual_la_speed_ = get_node()->get_parameter("manual_la_speed").as_double();
 
         // ROS subscriptions
         cmd_vel_sub_ = get_node()->create_subscription<geometry_msgs::msg::Twist>(
@@ -92,10 +91,10 @@ namespace tibble_controller
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-
     controller_interface::CallbackReturn TibbleController::on_activate(const rclcpp_lifecycle::State &)
     {
         current_state_ = TibbleState::IDLE;
+        manual_mode_ = false;
 
         twist_cmd_buffer_.reset();
         joy_cmd_buffer_.reset();
@@ -105,6 +104,13 @@ namespace tibble_controller
         odom_y_ = 0.0;
         odom_theta_ = 0.0;
         first_update_ = true;
+        
+        // Manual mode reset
+        latch_state_ = true;
+        vibe_state_ = false;
+        prev_manual_toggle_b_ = false;
+        prev_latch_toggle_b_ = false;
+        prev_vibe_toggle_b_ = false;
 
         odom_pub_->on_activate();
 
@@ -117,17 +123,16 @@ namespace tibble_controller
         return controller_interface::CallbackReturn::SUCCESS;
     }
    
-   
     controller_interface::CallbackReturn TibbleController::on_deactivate(const rclcpp_lifecycle::State &)
     {
         current_state_ = TibbleState::IDLE;
+        manual_mode_ = false;
 
         odom_pub_->on_deactivate();
 
         RCLCPP_INFO(get_node()->get_logger(), "Deactivated TibbleController.");
         return controller_interface::CallbackReturn::SUCCESS;
     }
-
 
     controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
     {
@@ -142,11 +147,11 @@ namespace tibble_controller
         double current_right_pos = state_interfaces_[3].get_optional().value_or(0.0);
         double current_la_pos = state_interfaces_[4].get_optional().value_or(0.0);
 
-
         // --- Second, odometry math ---
         if (first_update_) {
             last_left_wheel_pos_ = current_left_pos;
             last_right_wheel_pos_ = current_right_pos;
+            manual_la_pos_ = current_la_pos; // Init manual position tracker
             first_update_ = false;
         }
 
@@ -200,42 +205,31 @@ namespace tibble_controller
         tf_msg.transform.rotation.w = q_w;
         tf_broadcaster_->sendTransform(tf_msg);
 
-
-        // --- Third, state logic ---
+        // --- Third, read commands and process mode toggle ---
         auto twist_msg = twist_cmd_buffer_.readFromRT();
         auto joy_msg = joy_cmd_buffer_.readFromRT();
 
-        if (joy_msg && joy_msg->buttons.size() >= (long)STATE_DUMP_B) {
-            if (joy_msg->buttons[STATE_IDLE_B] == 1) {
-                current_state_ = TibbleState::IDLE;
-            } else if (joy_msg->buttons[STATE_TRAVEL_B] == 1) {
-                current_state_ = TibbleState::TRAVEL;
-            } else if (joy_msg->buttons[STATE_EXCAVATE_B] == 1) {
-                current_state_ = TibbleState::EXCAVATE;
-            } else if (joy_msg->buttons[STATE_DUMP_B] == 1) {
-                current_state_ = TibbleState::DUMP;
+        if (joy_msg && joy_msg->buttons.size() > (size_t)std::max({MANUAL_TOGGLE_B, STATE_DUMP_B, MANUAL_VIBE_TOGGLE_B})) {
+            
+            // Check for mode toggle edge detection
+            bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
+            if (current_manual_toggle && !prev_manual_toggle_b_) {
+                manual_mode_ = !manual_mode_;
+                
+                if (manual_mode_) {
+                    // Switching TO manual: initialize LA target to current physical position to prevent jumping
+                    manual_la_pos_ = current_la_pos;
+                } else {
+                    // Switching TO state machine: default to IDLE for safety
+                    current_state_ = TibbleState::IDLE;
+                }
             }
+            prev_manual_toggle_b_ = current_manual_toggle;
         }
 
-        // Timer management for sequential steps in state transitions
-        if (current_state_ != previous_state_) {
-            state_timer_ = 0.0;
-            previous_state_ = current_state_;
-        } else {
-            state_timer_ += period.seconds();
-        }
-
-
-        // --- Fourth, kinematics and output commands ---
+        // Initialize safe output defaults
         double target_v = 0.0;
         double target_w = 0.0;
-        
-        if (twist_msg && twist_msg) {
-            target_v = twist_msg->linear.x;
-            target_w = twist_msg->angular.z;
-        }
-
-        // Initialize safe defaults
         double cmd_left_wheel = 0.0;
         double cmd_right_wheel = 0.0;
         double cmd_la_pos = LA_REST_POS;
@@ -243,63 +237,128 @@ namespace tibble_controller
         double cmd_vibe = 0.0;     // 0.0 = off, 1.0 = on
         double cmd_latch = 1.0;    // 1.0 = latched, 0.0 = unlatched
 
-        double speed_multiplier = 1.0;
-
-        // --- THE STATE MACHINE ---
-        switch (current_state_) {
-            
-            case TibbleState::IDLE:
-                // Safe defaults are already set above
-                break;
-
-            case TibbleState::TRAVEL:
-                // Only change is drivetrain is on, logic handled outside switch 
-                break;
-
-            case TibbleState::EXCAVATE:
-                speed_multiplier = 0.5; // Slow down drivetrain while excavating
-                
-                // Sequence 1: Start vibe immediately
-                cmd_vibe = 1.0;
-
-                // Sequence 2: Set LA's to EXCAV
-                cmd_la_pos = LA_EXCAV_POS;
-
-                // Sequence 3: Only start paddles if LA is fully retracted (within error)
-                if (std::abs(current_la_pos - LA_EXCAV_POS) < 0.01) {
-                    cmd_excav_vel = paddle_speed_;
-                }
-                break;
-
-            case TibbleState::DUMP:
-                speed_multiplier = 0.3; // Slow down drivetrain while dumping
-                
-                // Sequence 1: Unlatch immediately
-                cmd_latch = 0.0;
-
-                // Sequence 2: Extend LAs after latch has time to open
-                if (state_timer_ > DUMP_LA_DELAY) {
-                    cmd_la_pos = LA_DUMP_POS;
-                }
-
-                // Sequence 3: Turn on vibe motor to shake out regolith once fully tipped
-                if (state_timer_ > DUMP_VIBE_DELAY) {
-                    cmd_vibe = 1.0;
-                }
-                break;
+        // Read drivetrain twist
+        if (twist_msg) {
+            target_v = twist_msg->linear.x;
+            target_w = twist_msg->angular.z;
         }
 
-        // Differential Drive Math (applied for TRAVEL, EXCAVATE, and DUMP)
-        if (current_state_ != TibbleState::IDLE) {
-            target_v *= speed_multiplier;   // apply speed multiplier if necessary
-            target_w *= speed_multiplier;
+        // --- Fourth, Mode Execution Logic ---
+        if (manual_mode_) {
+            // ==========================================
+            // MANUAL MODE LOGIC
+            // ==========================================
+            if (joy_msg) {
+                // Linear Actuator (Pseudo-Velocity)
+                if (joy_msg->buttons[MANUAL_LA_EXTEND_B] == 1) {
+                    manual_la_pos_ += manual_la_speed_ * period.seconds();
+                } else if (joy_msg->buttons[MANUAL_LA_RETRACT_B] == 1) {
+                    manual_la_pos_ -= manual_la_speed_ * period.seconds();
+                }
+                // Clamp LA position between physical bounds
+                manual_la_pos_ = std::clamp(manual_la_pos_, LA_EXCAV_POS, LA_DUMP_POS);
+                cmd_la_pos = manual_la_pos_;
 
+                // Excavation (Axis 3)
+                if (joy_msg->axes.size() > (size_t)MANUAL_EXCAV_AXIS) {
+                    double excav_axis = joy_msg->axes[MANUAL_EXCAV_AXIS];
+                    // Map -1.0 -> 1.0 to 0.0 -> max_speed
+                    cmd_excav_vel = ((excav_axis + 1.0) / 2.0) * manual_paddle_max_speed_;
+                }
+
+                // Latch Toggle
+                bool current_latch_btn = (joy_msg->buttons[MANUAL_LATCH_TOGGLE_B] == 1);
+                if (current_latch_btn && !prev_latch_toggle_b_) {
+                    latch_state_ = !latch_state_;
+                }
+                prev_latch_toggle_b_ = current_latch_btn;
+                cmd_latch = latch_state_ ? 1.0 : 0.0;
+
+                // Vibe Toggle
+                bool current_vibe_btn = (joy_msg->buttons[MANUAL_VIBE_TOGGLE_B] == 1);
+                if (current_vibe_btn && !prev_vibe_toggle_b_) {
+                    vibe_state_ = !vibe_state_;
+                }
+                prev_vibe_toggle_b_ = current_vibe_btn;
+                cmd_vibe = vibe_state_ ? 1.0 : 0.0;
+            }
+
+            // Differential Drive Math (No speed multipliers in manual)
             cmd_left_wheel = (target_v - target_w * wheel_separation_ / 2.0) / wheel_radius_;
             cmd_right_wheel = (target_v + target_w * wheel_separation_ / 2.0) / wheel_radius_;
+
+        } else {
+            // ==========================================
+            // STATE MACHINE LOGIC
+            // ==========================================
+            if (joy_msg && joy_msg->buttons.size() >= (size_t)STATE_DUMP_B) {
+                if (joy_msg->buttons[STATE_IDLE_B] == 1) {
+                    current_state_ = TibbleState::IDLE;
+                } else if (joy_msg->buttons[STATE_TRAVEL_B] == 1) {
+                    current_state_ = TibbleState::TRAVEL;
+                } else if (joy_msg->buttons[STATE_EXCAVATE_B] == 1) {
+                    current_state_ = TibbleState::EXCAVATE;
+                } else if (joy_msg->buttons[STATE_DUMP_B] == 1) {
+                    current_state_ = TibbleState::DUMP;
+                }
+            }
+
+            // Timer management for sequential steps
+            if (current_state_ != previous_state_) {
+                state_timer_ = 0.0;
+                previous_state_ = current_state_;
+            } else {
+                state_timer_ += period.seconds();
+            }
+
+            double speed_multiplier = 1.0;
+
+            switch (current_state_) {
+                case TibbleState::IDLE:
+                    // Safe defaults are already set above
+                    break;
+
+                case TibbleState::TRAVEL:
+                    // Drivetrain runs, default positions hold
+                    break;
+
+                case TibbleState::EXCAVATE:
+                    speed_multiplier = 0.5; // Slow down drivetrain
+                    
+                    cmd_vibe = 1.0;
+                    cmd_la_pos = LA_EXCAV_POS;
+
+                    // Start paddles if LA is fully retracted
+                    if (std::abs(current_la_pos - LA_EXCAV_POS) < 0.01) {
+                        cmd_excav_vel = paddle_speed_;
+                    }
+                    break;
+
+                case TibbleState::DUMP:
+                    speed_multiplier = 0.3; // Slow down drivetrain
+                    
+                    cmd_latch = 0.0; // Unlatch immediately
+
+                    if (state_timer_ > DUMP_LA_DELAY) {
+                        cmd_la_pos = LA_DUMP_POS;
+                    }
+                    if (state_timer_ > DUMP_VIBE_DELAY) {
+                        cmd_vibe = 1.0;
+                    }
+                    break;
+            }
+
+            // Differential Drive Math (applied for TRAVEL, EXCAVATE, and DUMP)
+            if (current_state_ != TibbleState::IDLE) {
+                target_v *= speed_multiplier;
+                target_w *= speed_multiplier;
+
+                cmd_left_wheel = (target_v - target_w * wheel_separation_ / 2.0) / wheel_radius_;
+                cmd_right_wheel = (target_v + target_w * wheel_separation_ / 2.0) / wheel_radius_;
+            }
         }
 
-
-        // --- Fourth, write commands ---
+        // --- Fifth, write commands ---
         
         // Order is declaration order in command_interface_configuration()
         (void)command_interfaces_[0].set_value(cmd_left_wheel);

@@ -66,6 +66,8 @@ namespace tibble_controller
             double wheel_radius_;
             double wheel_separation_;
             double paddle_speed_;
+            double manual_paddle_max_speed_;
+            double manual_la_speed_;
 
             // State machine enum
             enum class TibbleState {
@@ -76,6 +78,8 @@ namespace tibble_controller
             };
             TibbleState current_state_ = TibbleState::IDLE;
             TibbleState previous_state_ = TibbleState::IDLE;
+
+            bool manual_mode_ = false;
 
             // LA target positions (in meters)
             const double LA_REST_POS = 0.00762; // 0.3 inches
@@ -94,9 +98,23 @@ namespace tibble_controller
             const int STATE_EXCAVATE_B = 8; // 9
             const int STATE_DUMP_B = 9;     // 10
 
-            // general control schema [wireless 8bit]
-            // in order, left to right, starting at 0
-            // A, B, X, Y, LB, RB. Triggers and dpad are axes for some reason
+            // Manual mode tracking variables
+            double manual_la_pos_ = LA_REST_POS;
+            bool latch_state_ = true;  // true = latched
+            bool vibe_state_ = false;  // false = off
+
+            // Edge detection for toggles
+            bool prev_manual_toggle_b_ = false;
+            bool prev_latch_toggle_b_ = false;
+            bool prev_vibe_toggle_b_ = false;
+
+            // Manual Mode Button/Axis scheme placeholders
+            const int MANUAL_TOGGLE_B = 10;       // 11
+            const int MANUAL_LA_EXTEND_B = 6;     // 7
+            const int MANUAL_LA_RETRACT_B = 7;    // 8
+            const int MANUAL_LATCH_TOGGLE_B = 8;  // 9
+            const int MANUAL_VIBE_TOGGLE_B = 9;   // 10
+            const int MANUAL_EXCAV_AXIS = 3;      // Latch toggly thing
 
             // Odometry vars
             double odom_x_ = 0.0;
