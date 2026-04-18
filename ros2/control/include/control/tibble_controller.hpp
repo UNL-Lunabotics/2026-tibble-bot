@@ -114,7 +114,7 @@ namespace tibble_controller
             const int MANUAL_LA_RETRACT_B = 7;    // 8
             const int MANUAL_LATCH_TOGGLE_B = 8;  // 9
             const int MANUAL_VIBE_TOGGLE_B = 9;   // 10
-            const int MANUAL_EXCAV_AXIS = 3;      // Latch toggly thing
+            const int MANUAL_EXCAV_AXIS = 3;      // Throttle
 
             // Odometry vars
             double odom_x_ = 0.0;
