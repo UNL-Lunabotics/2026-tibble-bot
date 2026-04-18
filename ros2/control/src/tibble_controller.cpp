@@ -256,7 +256,7 @@ namespace tibble_controller
                     manual_la_pos_ -= manual_la_speed_ * period.seconds();
                 }
                 // Clamp LA position between physical bounds
-                manual_la_pos_ = std::clamp(manual_la_pos_, LA_EXCAV_POS, LA_DUMP_POS);
+                manual_la_pos_ = std::clamp(manual_la_pos_, -0.2, LA_DUMP_POS);
                 cmd_la_pos = manual_la_pos_;
 
                 // Excavation (Axis 3)
