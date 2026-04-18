@@ -152,7 +152,7 @@ namespace tibble_hwc
         int la_pwm = 64 + std::clamp(static_cast<int>(la_error_meters * kP), -63, 63);
         
         // Deadband: If we are within 1mm of the target, stop the motor to prevent jittering
-        if (std::abs(la_error_meters) < 0.001) {
+        if (std::abs(la_error_meters) < 0.005) {
             la_pwm = 64; 
         }
 
@@ -161,7 +161,7 @@ namespace tibble_hwc
         if (cmd_excav_vel_ > 0.0) {
             // Map 0 -> 12.25 rad/s to 64 -> 127 PWM
             double excav_ratio = cmd_excav_vel_ / EXCAV_MAX_RAD_S;
-            excav_pwm = 64 + std::clamp(static_cast<int>(excav_ratio * 63.0), 0, 63);
+            excav_pwm = 64 - std::clamp(static_cast<int>(excav_ratio * 63.0), -63, 63);
         }
 
         // 4. Vibe Pseudo-Boolean -> PWM Conversion
