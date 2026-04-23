@@ -10,6 +10,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     control_pkg = FindPackageShare("control")
+    bringup_pkg = FindPackageShare("bringup")
 
     # --- Nodes ---
     joy_node = Node(
@@ -26,8 +27,18 @@ def generate_launch_description():
         parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"]
     )
 
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="log",
+        arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
+        condition=IfCondition(LaunchConfiguration("gui")),
+    )
+
     return LaunchDescription([
-        DeclareLaunchArgument("gui", default_value="false"),
+        DeclareLaunchArgument("gui", default_value="true"),
         joy_node,
         teleop_node,
+        rviz_node
     ])

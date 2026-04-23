@@ -7,11 +7,13 @@ from launch.substitutions import Command, LaunchConfiguration, PathSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
     control_pkg = FindPackageShare("control")
     description_pkg = FindPackageShare("description")
-    bringup_pkg = FindPackageShare("bringup")
+    realsense_pkg = FindPackageShare("realsense2_camera")
 
     robot_description_content = ParameterValue(
         Command(
@@ -63,13 +65,24 @@ def generate_launch_description():
         )
     )
 
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
-        condition=IfCondition(LaunchConfiguration("gui")),
+    camera_front = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
+        launch_arguments={
+            'camera_name': 'camera_front',
+            'serial_no': '_INSERT_SERIAL_NUMBER_1_',    # TODO
+            'enable_depth': 'true',
+            'enable_color': 'true',
+        }.items()
+    )
+
+    camera_rear = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
+        launch_arguments={
+            'camera_name': 'camera_rear',
+            'serial_no': '_INSERT_SERIAL_NUMBER_2_',    # TODO
+            'enable_depth': 'true',
+            'enable_color': 'true',
+        }.items()
     )
 
     return LaunchDescription([
@@ -78,5 +91,6 @@ def generate_launch_description():
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
-        rviz_node
+        camera_front,
+        camera_rear
     ])
