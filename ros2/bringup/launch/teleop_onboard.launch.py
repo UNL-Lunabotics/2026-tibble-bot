@@ -92,5 +92,5 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
         camera_front,
-        camera_rear
+        # camera_rear
     ])
