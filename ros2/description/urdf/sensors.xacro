@@ -11,13 +11,15 @@
 
     <!-- The camera is represented by a simple box and cylinder floating above the bot-->
 
+    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
     <xacro:sensor_d435 name="camera_front" parent="base_link" use_nominal_extrinsics="true">
         <origin xyz="0.3 0.0 0.15" rpy="0 0 0"/>
     </xacro:sensor_d435>
 
     <xacro:sensor_d435 name="camera_rear" parent="base_link" use_nominal_extrinsics="true">
         <origin xyz="-0.3 0.0 0.15" rpy="0 0 3.14159"/>
-    </xacro:sensor_d435>     
+    </xacro:sensor_d435>
 
     <!-- LiDAR -->
     <joint name="lidar_joint" type="fixed">
