@@ -69,7 +69,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
         launch_arguments={
             'camera_name': 'camera_front',
-            'serial_no': '033322071026',
+            'serial_no': "'033322071026'",
             'enable_depth': 'true',
             'enable_color': 'true',
         }.items()
