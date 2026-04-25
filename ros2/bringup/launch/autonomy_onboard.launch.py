@@ -97,6 +97,24 @@ def generate_launch_description():
         ],
         output='screen'
     )
+    
+    slam_toolbox = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathSubstitution(FindPackageShare("slam_toolbox")), "/launch/online_async_launch.py"]
+        ),
+        launch_arguments={'use_sim_time': 'false'}.items(),
+    )
+    
+    # Launches the navigation stack (planner, controller, behavior trees)
+    nav2_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathSubstitution(FindPackageShare("nav2_bringup")), "/launch/navigation_launch.py"]
+        ),
+        launch_arguments={
+            'use_sim_time': 'false',
+            'params_file': [PathSubstitution(FindPackageShare("bringup")), "/config/nav2_params.yaml"]
+        }.items(),
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
@@ -106,5 +124,7 @@ def generate_launch_description():
         delay_tibble_controller_spawner,
         camera_front,
         # camera_rear,
-        rplidar
+        rplidar,
+        slam_toolbox,
+        nav2_bringup,
     ])
