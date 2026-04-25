@@ -161,7 +161,7 @@ namespace tibble_hwc
         if (cmd_excav_vel_ > 0.0) {
             // Map 0 -> 12.25 rad/s to 64 -> 127 PWM
             double excav_ratio = cmd_excav_vel_ / EXCAV_MAX_RAD_S;
-            excav_pwm = 64 - std::clamp(static_cast<int>(excav_ratio * 63.0), -63, 63);
+            excav_pwm = 64 + std::clamp(static_cast<int>(excav_ratio * 63.0), -63, 63);
         }
 
         // 4. Vibe Pseudo-Boolean -> PWM Conversion
