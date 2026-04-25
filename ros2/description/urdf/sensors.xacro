@@ -2,15 +2,8 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- Define the joint/link for the sensors -->
+
     <!-- Camera -->
-    <joint name="camera_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="camera_link"/>
-        <origin xyz="0 0.27 0" rpy="-${pi/2} -${pi/2} 0"/>
-    </joint>
-
-    <!-- The camera is represented by a simple box and cylinder floating above the bot-->
-
     <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
 
     <xacro:sensor_d435 name="camera_front" parent="base_link" use_nominal_extrinsics="true">
