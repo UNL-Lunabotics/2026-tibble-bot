@@ -168,7 +168,7 @@ namespace tibble_hwc
         int vibe_pwm = (cmd_vibe_enabled_ > 0.5) ? 127 : 64;
 
         // 5. Latch Pseudo-Boolean -> Servo Angle Conversion
-        int latch_angle = (cmd_hop_latched_ > 0.5) ? 200 : 0;
+        int latch_angle = (cmd_hop_latched_ > 0.5) ? 180 : 10;
 
         // 6. Send the formatted command to the Teensy
         // Assuming ArduinoComms handles formatting into "c %d %d %d %d %d\n"

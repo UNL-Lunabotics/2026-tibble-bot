@@ -321,6 +321,7 @@ namespace tibble_controller
             switch (current_state_) {
                 case TibbleState::IDLE:
                     // Safe defaults are already set above
+                    cmd_latch = 1.0;
                     break;
 
                 case TibbleState::TRAVEL:
