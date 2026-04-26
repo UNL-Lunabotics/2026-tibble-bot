@@ -111,6 +111,7 @@ namespace tibble_controller
         prev_manual_toggle_b_ = false;
         prev_latch_toggle_b_ = false;
         prev_vibe_toggle_b_ = false;
+        first_joy_update_ = true;
 
         odom_pub_->on_activate();
 
@@ -212,15 +213,22 @@ namespace tibble_controller
         if (joy_msg && joy_msg->buttons.size() > (size_t)std::max({MANUAL_TOGGLE_B, STATE_DUMP_B, MANUAL_VIBE_TOGGLE_B})) {
             
             // Check for mode toggle edge detection
-            bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
-            if (current_manual_toggle && !prev_manual_toggle_b_) {
-                manual_mode_ = !manual_mode_;
-                
-                if (!manual_mode_) {
-                    current_state_ = TibbleState::IDLE;
+            if (first_joy_update_) {
+                prev_manual_toggle_b_ = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
+                prev_latch_toggle_b_ = (joy_msg->buttons[MANUAL_LATCH_TOGGLE_B] == 1);
+                prev_vibe_toggle_b_ = (joy_msg->buttons[MANUAL_VIBE_TOGGLE_B] == 1);
+                first_joy_update_ = false;
+            } else {
+                bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
+                if (current_manual_toggle && !prev_manual_toggle_b_) {
+                    manual_mode_ = !manual_mode_;
+                    
+                    if (!manual_mode_) {
+                        current_state_ = TibbleState::IDLE;
+                    }
                 }
+                prev_manual_toggle_b_ = current_manual_toggle;
             }
-            prev_manual_toggle_b_ = current_manual_toggle;
         }
 
         // Initialize safe output defaults
