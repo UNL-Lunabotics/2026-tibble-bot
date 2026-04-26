@@ -216,11 +216,7 @@ namespace tibble_controller
             if (current_manual_toggle && !prev_manual_toggle_b_) {
                 manual_mode_ = !manual_mode_;
                 
-                if (manual_mode_) {
-                    // Switching TO manual: initialize LA target to current physical position to prevent jumping
-                    manual_la_pos_ = current_la_pos;
-                } else {
-                    // Switching TO state machine: default to IDLE for safety
+                if (!manual_mode_) {
                     current_state_ = TibbleState::IDLE;
                 }
             }
@@ -254,17 +250,14 @@ namespace tibble_controller
 
                 // Linear Actuator (Pseudo-Velocity)
                 if (extending) {
-                    manual_la_pos_ += manual_la_speed_ * period.seconds();
+                    cmd_la_pos = current_la_pos + 1.0;
                 } else if (retracting) {
-                    manual_la_pos_ -= manual_la_speed_ * period.seconds();
+                    cmd_la_pos = current_la_pos - 1.0;
                 } else {
-                    // Do nothing
+                    cmd_la_pos = current_la_pos;
                 }
-                // Clamp LA position between physical bounds
-                manual_la_pos_ = std::clamp(manual_la_pos_, -0.2, LA_DUMP_POS);
-                cmd_la_pos = manual_la_pos_;
-
-                // Excavation (Axis 3)
+  
+                // Excavation
                 if (joy_msg->axes.size() > (size_t)MANUAL_EXCAV_AXIS) {
                     double excav_axis = joy_msg->axes[MANUAL_EXCAV_AXIS];
                     // Map -1.0 -> 1.0 to 0.0 -> max_speed
