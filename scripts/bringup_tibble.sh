@@ -10,92 +10,82 @@
 #               terminals ready for use on both computers. Specifically meant
 #               to work with Fedora 43 and Ubuntu 24.04. The -a option will use
 #               the wifi antenna instead of the built in wifi card.
-# USAGE:        sudo ./bringup_tibble.sh [-a]
-# DEPENDS:      bash, sudo, docker, docker compose, docker cli, ssh
+# USAGE:        ./bringup_tibble.sh [-a]
+# DEPENDS:      bash, docker, docker compose, docker cli, ssh, sshpasss, tmux
 # LICENSE:      Apache 2.0
 # -----------------------------------------------------------------------------
 
 set -euo pipefail
 
-# Parse arguments
-USE_ANTENNA="false"
+# Parse optional use antenna argument (default false)
+USE_ANTENNA=0
 while getopts "a" opt; do
-    case ${opt} in
-        a ) USE_ANTENNA="true" ;;
-        \? ) echo "Usage: $0 [-a]" >&2; exit 1 ;;
-    esac
+  case ${opt} in
+    a ) USE_ANTENNA=1 ;;
+    \? ) echo "Usage: ./bringup.sh [-a]"
+         echo "  -a: Configure the optional Wi-Fi antenna on the onboard computer"
+         exit 1 ;;
+  esac
 done
-shift $((OPTIND -1))
 
-#Load .env file for variables
-ENV_FILE="$(dirname "$0")/.env"
-
-if [ -f "$ENV_FILE" ]; then
-    # Automatically export all variables loaded from the .env file
-    set -a
-    source "$ENV_FILE"
-    set +a
-    echo "Configuration loaded from $ENV_FILE"
+# Load the .env
+if [ -f .env ]; then
+  set -a
+  source .env
+  set +a
 else
-    echo "ERROR: Configuration file not found at $ENV_FILE"
-    echo "Please create a .env file with your required variables."
+  echo "[ERROR] .env file not found in the current directory."
+  exit 1
+fi
+
+# Verify sshpass is installed
+if ! command -v sshpass &> /dev/null; then
+    echo "[ERROR] sshpass is not installed."
     exit 1
 fi
 
-echo "Initiating Tibble Bringup Sequence..."
+SESSION_NAME="tibble_bringup"
 
-# Check if Fedora or Ubuntu 24.04
-if command -v konsole >/dev/null 2>&1; then
-    LAUNCH_CMD="konsole --new-tab -e bash -c"
-elif command -v gnome-terminal >/dev/null 2>&1; then
-    LAUNCH_CMD="gnome-terminal --tab -- bash -c"
-else
-    echo "ERROR: No supported terminal emulator found (Konsole or GNOME Terminal)."
-    exit 1
+# Kill the session if it's already running to start fresh
+tmux kill-session -t $SESSION_NAME 2>/dev/null
+
+# BUILD THE DOCKER CONTAINER TERMINAL
+# Check if running -> Start if not -> Exec into it -> Source ROS2 -> Drop to interactive bash
+DOCKER_CMD="
+if [ \"\$(docker inspect -f '{{.State.Running}}' $DOCKER_CONTAINER_NAME 2>/dev/null)\" != \"true\" ]; then 
+    echo 'Starting Docker container...'; 
+    docker compose up -d; 
+fi; 
+docker exec -it $DOCKER_CONTAINER_NAME bash -c 'source /opt/ros/jazzy/setup.bash && source install/setup.bash && exec bash'
+"
+
+# BUILD THE ONBOARD TERMINAL
+REMOTE_CMDS=""
+
+# Optionally append the antenna config
+if [ $USE_ANTENNA -eq 1 ]; then
+    REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S nmcli device wifi connect '$WIFI_SSID' password '$WIFI_PASSWORD' ifname '$ANTENNA_SERIAL'; "
 fi
 
-# Set up the groundstation console
-$LAUNCH_CMD "
-    echo 'Setting up groundstation console...';
-    cd $REPO_PATH_GROUNDSTATION;
+# Append CAN setup, sourcing, and drop to interactive bash
+REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 down; "
+REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 up type can bitrate 1000000; "
+REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 txqueuelen 1000; "
+REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 up; "
+REMOTE_CMDS+="cd $ONBOARD_REPO_PATH; "
+REMOTE_CMDS+="source /opt/ros/jazzy/setup.bash; "
+REMOTE_CMDS+="source install/setup.bash; "
+REMOTE_CMDS+="exec bash"
 
-    docker compose up -d;
-    
-    echo 'Attaching to container...';
-    docker exec -it $DOCKER_CONTAINER_NAME bash --rcfile <(echo '. /opt/ros/jazzy/setup.bash && . install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\"');
-" &
+# LAUNCH THE TERMINALS
+echo "Launching environment..."
 
+# Pane 0 (Left): Create a new detached tmux session and run the Docker logic
+tmux new-session -d -s "$SESSION_NAME" "bash -c \"$DOCKER_CMD\""
 
-# Set up onboard console
-$LAUNCH_CMD "
-    echo 'Setting up onboard console...';
-    
-    ssh -t $MINI_PC_USER@$MINI_PC_IP '
-        echo \"Configuring network interfaces...\";
-        
-        if [ \"$USE_ANTENNA\" = \"true\" ]; then
-            echo \"Antenna flag (-a) detected. Using external antenna...\";
-            sudo nmcli device disconnect wlp3s0;
-            sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASS\" ifname $ANTENNA_SERIAL;
-        else
-            echo \"No antenna flag detected. Using built-in wifi...\";
-            sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASS\";
-        fi
+# Pane 1 (Right): Split the window horizontally and run the SSH logic
+# Note: -o StrictHostKeyChecking=accept-new prevents the script from hanging on first-time connections
+tmux split-window -h -t "$SESSION_NAME:0" "sshpass -p '$ONBOARD_SSH_PASSWORD' ssh -o StrictHostKeyChecking=accept-new -t $ONBOARD_USERNAME@$ONBOARD_IP \"$REMOTE_CMDS\""
 
-        echo \"Bringing up CAN interface (can0)...\";
-        sudo ip link set can0 down;
-        sudo ip link set can0 up type can bitrate 1000000;
-        sudo ip link set can0 txqueuelen 1000;
-        sudo ip link set can0 up;
-        
-        echo \"Checking CAN status...\";
-        ip link show can0;
-
-        echo \"Entering workspace...\";
-        cd ~/GitHub/2026-tibble-bot/;
-        
-        bash --rcfile <(echo '. install/setup.bash && echo -e \"\n\033[1;32mOnboard Ready for Launch!\033[0m\n\"');
-    '
-" &
-
-echo "SUCCESS. Both terminals should be open and ready for groundstation and onboard commands."
+# Attach your current terminal to the newly created session
+tmux attach-session -t "$SESSION_NAME"
