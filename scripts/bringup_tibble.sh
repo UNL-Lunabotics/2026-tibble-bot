@@ -11,7 +11,7 @@
 #               to work with Fedora 43 and Ubuntu 24.04. The -a option will use
 #               the wifi antenna instead of the built in wifi card.
 # USAGE:        ./bringup_tibble.sh [-a]
-# DEPENDS:      bash, docker, docker compose, docker cli, ssh, sshpasss, tmux
+# DEPENDS:      bash, docker, docker compose, docker cli, ssh, tmux
 # LICENSE:      Apache 2.0
 # -----------------------------------------------------------------------------
 
@@ -38,54 +38,46 @@ else
   exit 1
 fi
 
-# Verify sshpass is installed
-if ! command -v sshpass &> /dev/null; then
-    echo "[ERROR] sshpass is not installed."
-    exit 1
-fi
-
 SESSION_NAME="tibble_bringup"
 
 # Kill the session if it's already running to start fresh
-tmux kill-session -t $SESSION_NAME 2>/dev/null
+tmux kill-session -t $SESSION_NAME 2>/dev/null || true
 
-# BUILD THE DOCKER CONTAINER TERMINAL
-# Check if running -> Start if not -> Exec into it -> Source ROS2 -> Drop to interactive bash
-DOCKER_CMD="
-if [ \"\$(docker inspect -f '{{.State.Running}}' $DOCKER_CONTAINER_NAME 2>/dev/null)\" != \"true\" ]; then 
-    echo 'Starting Docker container...'; 
-    docker compose up -d; 
-fi; 
-docker exec -it $DOCKER_CONTAINER_NAME bash -c 'source /opt/ros/jazzy/setup.bash && source install/setup.bash && exec bash'
-"
+# Create new detached session for groundstation
+tmux new-session -d -s $SESSION_NAME
 
-# BUILD THE ONBOARD TERMINAL
-REMOTE_CMDS=""
+# Enable mouse
+tmux set-option -t $SESSION_NAME mouse on
+
+# Groundstation panel setup
+tmux send-keys -t $SESSION_NAME "echo 'Setting up groundstation console...'" C-m
+tmux send-keys -t $SESSION_NAME "docker compose up -d" C-m
+tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash --rcfile <(echo '. /opt/ros/jazzy/setup.bash && . install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\"')" C-m
+
+# Create another panel on the right for onboard
+tmux split-window -h -t $SESSION_NAME
+tmux send-keys -t $SESSION_NAME "echo 'Setting up onboard console...'" C-m
 
 # Optionally append the antenna config
-if [ $USE_ANTENNA -eq 1 ]; then
-    REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S nmcli device wifi connect '$WIFI_SSID' password '$WIFI_PASSWORD' ifname '$ANTENNA_SERIAL'; "
+if [ "$USE_ANTENNA" = "true" ]; then
+    WIFI_CMD="sudo nmcli device disconnect wlp3s0; sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
+else
+    WIFI_CMD="sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\";"
 fi
 
-# Append CAN setup, sourcing, and drop to interactive bash
-REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 down; "
-REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 up type can bitrate 1000000; "
-REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 txqueuelen 1000; "
-REMOTE_CMDS+="echo '$ONBOARD_SUDO_PASSWORD' | sudo -S ip link set can0 up; "
-REMOTE_CMDS+="cd $ONBOARD_REPO_PATH; "
-REMOTE_CMDS+="source /opt/ros/jazzy/setup.bash; "
-REMOTE_CMDS+="source install/setup.bash; "
-REMOTE_CMDS+="exec bash"
-
-# LAUNCH THE TERMINALS
-echo "Launching environment..."
-
-# Pane 0 (Left): Create a new detached tmux session and run the Docker logic
-tmux new-session -d -s "$SESSION_NAME" "bash -c \"$DOCKER_CMD\""
-
-# Pane 1 (Right): Split the window horizontally and run the SSH logic
-# Note: -o StrictHostKeyChecking=accept-new prevents the script from hanging on first-time connections
-tmux split-window -h -t "$SESSION_NAME:0" "sshpass -p '$ONBOARD_SSH_PASSWORD' ssh -o StrictHostKeyChecking=accept-new -t $ONBOARD_USERNAME@$ONBOARD_IP \"$REMOTE_CMDS\""
+# SSH setup and can bringup
+tmux send-keys -t $SESSION_NAME "ssh -t $ONBOARD_USERNAME@$ONBOARD_IP '
+    echo \"Configuring network interfaces...\";
+    $WIFI_CMD
+    echo \"Bringing up CAN interface (can0)...\";
+    sudo ip link set can0 down;
+    sudo ip link set can0 up type can bitrate 1000000;
+    sudo ip link set can0 txqueuelen 1000;
+    sudo ip link set can0 up;
+    ip link show can0;
+    cd ~/$ONBOARD_REPO_PATH;
+    bash --rcfile <(echo \". install/setup.bash && echo -e \\\"\n\033[1;32mOnboard launched\033[0m\n\\\"\");
+'" C-m
 
 # Attach your current terminal to the newly created session
 tmux attach-session -t "$SESSION_NAME"
