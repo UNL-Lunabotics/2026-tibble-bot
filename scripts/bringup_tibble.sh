@@ -54,7 +54,7 @@ tmux send-keys -t $SESSION_NAME "echo 'Setting up groundstation console...'" C-m
 tmux send-keys -t $SESSION_NAME "cd docker" C-m
 tmux send-keys -t $SESSION_NAME "docker compose up -d" C-m
 tmux send-keys -t $SESSION_NAME "cd .." C-m
-tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash --rcfile <(echo '. /opt/ros/jazzy/setup.bash && . install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\"')" C-m
+tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash --rcfile <(echo 'export RMW_IMPLEMENTATION=rmw_zenoh_cpp && . /opt/ros/jazzy/setup.bash && . install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\"')" C-m
 
 # Create another panel on the right for onboard
 tmux split-window -h -t $SESSION_NAME
@@ -78,7 +78,7 @@ tmux send-keys -t $SESSION_NAME "ssh -t $ONBOARD_USERNAME@$ONBOARD_IP '
     sudo ip link set can0 up;
     ip link show can0;
     cd ~/$ONBOARD_REPO_PATH;
-    bash --rcfile <(echo \". install/setup.bash && echo -e \\\"\n\033[1;32mOnboard launched\033[0m\n\\\"\");
+    bash --rcfile <(echo \"export RMW_IMPLEMENTATION=rmw_zenoh_cpp && . install/setup.bash && echo -e \\\"\n\033[1;32mOnboard launched\033[0m\n\\\"\");
 '" C-m
 
 # Attach your current terminal to the newly created session

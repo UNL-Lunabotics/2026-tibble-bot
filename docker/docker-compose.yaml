@@ -14,6 +14,7 @@ services:
       - ROS_DOMAIN_ID=0
       - DISPLAY=:0
       - QT_QPA_PLATFORM=xcb
+      - RMW_IMPLEMENTATION=rmw_zenoh_cpp
     volumes:
       - type: bind                 # udev database
         source: /run/udev
