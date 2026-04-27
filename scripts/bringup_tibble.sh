@@ -51,7 +51,9 @@ tmux set-option -t $SESSION_NAME mouse on
 
 # Groundstation panel setup
 tmux send-keys -t $SESSION_NAME "echo 'Setting up groundstation console...'" C-m
+tmux send-keys -t $SESSION_NAME "cd docker" C-m
 tmux send-keys -t $SESSION_NAME "docker compose up -d" C-m
+tmux send-keys -t $SESSION_NAME "cd .." C-m
 tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash --rcfile <(echo '. /opt/ros/jazzy/setup.bash && . install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\"')" C-m
 
 # Create another panel on the right for onboard
@@ -59,7 +61,7 @@ tmux split-window -h -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "echo 'Setting up onboard console...'" C-m
 
 # Optionally append the antenna config
-if [ "$USE_ANTENNA" = "true" ]; then
+if [ "$USE_ANTENNA" = "1" ]; then
     WIFI_CMD="sudo nmcli device disconnect wlp3s0; sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
 else
     WIFI_CMD="sudo nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\";"
