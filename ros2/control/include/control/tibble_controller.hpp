@@ -43,10 +43,10 @@ namespace tibble_controller
 
         private:
             // URDF joint names
-            const std::string left_wheel_name_ = "DL_Rotate";
-            const std::string right_wheel_name_ = "DR_Rotate";
-            const std::string linear_actuator_name_ = "LA_Extend";
-            const std::string excavation_name_ = "Excavation_Rotate";
+            const std::string left_wheel_name_ = "Left Kraken";
+            const std::string right_wheel_name_ = "Right Kraken";
+            const std::string linear_actuator_name_ = "BLA Pivot";
+            const std::string excavation_name_ = "E Roller";
             const std::string vibe_gpio_name_ = "vibe_control";
             const std::string latch_gpio_name_ = "latch_control";
 
