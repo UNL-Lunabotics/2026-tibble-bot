@@ -15,6 +15,7 @@ services:
       - DISPLAY=:0
       - QT_QPA_PLATFORM=xcb
       - RMW_IMPLEMENTATION=rmw_zenoh_cpp
+      - ZENOH_ROUTER_ADDRESSES=${ZENOH_ADDRESS}
     volumes:
       - type: bind                 # udev database
         source: /run/udev
