@@ -49,12 +49,13 @@ tmux new-session -d -s $SESSION_NAME
 tmux set-option -t $SESSION_NAME mouse on
 
 # Groundstation panel setup
-# Note: Added 'source ~/.bashrc' to the rcfile payload so default linux commands work
 tmux send-keys -t $SESSION_NAME "echo 'Setting up groundstation console...'" C-m
 tmux send-keys -t $SESSION_NAME "cd docker" C-m
 tmux send-keys -t $SESSION_NAME "docker compose up -d" C-m
 tmux send-keys -t $SESSION_NAME "cd .." C-m
-tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash -c 'source /opt/ros/jazzy/setup.bash && source install/setup.bash && echo -e \"\n\033[1;32mGroundstation Ready for Launch!\033[0m\n\" && exec bash'" C-m
+tmux send-keys -t $SESSION_NAME "docker exec -it $DOCKER_CONTAINER_NAME bash" C-m
+sleep 1.5
+tmux send-keys -t $SESSION_NAME "echo -e '\n\033[1;32mGroundstation ready to launch!\033[0m\n'" C-m
 
 # Create another panel on the right for onboard
 tmux split-window -h -t $SESSION_NAME
