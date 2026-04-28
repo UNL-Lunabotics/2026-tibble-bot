@@ -51,6 +51,9 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_activate(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Activating hardware interfaces...");
+
+        teensy_comms_.send_stop_command();
+        can_comms_.send_velocities(0.0, 0.0);
         
         // Reset internal memory to safe defaults
         cmd_left_wheel_vel_ = 0.0;

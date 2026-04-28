@@ -107,6 +107,8 @@ namespace tibble_controller
             bool prev_manual_toggle_b_ = false;
             bool prev_latch_toggle_b_ = false;
             bool prev_vibe_toggle_b_ = false;
+            bool first_update_ = true;
+            bool first_joy_update_ = true;
 
             // Manual Mode Button/Axis scheme placeholders
             const int MANUAL_TOGGLE_B = 10;       // 11
@@ -122,7 +124,6 @@ namespace tibble_controller
             double odom_theta_ = 0.0;
             double last_left_wheel_pos_ = 0.0;
             double last_right_wheel_pos_ = 0.0;
-            bool first_update_ = true;
     };
 } // namespace tibble_controller
 
