@@ -39,6 +39,8 @@ RUN apt-get update && apt install -y build-essential \
     python3-venv \
     python3-colcon-common-extensions \
     python3-vcstool python3-rosdep \
+    bash-completion \
+    python3-argcomplete \
     && apt-get install python-is-python3
 
 # Install PlatformIO
@@ -89,3 +91,6 @@ RUN groupadd -g 18 hostserial || true \
 # Switch from root to user
 USER $USERNAME
 WORKDIR /workspaces/2026-Tibble-Bot/
+
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc && \
+    echo "if [ -f /workspaces/2026-Tibble-Bot/install/setup.bash ]; then source /workspaces/2026-Tibble-Bot/install/setup.bash; fi" >> ~/.bashrc
