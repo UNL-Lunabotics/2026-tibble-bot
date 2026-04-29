@@ -188,10 +188,10 @@ namespace tibble_hwc
 
         // 6. Send the formatted command to the Teensy
         // Assuming ArduinoComms handles formatting into "c %d %d %d %d %d\n"
-        teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
+        // teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
 
         // 7. Write to Drivetrain via CAN (Placeholder)
-        can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
+        // can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
 
         return hardware_interface::return_type::OK;
     }
