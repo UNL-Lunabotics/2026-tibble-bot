@@ -43,7 +43,12 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_configure(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Configuring hardware...");
-        teensy_comms_.connect();
+        // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
+        try {
+            teensy_comms_.connect();
+        } catch (...) {
+            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Could not connect to Teensy. Proceeding in DRY RUN mode.");
+        }
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
