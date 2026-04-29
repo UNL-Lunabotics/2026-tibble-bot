@@ -78,7 +78,7 @@ def generate_launch_description():
     )
 
     state_manager_node = Node(
-        package='tibble_teleop',
+        package='control',
         executable='state_manager_node',
         name='state_manager_node',
         output='screen'
