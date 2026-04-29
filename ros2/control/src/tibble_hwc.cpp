@@ -24,15 +24,8 @@ namespace tibble_hwc
         can_interface_ = info_.hardware_parameters["can_interface"];
 
         // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
-        try {
-            teensy_comms_.setup(serial_port_, baud_rate_, 100);
-            can_comms_.setup(can_interface_, 1, 2);
-            RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
-        } catch (const std::exception& e) {
-            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Hardware Init Failed: %s. Proceeding in DRY RUN mode.", e.what());
-        } catch (...) {
-            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Hardware Init Failed with unknown error. Proceeding in DRY RUN mode.");
-        }
+        // teensy_comms_.setup(serial_port_, baud_rate_, 100);
+        // can_comms_.setup(can_interface_, 1, 2);
 
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
 
@@ -44,11 +37,7 @@ namespace tibble_hwc
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Configuring hardware...");
         // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
-        try {
-            teensy_comms_.connect();
-        } catch (...) {
-            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Could not connect to Teensy. Proceeding in DRY RUN mode.");
-        }
+        // teensy_comms_.connect();
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
@@ -65,8 +54,9 @@ namespace tibble_hwc
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Activating hardware interfaces...");
 
-        teensy_comms_.send_stop_command();
-        can_comms_.send_velocities(0.0, 0.0);
+        // TODO
+        // teensy_comms_.send_stop_command();
+        // can_comms_.send_velocities(0.0, 0.0);
         
         // Reset internal memory to safe defaults
         cmd_left_wheel_vel_ = 0.0;
@@ -84,7 +74,8 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_deactivate(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Deactivating. Sending Emergency Stop.");
-        teensy_comms_.send_stop_command();
+        // TODO
+        // teensy_comms_.send_stop_command();
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
