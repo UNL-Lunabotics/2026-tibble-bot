@@ -23,9 +23,8 @@ namespace tibble_hwc
         baud_rate_ = std::stoi(info_.hardware_parameters["baud_rate"]);
         can_interface_ = info_.hardware_parameters["can_interface"];
 
-        // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
-        // teensy_comms_.setup(serial_port_, baud_rate_, 100);
-        // can_comms_.setup(can_interface_, 1, 2);
+        teensy_comms_.setup(serial_port_, baud_rate_, 100);
+        can_comms_.setup(can_interface_, 1, 2);
 
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
 
@@ -36,8 +35,7 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_configure(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Configuring hardware...");
-        // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
-        // teensy_comms_.connect();
+        teensy_comms_.connect();
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
@@ -54,9 +52,8 @@ namespace tibble_hwc
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Activating hardware interfaces...");
 
-        // TODO
-        // teensy_comms_.send_stop_command();
-        // can_comms_.send_velocities(0.0, 0.0);
+        teensy_comms_.send_stop_command();
+        can_comms_.send_velocities(0.0, 0.0);
         
         // Reset internal memory to safe defaults
         cmd_left_wheel_vel_ = 0.0;
@@ -178,11 +175,10 @@ namespace tibble_hwc
         int latch_angle = (cmd_hop_latched_ > 0.5) ? 10 : 180;
 
         // 6. Send the formatted command to the Teensy
-        // Assuming ArduinoComms handles formatting into "c %d %d %d %d %d\n"
-        // teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
+        teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
 
         // 7. Write to Drivetrain via CAN (Placeholder)
-        // can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
+        can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
 
         return hardware_interface::return_type::OK;
     }
