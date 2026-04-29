@@ -27,6 +27,13 @@ def generate_launch_description():
         parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"]
     )
 
+    state_manager_node = Node(
+        package='tibble_teleop',
+        executable='state_manager_node',
+        name='state_manager_node',
+        output='screen'
+    )
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -40,5 +47,6 @@ def generate_launch_description():
         DeclareLaunchArgument("gui", default_value="true"),
         joy_node,
         teleop_node,
+        state_manager_node,
         rviz_node
     ])
