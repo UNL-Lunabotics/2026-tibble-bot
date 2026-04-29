@@ -23,8 +23,16 @@ namespace tibble_hwc
         baud_rate_ = std::stoi(info_.hardware_parameters["baud_rate"]);
         can_interface_ = info_.hardware_parameters["can_interface"];
 
-        teensy_comms_.setup(serial_port_, baud_rate_, 100);
-        can_comms_.setup(can_interface_, 1, 2); // placeholder IDs
+        // TODO GET RID OF THIS WHEN NO MORE DRY RUNS
+        try {
+            teensy_comms_.setup(serial_port_, baud_rate_, 100);
+            can_comms_.setup(can_interface_, 1, 2);
+            RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
+        } catch (const std::exception& e) {
+            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Hardware Init Failed: %s. Proceeding in DRY RUN mode.", e.what());
+        } catch (...) {
+            RCLCPP_WARN(rclcpp::get_logger("TibbleHWC"), "Hardware Init Failed with unknown error. Proceeding in DRY RUN mode.");
+        }
 
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
 
