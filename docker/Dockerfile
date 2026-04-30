@@ -64,7 +64,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-joint-state-publisher-gui \
     ros-${ROS_DISTRO}-robot-state-publisher \
     # Network package
-    ros-${ROS_DISTRO}-rmw-zenoh-cpp
+    ros-${ROS_DISTRO}-rmw-zenoh-cpp \
     # Autonomy
     ros-${ROS_DISTRO}-jazzy-behaviortree-cpp
 
