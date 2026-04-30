@@ -20,4 +20,8 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/behavior_trees
 )
 
+install(DIRECTORY src/ 
+  DESTINATION share/
+)
+
 ament_package()
