@@ -65,8 +65,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-robot-state-publisher \
     # Network package
     ros-${ROS_DISTRO}-rmw-zenoh-cpp \
-    # Autonomy
-    ros-${ROS_DISTRO}-jazzy-behaviortree-cpp
+    # Hardware & Sensors
+    ros-${ROS_DISTRO}-joy \
+    ros-${ROS_DISTRO}-joy-teleop \
+    ros-${ROS_DISTRO}-realsense2-camera \
+    ros-${ROS_DISTRO}-realsense2-description \
+    # Autonomy & Navigation
+    ros-${ROS_DISTRO}-behaviortree-cpp \
+    ros-${ROS_DISTRO}-navigation2 \
+    ros-${ROS_DISTRO}-nav2-bringup \
+    ros-${ROS_DISTRO}-slam-toolbox \
+    ros-${ROS_DISTRO}-robot-localization \
+    ros-${ROS_DISTRO}-apriltag-ros
 
 RUN curl -s --compressed -o /usr/share/keyrings/ctr-pubkey.gpg "https://deb.ctr-electronics.com/ctr-pubkey.gpg" && \
     curl -s --compressed -o /etc/apt/sources.list.d/ctr2026.list "https://deb.ctr-electronics.com/ctr2026.list" && \
