@@ -139,6 +139,14 @@ def generate_launch_description():
         )
     )
 
+    twist_mux_node = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        output='screen',
+        parameters=[PathSubstitution(control_pkg) / 'config' / 'twist_mux.yaml'],
+        remappings=[('/cmd_vel_out', '/tibble_controller/cmd_vel_unstamped')] # TODO update these topic names
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
         control_node,
@@ -150,5 +158,6 @@ def generate_launch_description():
         slam_toolbox,
         nav2_bringup,
         boot_node,
-        sequence_executor_after_boot
+        sequence_executor_after_boot,
+        twist_mux_node
     ])
