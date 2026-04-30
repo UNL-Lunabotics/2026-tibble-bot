@@ -56,6 +56,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-ros2-control \
     ros-${ROS_DISTRO}-ros2-controllers \
     libserial-dev \
+    ros-${ROS_DISTRO}-twist-mux \
     # ROS–Gazebo integration
     ros-${ROS_DISTRO}-ros-gz \
     ros-${ROS_DISTRO}-gz-ros2-control \
@@ -64,6 +65,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-robot-state-publisher \
     # Network package
     ros-${ROS_DISTRO}-rmw-zenoh-cpp
+    # Autonomy
+    ros-${ROS_DISTRO}-jazzy-behaviortree-cpp
 
 RUN curl -s --compressed -o /usr/share/keyrings/ctr-pubkey.gpg "https://deb.ctr-electronics.com/ctr-pubkey.gpg" && \
     curl -s --compressed -o /etc/apt/sources.list.d/ctr2026.list "https://deb.ctr-electronics.com/ctr2026.list" && \

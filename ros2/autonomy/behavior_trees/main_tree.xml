@@ -1,0 +1,27 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <RecoveryNode number_of_retries="3" name="NavigateRecovery">
+            
+            <Sequence name="MissionSequence">
+                <SetTibbleState requested_state="1" name="SetTravelMode"/>
+                <NavigateToPose goal="{dig_pose}" server_name="navigate_to_pose"/>
+                
+                <SetTibbleState requested_state="2" name="SetExcavateMode"/>
+                <Wait wait_duration="15"/> 
+                
+                <SetTibbleState requested_state="1" name="SetTravelMode"/>
+                <NavigateToPose goal="{dump_pose}" server_name="navigate_to_pose"/>
+                
+                <SetTibbleState requested_state="3" name="SetDumpMode"/>
+                <Wait wait_duration="10"/>
+
+                <SetTibbleState requested_state="0" name="SetIdleMode"/>
+            </Sequence>
+
+            <Sequence name="RecoveryActions">
+                <Spin spin_dist="3.14" server_name="spin"/>
+                </Sequence>
+
+        </RecoveryNode>
+    </BehaviorTree>
+</root>
