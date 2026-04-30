@@ -39,6 +39,8 @@ RUN apt-get update && apt install -y build-essential \
     python3-venv \
     python3-colcon-common-extensions \
     python3-vcstool python3-rosdep \
+    bash-completion \
+    python3-argcomplete \
     && apt-get install python-is-python3
 
 # Install PlatformIO
@@ -61,6 +63,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-xacro \
     ros-${ROS_DISTRO}-joint-state-publisher-gui \
     ros-${ROS_DISTRO}-robot-state-publisher \
+    # Network package
+    ros-${ROS_DISTRO}-rmw-zenoh-cpp
     # Autonomy
     ros-${ROS_DISTRO}-jazzy-behaviortree-cpp
 
@@ -91,3 +95,6 @@ RUN groupadd -g 18 hostserial || true \
 # Switch from root to user
 USER $USERNAME
 WORKDIR /workspaces/2026-Tibble-Bot/
+
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc && \
+    echo "if [ -f /workspaces/2026-Tibble-Bot/install/setup.bash ]; then source /workspaces/2026-Tibble-Bot/install/setup.bash; fi" >> ~/.bashrc

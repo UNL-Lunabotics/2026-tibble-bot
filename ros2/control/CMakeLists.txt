@@ -27,6 +27,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   phoenix6
   Threads
   SDL2
+  interfaces
 )
 
 find_package(ament_cmake REQUIRED)
@@ -75,4 +76,13 @@ install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 # Ament Exports
 ament_export_targets(export_tibble_plugins HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+# State manager node stuff
+add_executable(state_manager_node src/state_manager_node.cpp)
+ament_target_dependencies(state_manager_node rclcpp sensor_msgs interfaces)
+
+install(TARGETS state_manager_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

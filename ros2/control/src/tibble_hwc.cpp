@@ -24,7 +24,7 @@ namespace tibble_hwc
         can_interface_ = info_.hardware_parameters["can_interface"];
 
         teensy_comms_.setup(serial_port_, baud_rate_, 100);
-        can_comms_.setup(can_interface_, 1, 2); // placeholder IDs
+        can_comms_.setup(can_interface_, 1, 2);
 
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Initialized with Serial: %s and CAN: %s", serial_port_.c_str(), can_interface_.c_str());
 
@@ -51,6 +51,9 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_activate(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Activating hardware interfaces...");
+
+        teensy_comms_.send_stop_command();
+        can_comms_.send_velocities(0.0, 0.0);
         
         // Reset internal memory to safe defaults
         cmd_left_wheel_vel_ = 0.0;
@@ -68,7 +71,8 @@ namespace tibble_hwc
     hardware_interface::CallbackReturn TibbleHWC::on_deactivate(const rclcpp_lifecycle::State &)
     {
         RCLCPP_INFO(rclcpp::get_logger("TibbleHWC"), "Deactivating. Sending Emergency Stop.");
-        teensy_comms_.send_stop_command();
+        // TODO
+        // teensy_comms_.send_stop_command();
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
@@ -161,17 +165,16 @@ namespace tibble_hwc
         if (cmd_excav_vel_ > 0.0) {
             // Map 0 -> 12.25 rad/s to 64 -> 127 PWM
             double excav_ratio = cmd_excav_vel_ / EXCAV_MAX_RAD_S;
-            excav_pwm = 64 - std::clamp(static_cast<int>(excav_ratio * 63.0), -63, 63);
+            excav_pwm = 64 + std::clamp(static_cast<int>(excav_ratio * 63.0), -63, 63);
         }
 
         // 4. Vibe Pseudo-Boolean -> PWM Conversion
         int vibe_pwm = (cmd_vibe_enabled_ > 0.5) ? 127 : 64;
 
         // 5. Latch Pseudo-Boolean -> Servo Angle Conversion
-        int latch_angle = (cmd_hop_latched_ > 0.5) ? 180 : 0;
+        int latch_angle = (cmd_hop_latched_ > 0.5) ? 10 : 180;
 
         // 6. Send the formatted command to the Teensy
-        // Assuming ArduinoComms handles formatting into "c %d %d %d %d %d\n"
         teensy_comms_.send_commands(la_pwm, la_pwm, vibe_pwm, excav_pwm, latch_angle);
 
         // 7. Write to Drivetrain via CAN (Placeholder)

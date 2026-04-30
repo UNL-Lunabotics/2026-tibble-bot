@@ -86,6 +86,12 @@ namespace tibble_controller
         odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>("/odom", rclcpp::SystemDefaultsQoS());
         tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*get_node());
 
+        // Create the service server for set state
+        state_service_ = get_node()->create_service<interfaces::srv::SetTibbleState>(
+            "~/set_state",
+            std::bind(&TibbleController::set_state_callback, this, std::placeholders::_1, std::placeholders::_2)
+        );
+
         RCLCPP_INFO(get_node()->get_logger(), "Configured TibbleController.");
         
         return controller_interface::CallbackReturn::SUCCESS;
@@ -93,7 +99,7 @@ namespace tibble_controller
 
     controller_interface::CallbackReturn TibbleController::on_activate(const rclcpp_lifecycle::State &)
     {
-        current_state_ = TibbleState::IDLE;
+        current_state_ = STATE_IDLE;
         manual_mode_ = false;
 
         twist_cmd_buffer_.reset();
@@ -111,6 +117,7 @@ namespace tibble_controller
         prev_manual_toggle_b_ = false;
         prev_latch_toggle_b_ = false;
         prev_vibe_toggle_b_ = false;
+        first_joy_update_ = true;
 
         odom_pub_->on_activate();
 
@@ -125,13 +132,31 @@ namespace tibble_controller
    
     controller_interface::CallbackReturn TibbleController::on_deactivate(const rclcpp_lifecycle::State &)
     {
-        current_state_ = TibbleState::IDLE;
+        current_state_ = STATE_IDLE;
         manual_mode_ = false;
 
         odom_pub_->on_deactivate();
 
         RCLCPP_INFO(get_node()->get_logger(), "Deactivated TibbleController.");
         return controller_interface::CallbackReturn::SUCCESS;
+    }
+
+    void TibbleController::set_state_callback(
+        const std::shared_ptr<interfaces::srv::SetTibbleState::Request> request,
+        std::shared_ptr<interfaces::srv::SetTibbleState::Response> response)
+    {
+        if (request->requested_state > STATE_DUMP) {
+            response->success = false;
+            response->message = "Invalid state requested.";
+            return;
+        }
+
+        current_state_.store(request->requested_state);
+        
+        response->success = true;
+        response->message = "State transitioned successfully.";
+        
+        RCLCPP_INFO(get_node()->get_logger(), "Service call received: Switched to state %d", request->requested_state);
     }
 
     controller_interface::return_type TibbleController::update(const rclcpp::Time & time, const rclcpp::Duration & period)
@@ -209,22 +234,25 @@ namespace tibble_controller
         auto twist_msg = twist_cmd_buffer_.readFromRT();
         auto joy_msg = joy_cmd_buffer_.readFromRT();
 
-        if (joy_msg && joy_msg->buttons.size() > (size_t)std::max({MANUAL_TOGGLE_B, STATE_DUMP_B, MANUAL_VIBE_TOGGLE_B})) {
+        if (joy_msg && joy_msg->buttons.size() > (size_t)std::max({MANUAL_TOGGLE_B, MANUAL_VIBE_TOGGLE_B})) {
             
             // Check for mode toggle edge detection
-            bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
-            if (current_manual_toggle && !prev_manual_toggle_b_) {
-                manual_mode_ = !manual_mode_;
-                
-                if (manual_mode_) {
-                    // Switching TO manual: initialize LA target to current physical position to prevent jumping
-                    manual_la_pos_ = current_la_pos;
-                } else {
-                    // Switching TO state machine: default to IDLE for safety
-                    current_state_ = TibbleState::IDLE;
+            if (first_joy_update_) {
+                prev_manual_toggle_b_ = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
+                prev_latch_toggle_b_ = (joy_msg->buttons[MANUAL_LATCH_TOGGLE_B] == 1);
+                prev_vibe_toggle_b_ = (joy_msg->buttons[MANUAL_VIBE_TOGGLE_B] == 1);
+                first_joy_update_ = false;
+            } else {
+                bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
+                if (current_manual_toggle && !prev_manual_toggle_b_) {
+                    manual_mode_ = !manual_mode_;
+                    
+                    if (!manual_mode_) {
+                        current_state_ = STATE_IDLE;
+                    }
                 }
+                prev_manual_toggle_b_ = current_manual_toggle;
             }
-            prev_manual_toggle_b_ = current_manual_toggle;
         }
 
         // Initialize safe output defaults
@@ -254,17 +282,14 @@ namespace tibble_controller
 
                 // Linear Actuator (Pseudo-Velocity)
                 if (extending) {
-                    manual_la_pos_ += manual_la_speed_ * period.seconds();
+                    cmd_la_pos = current_la_pos + 1.0;
                 } else if (retracting) {
-                    manual_la_pos_ -= manual_la_speed_ * period.seconds();
+                    cmd_la_pos = current_la_pos - 1.0;
                 } else {
-                    // Do nothing
+                    cmd_la_pos = current_la_pos;
                 }
-                // Clamp LA position between physical bounds
-                manual_la_pos_ = std::clamp(manual_la_pos_, -0.2, LA_DUMP_POS);
-                cmd_la_pos = manual_la_pos_;
-
-                // Excavation (Axis 3)
+  
+                // Excavation
                 if (joy_msg->axes.size() > (size_t)MANUAL_EXCAV_AXIS) {
                     double excav_axis = joy_msg->axes[MANUAL_EXCAV_AXIS];
                     // Map -1.0 -> 1.0 to 0.0 -> max_speed
@@ -296,38 +321,29 @@ namespace tibble_controller
             // ==========================================
             // STATE MACHINE LOGIC
             // ==========================================
-            if (joy_msg && joy_msg->buttons.size() >= (size_t)STATE_DUMP_B) {
-                if (joy_msg->buttons[STATE_IDLE_B] == 1) {
-                    current_state_ = TibbleState::IDLE;
-                } else if (joy_msg->buttons[STATE_TRAVEL_B] == 1) {
-                    current_state_ = TibbleState::TRAVEL;
-                } else if (joy_msg->buttons[STATE_EXCAVATE_B] == 1) {
-                    current_state_ = TibbleState::EXCAVATE;
-                } else if (joy_msg->buttons[STATE_DUMP_B] == 1) {
-                    current_state_ = TibbleState::DUMP;
-                }
-            }
+            uint8_t local_state = current_state_.load();
 
             // Timer management for sequential steps
-            if (current_state_ != previous_state_) {
+            if (local_state != previous_state_) {
                 state_timer_ = 0.0;
-                previous_state_ = current_state_;
+                previous_state_ = local_state;
             } else {
                 state_timer_ += period.seconds();
             }
 
             double speed_multiplier = 1.0;
 
-            switch (current_state_) {
-                case TibbleState::IDLE:
+            switch (local_state) {
+                case STATE_IDLE:
                     // Safe defaults are already set above
+                    cmd_latch = 1.0;
                     break;
 
-                case TibbleState::TRAVEL:
+                case STATE_TRAVEL:
                     // Drivetrain runs, default positions hold
                     break;
 
-                case TibbleState::EXCAVATE:
+                case STATE_EXCAVATE:
                     speed_multiplier = 0.5; // Slow down drivetrain
                     
                     cmd_vibe = 1.0;
@@ -339,7 +355,7 @@ namespace tibble_controller
                     }
                     break;
 
-                case TibbleState::DUMP:
+                case STATE_DUMP:
                     speed_multiplier = 0.3; // Slow down drivetrain
                     
                     cmd_latch = 0.0; // Unlatch immediately
@@ -354,7 +370,7 @@ namespace tibble_controller
             }
 
             // Differential Drive Math (applied for TRAVEL, EXCAVATE, and DUMP)
-            if (current_state_ != TibbleState::IDLE) {
+            if (local_state != STATE_IDLE) {
                 target_v *= speed_multiplier;
                 target_w *= speed_multiplier;
 

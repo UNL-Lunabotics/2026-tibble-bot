@@ -15,6 +15,9 @@
 #include "tf2_ros/transform_broadcaster.h"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
+#include <atomic>
+#include "interfaces/srv/set_tibble_state.hpp"
+
 namespace tibble_controller
 {
     class TibbleController : public controller_interface::ControllerInterface
@@ -69,15 +72,21 @@ namespace tibble_controller
             double manual_paddle_max_speed_;
             double manual_la_speed_;
 
-            // State machine enum
-            enum class TibbleState {
-                IDLE,
-                TRAVEL,
-                EXCAVATE,
-                DUMP
-            };
-            TibbleState current_state_ = TibbleState::IDLE;
-            TibbleState previous_state_ = TibbleState::IDLE;
+            // State machine service
+            static constexpr uint8_t STATE_IDLE = 0;
+            static constexpr uint8_t STATE_TRAVEL = 1;
+            static constexpr uint8_t STATE_EXCAVATE = 2;
+            static constexpr uint8_t STATE_DUMP = 3;
+
+            // Thread-safe atomic variable for the current state
+            std::atomic<uint8_t> current_state_{STATE_IDLE};
+            uint8_t previous_state_ = STATE_IDLE;
+
+            // Service Server
+            rclcpp::Service<interfaces::srv::SetTibbleState>::SharedPtr state_service_;
+            void set_state_callback(
+                const std::shared_ptr<interfaces::srv::SetTibbleState::Request> request,
+                std::shared_ptr<interfaces::srv::SetTibbleState::Response> response);
 
             bool manual_mode_ = false;
 
@@ -93,10 +102,10 @@ namespace tibble_controller
             const double DUMP_VIBE_DELAY = 1.0;    // Wait for LA to extend before vibrating
 
             // Button scheme
-            const int STATE_TRAVEL_B = 7;   // 8
-            const int STATE_IDLE_B = 6;     // 7
-            const int STATE_EXCAVATE_B = 8; // 9
-            const int STATE_DUMP_B = 9;     // 10
+            // const int STATE_TRAVEL_B = 7;   // 8
+            // const int STATE_IDLE_B = 6;     // 7
+            // const int STATE_EXCAVATE_B = 8; // 9
+            // const int STATE_DUMP_B = 9;     // 10
 
             // Manual mode tracking variables
             double manual_la_pos_ = LA_REST_POS;
@@ -107,6 +116,8 @@ namespace tibble_controller
             bool prev_manual_toggle_b_ = false;
             bool prev_latch_toggle_b_ = false;
             bool prev_vibe_toggle_b_ = false;
+            bool first_update_ = true;
+            bool first_joy_update_ = true;
 
             // Manual Mode Button/Axis scheme placeholders
             const int MANUAL_TOGGLE_B = 10;       // 11
@@ -122,7 +133,6 @@ namespace tibble_controller
             double odom_theta_ = 0.0;
             double last_left_wheel_pos_ = 0.0;
             double last_right_wheel_pos_ = 0.0;
-            bool first_update_ = true;
     };
 } // namespace tibble_controller
 

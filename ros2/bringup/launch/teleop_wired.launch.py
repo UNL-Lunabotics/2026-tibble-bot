@@ -77,6 +77,13 @@ def generate_launch_description():
         )
     )
 
+    state_manager_node = Node(
+        package='control',
+        executable='state_manager_node',
+        name='state_manager_node',
+        output='screen'
+    )
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -94,5 +101,6 @@ def generate_launch_description():
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
+        state_manager_node,
         rviz_node
     ])
