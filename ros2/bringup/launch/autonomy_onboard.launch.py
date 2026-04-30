@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler, LogInfo
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessStart, OnProcessExit
 from launch.substitutions import Command, LaunchConfiguration, PathSubstitution
@@ -28,7 +28,7 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    # --- Nodes ---
+    # --- Hardware & Control Nodes ---
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -65,6 +65,7 @@ def generate_launch_description():
         )
     )
 
+    # --- Sensor Nodes ---
     camera_front = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
         launch_arguments={
@@ -74,17 +75,6 @@ def generate_launch_description():
             'enable_color': 'true',
         }.items()
     )
-
-    # camera_rear = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
-    #     launch_arguments={
-    #         'camera_name': 'camera_rear',
-    #         'serial_no': '_INSERT_SERIAL_NUMBER_2_',    # TODO
-    #         'enable_depth': 'true',
-    #         'enable_color': 'true',
-    #     }.items()
-    # )
-
 
     rplidar = Node(
         package='rplidar_ros',
@@ -98,6 +88,7 @@ def generate_launch_description():
         output='screen'
     )
     
+    # --- Navigation & Mapping ---
     slam_toolbox = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [PathSubstitution(FindPackageShare("slam_toolbox")), "/launch/online_async_launch.py"]
@@ -105,7 +96,6 @@ def generate_launch_description():
         launch_arguments={'use_sim_time': 'false'}.items(),
     )
     
-    # Launches the navigation stack (planner, controller, behavior trees)
     nav2_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [PathSubstitution(FindPackageShare("nav2_bringup")), "/launch/navigation_launch.py"]
@@ -116,6 +106,39 @@ def generate_launch_description():
         }.items(),
     )
 
+    # THE BOOT NODE (Auto-Localization via AprilTag)
+    boot_node = Node(
+        package='autonomy',
+        executable='boot_node.py',
+        name='tibble_boot_node',
+        output='screen',
+        parameters=[{
+            'target_tag_frame': 'tag_36h11_id0', # TODO: change if other april tag type
+            'global_map_frame': 'map',
+            'robot_base_frame': 'base_link'
+        }]
+    )
+
+    bt_executor_node = Node(
+        package='autonomy',
+        executable='autonomy_executor',
+        name='autonomy_executor',
+        output='screen',
+        parameters=[{
+            'tree_xml_file': 'main_tree.xml'
+        }]
+    )
+
+    sequence_executor_after_boot = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=boot_node,
+            on_exit=[
+                LogInfo(msg="[LAUNCH] Boot Node completed localization. Starting Behavior Tree Executor..."),
+                bt_executor_node
+            ]
+        )
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
         control_node,
@@ -123,8 +146,9 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
         camera_front,
-        # camera_rear,
         rplidar,
         slam_toolbox,
         nav2_bringup,
+        boot_node,
+        sequence_executor_after_boot
     ])
