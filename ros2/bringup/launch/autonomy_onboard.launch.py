@@ -76,6 +76,16 @@ def generate_launch_description():
         }.items()
     )
 
+    # camera_rear = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
+    #     launch_arguments={
+    #         'camera_name': 'camera_rear',
+    #         'serial_no': '_INSERT_SERIAL_NUMBER_2_',    # TODO
+    #         'enable_depth': 'true',
+    #         'enable_color': 'true',
+    #     }.items()
+    # )
+
     rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_node',
@@ -104,6 +114,18 @@ def generate_launch_description():
             'use_sim_time': 'false',
             'params_file': [PathSubstitution(FindPackageShare("bringup")), "/config/nav2_params.yaml"]
         }.items(),
+    )
+    
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        parameters=[
+            PathSubstitution(FindPackageShare("bringup"))
+            / "config"
+            / "ekf_params.yaml",
+            {'use_sim_time': False}
+        ]
     )
 
     # THE BOOT NODE (Auto-Localization via AprilTag)
@@ -155,6 +177,7 @@ def generate_launch_description():
         delay_tibble_controller_spawner,
         camera_front,
         rplidar,
+        ekf_node,
         slam_toolbox,
         nav2_bringup,
         boot_node,
