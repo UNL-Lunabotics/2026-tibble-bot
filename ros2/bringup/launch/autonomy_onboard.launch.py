@@ -116,6 +116,7 @@ def generate_launch_description():
         }.items(),
     )
     
+    # -- Sensor Fusion --
     ekf_node = Node(
         package='robot_localization',
         executable='ekf_node',
