@@ -169,6 +169,20 @@ def generate_launch_description():
         parameters=[PathSubstitution(control_pkg) / 'config' / 'twist_mux.yaml'],
         remappings=[('/cmd_vel_out', '/tibble_controller/cmd_vel_unstamped')] # TODO update these topic names
     )
+    
+    mola_slam_node = Node(
+        package='mola_lidar_odometry',
+        executable='lidar_odometry_node',
+        name='mola_lidar_odometry',
+        output='screen',
+        parameters=[{
+            'lidar_topic_name': '/scan',
+            'lidar_topic_type': 'LaserScan',
+            'mola_lo_pipeline': '../pipelines/lidar2d.yaml',
+            'ignore_lidar_pose_from_tf': False,
+            'publish_localization_following_rep105': True,
+        }],
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
@@ -183,5 +197,6 @@ def generate_launch_description():
         nav2_bringup,
         boot_node,
         sequence_executor_after_boot,
-        twist_mux_node
+        twist_mux_node,
+        mola_slam_node
     ])
