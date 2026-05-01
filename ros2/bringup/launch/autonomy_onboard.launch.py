@@ -180,6 +180,7 @@ def generate_launch_description():
             'mola_lo_pipeline': '../pipelines/lidar2d.yaml',
             'ignore_lidar_pose_from_tf': 'False',
             'publish_localization_following_rep105': 'True',
+            'use_mola_gui': 'False'
         }.items(),
     )
 
