@@ -46,16 +46,22 @@ def generate_launch_description():
                 ],
             ),
             # RViz2 node
+            # Node(
+            #     package="rviz2",
+            #     executable="rviz2",
+            #     output="screen",
+            #     arguments=[
+            #         "-d",
+            #         PathSubstitution(FindPackageShare("bringup"))
+            #         / "config"
+            #         / "view_urdf.rviz",
+            #     ],
+            # ),
+            # Foxglove Node
             Node(
-                package="rviz2",
-                executable="rviz2",
-                output="screen",
-                arguments=[
-                    "-d",
-                    PathSubstitution(FindPackageShare("bringup"))
-                    / "config"
-                    / "view_urdf.rviz",
-                ],
+                package='foxglove_bridge',
+                executable='foxglove_bridge',
+                name='foxglove_bridge',
             ),
         ]
     )
