@@ -5,7 +5,7 @@
 #define ROBOCLAW_BAUD 115200
 #define PC_BAUD 115200
 
-#define ROBOCLAW_ADDRESS_1 0x82     // Linear Actuators
+#define ROBOCLAW_ADDRESS_1 0x80     // Linear Actuators
 #define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
 #define HOPPER_SERVO_PIN 9          // correct
 
@@ -55,8 +55,8 @@ void execute_command(const char* cmd) {
                 roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la2);
                 
                 // Address 2: Vibe and Excav
-                roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, excav);
-                roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, vibe);
+                roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe);
+                roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
                 
                 hopper_latch.write(latch);
 
