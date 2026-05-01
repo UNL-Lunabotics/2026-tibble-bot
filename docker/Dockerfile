@@ -63,6 +63,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-xacro \
     ros-${ROS_DISTRO}-joint-state-publisher-gui \
     ros-${ROS_DISTRO}-robot-state-publisher \
+    ros-${ROS_DISTRO}-foxglove-bridge \
     # Network package
     ros-${ROS_DISTRO}-rmw-zenoh-cpp \
     # Hardware & Sensors
