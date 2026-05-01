@@ -77,7 +77,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-nav2-bringup \
     ros-${ROS_DISTRO}-slam-toolbox \
     ros-${ROS_DISTRO}-robot-localization \
-    ros-${ROS_DISTRO}-apriltag-ros
+    ros-${ROS_DISTRO}-apriltag-ros \
+    # MOLA SLAM
+    ros-${ROS_DISTRO}-mola \
+    ros-${ROS_DISTRO}-mola-state-estimation \
+    ros-${ROS_DISTRO}-mola-lidar-odometry
 
 RUN curl -s --compressed -o /usr/share/keyrings/ctr-pubkey.gpg "https://deb.ctr-electronics.com/ctr-pubkey.gpg" && \
     curl -s --compressed -o /etc/apt/sources.list.d/ctr2026.list "https://deb.ctr-electronics.com/ctr2026.list" && \
