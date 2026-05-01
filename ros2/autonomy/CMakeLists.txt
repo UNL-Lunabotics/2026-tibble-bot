@@ -24,4 +24,9 @@ install(TARGETS
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/boot_node.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
