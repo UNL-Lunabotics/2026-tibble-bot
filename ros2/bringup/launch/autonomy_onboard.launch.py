@@ -185,7 +185,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument("gui", default_value="false"),
         control_node,
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
