@@ -65,3 +65,6 @@ def generate_launch_description():
             ),
         ]
     )
+
+# To run it locally with webapp run RMW_IMPLEMENTATION=rmw_fastrtps_cpp ros2 launch bringup view_urdf.launch.py
+# and go to https://app.foxglove.dev/unl-lunabotics/view?layoutId=lay_0eLO4KY3A3i9Zriw&ds=foxglove-websocket&ds.url=ws%3A%2F%2Flocalhost%3A8765
