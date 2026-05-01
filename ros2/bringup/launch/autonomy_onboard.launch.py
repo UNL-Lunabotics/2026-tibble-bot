@@ -85,7 +85,6 @@ def generate_launch_description():
     #     }.items()
     # )
 
-
     rplidar = Node(
         package='rplidar_ros',
         executable='rplidar_node',
@@ -115,6 +114,18 @@ def generate_launch_description():
             'params_file': [PathSubstitution(FindPackageShare("bringup")), "/config/nav2_params.yaml"]
         }.items(),
     )
+    
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        parameters=[
+            PathSubstitution(FindPackageShare("bringup"))
+            / "config"
+            / "ekf_params.yaml",
+            {'use_sim_time': False}
+        ]
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
@@ -125,6 +136,7 @@ def generate_launch_description():
         camera_front,
         # camera_rear,
         rplidar,
+        ekf_node,
         slam_toolbox,
         nav2_bringup,
     ])
