@@ -4,6 +4,8 @@ from launch.substitutions import Command, PathSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
@@ -17,6 +19,18 @@ def generate_launch_description():
             / "tibble.urdf.xacro",
         ]
     )
+    
+    # realsense_pkg = FindPackageShare("realsense2_camera")
+    
+    # camera_front = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
+    #     launch_arguments={
+    #         'camera_name': 'camera_front',
+    #         'serial_no': "'033322071026'",
+    #         'enable_depth': 'true',
+    #         'enable_color': 'true',
+    #     }.items()
+    # )
 
     # Python based nodes need more strict param stuff it's annoying
     robot_description_str = ParameterValue(robot_description, value_type=str)
@@ -63,6 +77,7 @@ def generate_launch_description():
                 executable='foxglove_bridge',
                 name='foxglove_bridge',
             ),
+            # camera_front,
         ]
     )
 
