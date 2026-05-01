@@ -170,18 +170,17 @@ def generate_launch_description():
         remappings=[('/cmd_vel_out', '/tibble_controller/cmd_vel_unstamped')] # TODO update these topic names
     )
     
-    mola_slam_node = Node(
-        package='mola_lidar_odometry',
-        executable='lidar_odometry_node',
-        name='mola_lidar_odometry',
-        output='screen',
-        parameters=[{
+    mola_slam_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathSubstitution(FindPackageShare("mola_lidar_odometry")), "/ros2-launchs/ros2-lidar-odometry.launch.py"]
+        ),
+        launch_arguments={
             'lidar_topic_name': '/scan',
             'lidar_topic_type': 'LaserScan',
             'mola_lo_pipeline': '../pipelines/lidar2d.yaml',
-            'ignore_lidar_pose_from_tf': False,
-            'publish_localization_following_rep105': True,
-        }],
+            'ignore_lidar_pose_from_tf': 'False',
+            'publish_localization_following_rep105': 'True',
+        }.items(),
     )
 
     return LaunchDescription([
