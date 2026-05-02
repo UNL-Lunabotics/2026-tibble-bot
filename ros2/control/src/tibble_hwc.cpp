@@ -180,6 +180,14 @@ namespace tibble_hwc
         // 7. Write to Drivetrain via CAN (Placeholder)
         can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
 
+        RCLCPP_INFO_THROTTLE(
+            rclcpp::get_logger("TibbleHWC"), 
+            rclcpp::Clock(RCL_STEADY_TIME), 
+            1000, // 1000ms = 1 second throttle
+            "LA Target: %.4f m | LA Encoder Pos: %.4f m | LA PWM: %d | Raw Ticks: %d",
+            cmd_la_pos_, state_la_pos_, la_pwm, raw_la_1_ticks_
+        );
+
         return hardware_interface::return_type::OK;
     }
 
