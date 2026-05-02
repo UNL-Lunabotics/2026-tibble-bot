@@ -184,7 +184,7 @@ namespace tibble_hwc
         RCLCPP_INFO_THROTTLE(
             rclcpp::get_logger("TibbleHWC"), 
             steady_clock, 
-            1000, // 1000ms = 1 second throttle
+            3000, // 1000ms = 1 second throttle
             "LA Target: %.4f m | LA Encoder Pos: %.4f m | LA PWM: %d | Raw Ticks: %d",
             cmd_la_pos_, state_la_pos_, la_pwm, raw_la_1_ticks_
         );

@@ -403,7 +403,7 @@ namespace tibble_controller
         (void)command_interfaces_[5].set_value(cmd_latch);
         (void)command_interfaces_[6].set_value(cmd_la_reset);
 
-        RCLCPP_INFO_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(), 1000,
+        RCLCPP_INFO_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(), 3000,
             "MODE: %s | LA Cmd: %.4f | Vibe: %.0f | Latch: %.0f | Paddle: %.2f",
             manual_mode_ ? "MANUAL" : "STATE MACHINE",
             cmd_la_pos, cmd_vibe, cmd_latch, cmd_excav_vel);
