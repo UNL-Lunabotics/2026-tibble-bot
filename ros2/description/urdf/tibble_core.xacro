@@ -25,7 +25,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/chassis_link.STL" />
+          filename="package://description/meshes/chassis_link.STL" />
       </geometry>
       <material
         name="">
@@ -39,7 +39,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/chassis_link.STL" />
+          filename="package://description/meshes/chassis_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -78,7 +78,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DL_Continuous.STL" />
+          filename="package://description/meshes/DL_Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -92,7 +92,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DL_Continuous.STL" />
+          filename="package://description/meshes/DL_Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -133,7 +133,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DR_Continuous.STL" />
+          filename="package://description/meshes/DR_Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -147,7 +147,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DR_Continuous.STL" />
+          filename="package://description/meshes/DR_Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -188,7 +188,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA_Revolute.STL" />
+          filename="package://description/meshes/LA_Revolute.STL" />
       </geometry>
       <material
         name="">
@@ -202,7 +202,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA_Revolute.STL" />
+          filename="package://description/meshes/LA_Revolute.STL" />
       </geometry>
     </collision>
   </link>
@@ -248,7 +248,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA Pin Prismatic.STL" />
+          filename="package://description/meshes/LA Pin Prismatic.STL" />
       </geometry>
       <material
         name="">
@@ -262,7 +262,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA Pin Prismatic.STL" />
+          filename="package://description/meshes/LA Pin Prismatic.STL" />
       </geometry>
     </collision>
   </link>
@@ -308,7 +308,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TLA Pivot.STL" />
+          filename="package://description/meshes/TLA Pivot.STL" />
       </geometry>
       <material
         name="">
@@ -322,7 +322,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TLA Pivot.STL" />
+          filename="package://description/meshes/TLA Pivot.STL" />
       </geometry>
     </collision>
   </link>
@@ -368,7 +368,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Excav Roller Continuous.STL" />
+          filename="package://description/meshes/Excav Roller Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -382,7 +382,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Excav Roller Continuous.STL" />
+          filename="package://description/meshes/Excav Roller Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -423,7 +423,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper Door Top Revolute.STL" />
+          filename="package://description/meshes/Hopper Door Top Revolute.STL" />
       </geometry>
       <material
         name="">
@@ -437,7 +437,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper Door Top Revolute.STL" />
+          filename="package://description/meshes/Hopper Door Top Revolute.STL" />
       </geometry>
     </collision>
   </link>
@@ -483,7 +483,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper Latch Revolute.STL" />
+          filename="package://description/meshes/Hopper Latch Revolute.STL" />
       </geometry>
       <material
         name="">
@@ -497,7 +497,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper Latch Revolute.STL" />
+          filename="package://description/meshes/Hopper Latch Revolute.STL" />
       </geometry>
     </collision>
   </link>
@@ -543,7 +543,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Left Wheel Continuous.STL" />
+          filename="package://description/meshes/Front Left Wheel Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -557,7 +557,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Left Wheel Continuous.STL" />
+          filename="package://description/meshes/Front Left Wheel Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -598,7 +598,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Middle Left Wheel Continuous.STL" />
+          filename="package://description/meshes/Middle Left Wheel Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -612,7 +612,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Middle Left Wheel Continuous.STL" />
+          filename="package://description/meshes/Middle Left Wheel Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -653,7 +653,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Left Wheel Continuous .STL" />
+          filename="package://description/meshes/Back Left Wheel Continuous .STL" />
       </geometry>
       <material
         name="">
@@ -667,7 +667,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Left Wheel Continuous .STL" />
+          filename="package://description/meshes/Back Left Wheel Continuous .STL" />
       </geometry>
     </collision>
   </link>
@@ -708,7 +708,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Top Left Wheen Continuous.STL" />
+          filename="package://description/meshes/Top Left Wheen Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -722,7 +722,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Top Left Wheen Continuous.STL" />
+          filename="package://description/meshes/Top Left Wheen Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -763,7 +763,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Right Wheel Continuous.STL" />
+          filename="package://description/meshes/Front Right Wheel Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -777,7 +777,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Right Wheel Continuous.STL" />
+          filename="package://description/meshes/Front Right Wheel Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -818,7 +818,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Middle Right Wheel Continuous.STL" />
+          filename="package://description/meshes/Middle Right Wheel Continuous.STL" />
       </geometry>
       <material
         name="">
@@ -832,7 +832,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Middle Right Wheel Continuous.STL" />
+          filename="package://description/meshes/Middle Right Wheel Continuous.STL" />
       </geometry>
     </collision>
   </link>
@@ -873,7 +873,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Right Wheel Continous.STL" />
+          filename="package://description/meshes/Back Right Wheel Continous.STL" />
       </geometry>
       <material
         name="">
@@ -887,7 +887,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Right Wheel Continous.STL" />
+          filename="package://description/meshes/Back Right Wheel Continous.STL" />
       </geometry>
     </collision>
   </link>
@@ -928,7 +928,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Top Right Wheel.STL" />
+          filename="package://description/meshes/Top Right Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -942,7 +942,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Top Right Wheel.STL" />
+          filename="package://description/meshes/Top Right Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -983,7 +983,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Camera Fixed.STL" />
+          filename="package://description/meshes/Back Camera Fixed.STL" />
       </geometry>
       <material
         name="">
@@ -997,7 +997,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Back Camera Fixed.STL" />
+          filename="package://description/meshes/Back Camera Fixed.STL" />
       </geometry>
     </collision>
   </link>
@@ -1038,7 +1038,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Camera Fixed.STL" />
+          filename="package://description/meshes/Front Camera Fixed.STL" />
       </geometry>
       <material
         name="">
@@ -1052,7 +1052,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Front Camera Fixed.STL" />
+          filename="package://description/meshes/Front Camera Fixed.STL" />
       </geometry>
     </collision>
   </link>
@@ -1093,7 +1093,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Lindar Fixed.STL" />
+          filename="package://description/meshes/Lindar Fixed.STL" />
       </geometry>
       <material
         name="">
@@ -1107,7 +1107,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Lindar Fixed.STL" />
+          filename="package://description/meshes/Lindar Fixed.STL" />
       </geometry>
     </collision>
   </link>
