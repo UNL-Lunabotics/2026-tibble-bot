@@ -390,7 +390,7 @@ namespace tibble_controller
         }
 
         // no matter what, clamp to LA min/max
-        cmd_la_pos = std::clamp(cmd_la_pos, LA_EXCAV_POS, LA_DUMP_POS);
+        cmd_la_pos = std::clamp(cmd_la_pos, 0.0, LA_DUMP_POS);
 
         // --- Fifth, write commands ---
         
