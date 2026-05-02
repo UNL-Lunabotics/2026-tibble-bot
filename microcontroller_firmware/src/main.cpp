@@ -98,10 +98,10 @@ void loop() {
         int32_t enc_la2 = roboclaw_1.ReadEncM2(ROBOCLAW_ADDRESS_1, &status, &v2);
 
         // Only send back to PC if the RoboClaw actually returned valid data
-        if (v1 && v2) {
-            Serial.printf("e %ld %ld\n", enc_la1, enc_la2);
-            digitalWrite(LED_BUILTIN, LOW);
-        }
+        // if (v1 && v2) {
+        //     Serial.printf("e %ld %ld\n", enc_la1, enc_la2);
+        // }
+        Serial.printf("e %ld %ld\n", enc_la1, enc_la2);
     }
 
     // receive commands
