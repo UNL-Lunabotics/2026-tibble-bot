@@ -379,6 +379,9 @@ namespace tibble_controller
             }
         }
 
+        // no matter what, clamp to LA min/max
+        cmd_la_pos = std::clamp(cmd_la_pos, LA_EXCAV_POS, LA_DUMP_POS);
+
         // --- Fifth, write commands ---
         
         // Order is declaration order in command_interface_configuration()
