@@ -27,6 +27,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   phoenix6
   Threads
   SDL2
+  interfaces
 )
 
 find_package(ament_cmake REQUIRED)
@@ -45,8 +46,15 @@ target_include_directories(tibble_plugins PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
+# State manager node stuff
+add_executable(state_manager_node src/state_manager_node.cpp)
+
 # Link everything
 ament_target_dependencies(tibble_plugins PUBLIC
+  ${THIS_PACKAGE_INCLUDE_DEPENDS}
+)
+
+ament_target_dependencies(state_manager_node
   ${THIS_PACKAGE_INCLUDE_DEPENDS}
 )
 
@@ -71,6 +79,10 @@ install(TARGETS tibble_plugins
 )
 
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
+
+install(TARGETS state_manager_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # Ament Exports
 ament_export_targets(export_tibble_plugins HAS_LIBRARY_TARGET)
