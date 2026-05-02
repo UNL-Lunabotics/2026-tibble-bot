@@ -61,8 +61,9 @@ namespace tibble_hwc
             int baud_rate_;
             std::string can_interface_;
 
-            // Firgelli 450lb Super Duty: 41.1 pulses/mm
-            const double LA_TICKS_PER_METER = 41100.0;
+            // Firgelli 450lb Super Duty: 41.1 pulses/mm basic
+            // Actual readouts indicate more like 410 pulses/mm
+            const double LA_TICKS_PER_METER = 410 * 1000;
             const double LA_SYNC_TOLERANCE_METERS = 1000; // Throw error if > 20mm out of sync TODO ADJUST THIS
             
             // goBILDA 5203 (117 RPM)

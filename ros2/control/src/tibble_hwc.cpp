@@ -127,6 +127,15 @@ namespace tibble_hwc
         // state_la_pos_ = (la_1_meters + la_2_meters) / 2.0;
         state_la_pos_ = la_2_meters;
 
+        static rclcpp::Clock steady_clock(RCL_STEADY_TIME);
+        RCLCPP_INFO_THROTTLE(
+            rclcpp::get_logger("TibbleHWC"), 
+            steady_clock, 
+            3000, // 1000ms = 1 second throttle
+            "LA Encoder Pos: %.4f m | Raw Ticks: %d",
+            la_2_meters, raw_la_2_ticks_
+        );
+
         // 4. Read from CAN bus for wheels
         state_left_wheel_pos_ = can_comms_.get_left_pos();
         state_right_wheel_pos_ = can_comms_.get_right_pos();
@@ -180,14 +189,14 @@ namespace tibble_hwc
         // 7. Write to Drivetrain via CAN (Placeholder)
         can_comms_.send_velocities(cmd_left_wheel_vel_, cmd_right_wheel_vel_);
 
-        static rclcpp::Clock steady_clock(RCL_STEADY_TIME);
-        RCLCPP_INFO_THROTTLE(
-            rclcpp::get_logger("TibbleHWC"), 
-            steady_clock, 
-            3000, // 1000ms = 1 second throttle
-            "LA Target: %.4f m | LA Encoder Pos: %.4f m | LA PWM: %d | Raw Ticks: %d",
-            cmd_la_pos_, state_la_pos_, la_pwm, raw_la_1_ticks_
-        );
+        // static rclcpp::Clock steady_clock(RCL_STEADY_TIME);
+        // RCLCPP_INFO_THROTTLE(
+        //     rclcpp::get_logger("TibbleHWC"), 
+        //     steady_clock, 
+        //     3000, // 1000ms = 1 second throttle
+        //     "LA Target: %.4f m | LA Encoder Pos: %.4f m | LA PWM: %d | Raw Ticks: %d",
+        //     cmd_la_pos_, state_la_pos_, la_pwm, raw_la_1_ticks_
+        // );
 
         return hardware_interface::return_type::OK;
     }
