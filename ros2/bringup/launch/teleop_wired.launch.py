@@ -86,6 +86,13 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("gui")),
     )
 
+    state_manager_node = Node(
+        package='control',
+        executable='state_manager_node',
+        name='state_manager_node',
+        output='screen'
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
         joy_node,
@@ -94,5 +101,6 @@ def generate_launch_description():
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
-        rviz_node
+        rviz_node,
+        state_manager_node
     ])

@@ -20,6 +20,13 @@ def generate_launch_description():
         parameters=[{'device_id': 0}]
     )
 
+    state_manager_node = Node(
+        package='control',
+        executable='state_manager_node',
+        name='state_manager_node',
+        output='screen'
+    )
+
     teleop_node = Node(
         package='teleop_twist_joy',
         executable='teleop_node',
@@ -39,6 +46,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="true"),
         joy_node,
+        state_manager_node,
         teleop_node,
-        rviz_node
+        # rviz_node
     ])
