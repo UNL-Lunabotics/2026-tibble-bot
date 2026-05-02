@@ -9,7 +9,7 @@
 #               wireless control. Automates SSH and sudo password entry.
 #               Specifically meant to work with Fedora 43 and Ubuntu 24.04. 
 #               The -a option will use the wifi antenna instead of the built-in card.
-# USAGE:        ./bringup_tibble.sh [-a]
+# USAGE:        ./bringup_tibble.sh [-a] [-5]
 # DEPENDS:      bash, docker, docker compose, docker cli, ssh, tmux, sshpass
 # LICENSE:      Apache 2.0
 # -----------------------------------------------------------------------------
@@ -18,11 +18,14 @@ set -euo pipefail
 
 # Parse optional use antenna argument (default false)
 USE_ANTENNA=0
-while getopts "a" opt; do
+USE_5G=0
+while getopts "a5" opt; do
   case ${opt} in
     a ) USE_ANTENNA=1 ;;
-    \? ) echo "Usage: ./bringup_tibble.sh [-a]"
+    5 ) USE_5G=1 ;;
+    \? ) echo "Usage: ./bringup_tibble.sh [-a] [-5]"
          echo "  -a: Configure the optional Wi-Fi antenna on the onboard computer"
+         echo "  -5: Launch with 5g band"
          exit 1 ;;
   esac
 done
@@ -64,11 +67,18 @@ tmux send-keys -t $SESSION_NAME "echo 'Setting up onboard console...'" C-m
 # Automate sudo commands
 SUDO_CMD="echo \"$ONBOARD_SUDO_PASSWORD\" | sudo -S"
 
+# Optionally use 5g
+if [ "$USE_5G" = "1" ]; then
+  FINAL_WIFI_SSID="$WIFI_SSID_5G"
+else
+  FINAL_WIFI_SSID="$WIFI_SSID"
+fi
+
 # Optionally append the antenna config
 if [ "$USE_ANTENNA" = "1" ]; then
-    WIFI_CMD="$SUDO_CMD nmcli device disconnect wlp3s0; $SUDO_CMD nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
+    WIFI_CMD="$SUDO_CMD nmcli device disconnect wlp3s0; $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
 else
-    WIFI_CMD="$SUDO_CMD nmcli device wifi connect \"$WIFI_SSID\" password \"$WIFI_PASSWORD\";"
+    WIFI_CMD="$SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";"
 fi
 
 # SSH setup and can bringup
