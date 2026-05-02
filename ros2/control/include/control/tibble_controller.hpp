@@ -118,7 +118,7 @@ namespace tibble_controller
             bool prev_vibe_toggle_b_ = false;
             bool first_update_ = true;
             bool first_joy_update_ = true;
-            bool prev_la_reset_b = false;
+            bool prev_la_reset_b_ = false;
 
             // Manual Mode Button/Axis scheme placeholders
             const int MANUAL_TOGGLE_B = 10;       // 11
