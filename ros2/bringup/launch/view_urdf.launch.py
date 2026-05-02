@@ -29,6 +29,7 @@ def generate_launch_description():
     #         'serial_no': "'033322071026'",
     #         'enable_depth': 'true',
     #         'enable_color': 'true',
+    #          'pointcloud.enable': 'true',
     #     }.items()
     # )
 
