@@ -146,7 +146,7 @@ namespace tibble_controller
         const std::shared_ptr<interfaces::srv::SetTibbleState::Request> request,
         std::shared_ptr<interfaces::srv::SetTibbleState::Response> response)
     {
-        if (manual_mode_.load()) {
+        if (manual_mode_) {
             response->success = false;
             response->message = "Service rejected: Controller is currently in MANUAL mode.";
             return;
