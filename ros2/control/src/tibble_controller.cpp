@@ -118,6 +118,7 @@ namespace tibble_controller
         prev_latch_toggle_b_ = false;
         prev_vibe_toggle_b_ = false;
         first_joy_update_ = true;
+        prev_la_reset_b_ = false;
 
         odom_pub_->on_activate();
 
@@ -241,6 +242,7 @@ namespace tibble_controller
                 prev_manual_toggle_b_ = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
                 prev_latch_toggle_b_ = (joy_msg->buttons[MANUAL_LATCH_TOGGLE_B] == 1);
                 prev_vibe_toggle_b_ = (joy_msg->buttons[MANUAL_VIBE_TOGGLE_B] == 1);
+                prev_la_reset_b_ = (joy_msg->buttons[MANUAL_LA_RESET_B] == 1);
                 first_joy_update_ = false;
             } else {
                 bool current_manual_toggle = (joy_msg->buttons[MANUAL_TOGGLE_B] == 1);
@@ -264,6 +266,7 @@ namespace tibble_controller
         double cmd_excav_vel = 0.0;
         double cmd_vibe = 0.0;     // 0.0 = off, 1.0 = on
         double cmd_latch = 1.0;    // 1.0 = latched, 0.0 = unlatched
+        double cmd_la_reset = 0.0;
 
         // Read drivetrain twist
         if (twist_msg) {
@@ -311,6 +314,13 @@ namespace tibble_controller
                 }
                 prev_vibe_toggle_b_ = current_vibe_btn;
                 cmd_vibe = vibe_state_ ? 1.0 : 0.0;
+
+                bool current_la_reset_btn = (joy_msg->buttons[MANUAL_LA_RESET_B] == 1);
+                if (current_la_reset_btn && !prev_la_reset_b_) {
+                    cmd_la_reset = 1.0;
+                    RCLCPP_WARN(get_node()->get_logger(), "MANUAL OVERRIDE: Triggering Linear Actuator Encoder Reset!");
+                }
+                prev_la_reset_b_ = current_la_reset_btn;
             }
 
             // Differential Drive Math (No speed multipliers in manual)
@@ -391,6 +401,7 @@ namespace tibble_controller
         (void)command_interfaces_[3].set_value(cmd_excav_vel);
         (void)command_interfaces_[4].set_value(cmd_vibe);
         (void)command_interfaces_[5].set_value(cmd_latch);
+        (void)command_interfaces_[6].set_value(cmd_la_reset);
 
         RCLCPP_INFO_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(), 1000,
             "MODE: %s | LA Cmd: %.4f | Vibe: %.0f | Latch: %.0f | Paddle: %.2f",

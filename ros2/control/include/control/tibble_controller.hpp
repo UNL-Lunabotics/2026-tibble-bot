@@ -118,6 +118,7 @@ namespace tibble_controller
             bool prev_vibe_toggle_b_ = false;
             bool first_update_ = true;
             bool first_joy_update_ = true;
+            bool prev_la_reset_b = false;
 
             // Manual Mode Button/Axis scheme placeholders
             const int MANUAL_TOGGLE_B = 10;       // 11
@@ -126,6 +127,7 @@ namespace tibble_controller
             const int MANUAL_LATCH_TOGGLE_B = 8;  // 9
             const int MANUAL_VIBE_TOGGLE_B = 9;   // 10
             const int MANUAL_EXCAV_AXIS = 3;      // Throttle
+            const int MANUAL_LA_RESET_B = 11;     // 12
 
             // Odometry vars
             double odom_x_ = 0.0;
