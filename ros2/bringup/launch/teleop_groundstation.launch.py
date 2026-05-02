@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler, ExecuteProcess
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessStart, OnProcessExit
 from launch.substitutions import Command, LaunchConfiguration, PathSubstitution
@@ -34,14 +34,26 @@ def generate_launch_description():
         parameters=[PathSubstitution(control_pkg) / "config" / "joystick.yaml"]
     )
 
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
-        condition=IfCondition(LaunchConfiguration("gui")),
+    # rviz_node = Node(
+    #     package="rviz2",
+    #     executable="rviz2",
+    #     name="rviz2",
+    #     output="log",
+    #     arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
+    #     condition=IfCondition(LaunchConfiguration("gui")),
+    # )
+    
+    foxglove_bridge = Node(
+        package='foxglove_bridge',
+        executable='foxglove_bridge',
+        name='foxglove_bridge'
     )
+    
+    foxglove_web_app = ExecuteProcess(
+        cmd=['xdg-open', 'https://foxglove.dev'],
+        shell=True
+    )
+
 
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="true"),
@@ -49,4 +61,6 @@ def generate_launch_description():
         state_manager_node,
         teleop_node,
         # rviz_node
+        foxglove_bridge,
+        foxglove_web_app,
     ])
