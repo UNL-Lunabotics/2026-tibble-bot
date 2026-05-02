@@ -262,7 +262,7 @@ namespace tibble_controller
         double target_w = 0.0;
         double cmd_left_wheel = 0.0;
         double cmd_right_wheel = 0.0;
-        double cmd_la_pos = LA_REST_POS;
+        double cmd_la_pos = LA_EXCAV_POS;
         double cmd_excav_vel = 0.0;
         double cmd_vibe = 0.0;     // 0.0 = off, 1.0 = on
         double cmd_latch = 1.0;    // 1.0 = latched, 0.0 = unlatched
@@ -389,8 +389,8 @@ namespace tibble_controller
             }
         }
 
-        // no matter what, clamp to LA min/max
-        cmd_la_pos = std::clamp(cmd_la_pos, 0.0, LA_DUMP_POS);
+        // no matter what, clamp to LA max (no min enforced)
+        cmd_la_pos = std::min(cmd_la_pos, LA_DUMP_POS);
 
         // --- Fifth, write commands ---
         

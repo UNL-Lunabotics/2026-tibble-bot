@@ -108,7 +108,7 @@ namespace tibble_controller
             // const int STATE_DUMP_B = 9;     // 10
 
             // Manual mode tracking variables
-            double manual_la_pos_ = LA_REST_POS;
+            double manual_la_pos_ = LA_EXCAV_POS;
             bool latch_state_ = true;  // true = latched
             bool vibe_state_ = false;  // false = off
 
