@@ -49,16 +49,16 @@ def generate_launch_description():
                 ],
             ),
             # joint state publisher gui for joint manipulation
-            Node(
-                package="joint_state_publisher_gui",
-                executable="joint_state_publisher_gui",
-                output="screen",
-                parameters=[
-                    {
-                        "robot_description": robot_description_str
-                    },
-                ],
-            ),
+            # Node(
+            #     package="joint_state_publisher_gui",
+            #     executable="joint_state_publisher_gui",
+            #     output="screen",
+            #     parameters=[
+            #         {
+            #             "robot_description": robot_description_str
+            #         },
+            #     ],
+            # ),
             # RViz2 node
             # Node(
             #     package="rviz2",
