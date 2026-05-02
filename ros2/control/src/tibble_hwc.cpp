@@ -115,8 +115,8 @@ namespace tibble_hwc
         teensy_comms_.read_encoder_values(raw_la_1_ticks_, raw_la_2_ticks_);
 
         // 2. Linear Actuator Sync Check
-        double la_1_meters = raw_la_1_ticks_ / LA_TICKS_PER_METER;
-        // double la_2_meters = raw_la_2_ticks_ / LA_TICKS_PER_METER;
+        // double la_1_meters = raw_la_1_ticks_ / LA_TICKS_PER_METER;
+        double la_2_meters = raw_la_2_ticks_ / LA_TICKS_PER_METER;
         
         // if (std::abs(la_1_meters - la_2_meters) > LA_SYNC_TOLERANCE_METERS) {
         //     RCLCPP_FATAL(rclcpp::get_logger("TibbleHWC"), "CRITICAL FAULT: Linear Actuators out of sync by > 20mm! Halting system.");
@@ -125,7 +125,7 @@ namespace tibble_hwc
 
         // 3. Average the LAs for the ROS Controller State
         // state_la_pos_ = (la_1_meters + la_2_meters) / 2.0;
-        state_la_pos_ = la_1_meters;
+        state_la_pos_ = la_2_meters;
 
         // 4. Read from CAN bus for wheels
         state_left_wheel_pos_ = can_comms_.get_left_pos();
