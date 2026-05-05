@@ -38,3 +38,10 @@ services:
       - dialout
       - video
       - input
+
+  foxglove:
+      image: husarion/foxglove
+      container_name: foxglove_studio
+      ports:
+        - "8080:8080"
+      restart: unless-stopped

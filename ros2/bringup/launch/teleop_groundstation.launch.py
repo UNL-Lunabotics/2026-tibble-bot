@@ -46,11 +46,14 @@ def generate_launch_description():
     foxglove_bridge = Node(
         package='foxglove_bridge',
         executable='foxglove_bridge',
-        name='foxglove_bridge'
+        name='foxglove_bridge',
+        parameters=[{
+            'port': 8765
+        }]
     )
     
     foxglove_web_app = ExecuteProcess(
-        cmd=['xdg-open', 'https://foxglove.dev'],
+        cmd=['xdg-open', 'http://localhost:8080'],
         shell=True
     )
 
