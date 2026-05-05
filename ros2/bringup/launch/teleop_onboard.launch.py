@@ -85,15 +85,6 @@ def generate_launch_description():
     #     }.items()
     # )
 
-    foxglove_bridge = Node(
-        package='foxglove_bridge',
-        executable='foxglove_bridge',
-        name='foxglove_bridge',
-        parameters=[{
-            'port': 8765
-        }]
-    )
-
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
         control_node,
@@ -101,6 +92,5 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
         camera_front,
-        # camera_rear,
-        foxglove_bridge
+        # camera_rear
     ])
