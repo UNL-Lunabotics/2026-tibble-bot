@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Chassis.STL" />
+          filename="package://description/meshes/Chassis.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Chassis.STL" />
+          filename="package://description/meshes/Chassis.STL" />
       </geometry>
     </collision>
   </link>
@@ -79,7 +79,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DL_Wheel.STL" />
+          filename="package://description/meshes/DL_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -93,7 +93,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DL_Wheel.STL" />
+          filename="package://description/meshes/DL_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -134,7 +134,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DR_Wheel.STL" />
+          filename="package://description/meshes/DR_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -148,7 +148,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/DR_Wheel.STL" />
+          filename="package://description/meshes/DR_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -189,7 +189,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BLA.STL" />
+          filename="package://description/meshes/BLA.STL" />
       </geometry>
       <material
         name="">
@@ -203,7 +203,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BLA.STL" />
+          filename="package://description/meshes/BLA.STL" />
       </geometry>
     </collision>
   </link>
@@ -249,7 +249,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA.STL" />
+          filename="package://description/meshes/LA.STL" />
       </geometry>
       <material
         name="">
@@ -263,7 +263,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/LA.STL" />
+          filename="package://description/meshes/LA.STL" />
       </geometry>
     </collision>
   </link>
@@ -309,7 +309,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TLA.STL" />
+          filename="package://description/meshes/TLA.STL" />
       </geometry>
       <material
         name="">
@@ -323,7 +323,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TLA.STL" />
+          filename="package://description/meshes/TLA.STL" />
       </geometry>
     </collision>
   </link>
@@ -369,7 +369,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper.STL" />
+          filename="package://description/meshes/Hopper.STL" />
       </geometry>
       <material
         name="">
@@ -383,7 +383,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper.STL" />
+          filename="package://description/meshes/Hopper.STL" />
       </geometry>
     </collision>
   </link>
@@ -429,7 +429,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper_Door.STL" />
+          filename="package://description/meshes/Hopper_Door.STL" />
       </geometry>
       <material
         name="">
@@ -443,7 +443,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper_Door.STL" />
+          filename="package://description/meshes/Hopper_Door.STL" />
       </geometry>
     </collision>
   </link>
@@ -489,7 +489,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper_Latch.STL" />
+          filename="package://description/meshes/Hopper_Latch.STL" />
       </geometry>
       <material
         name="">
@@ -503,7 +503,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Hopper_Latch.STL" />
+          filename="package://description/meshes/Hopper_Latch.STL" />
       </geometry>
     </collision>
   </link>
@@ -549,7 +549,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Excavation.STL" />
+          filename="package://description/meshes/Excavation.STL" />
       </geometry>
       <material
         name="">
@@ -563,7 +563,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/Excavation.STL" />
+          filename="package://description/meshes/Excavation.STL" />
       </geometry>
     </collision>
   </link>
@@ -604,7 +604,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/FL_Wheel.STL" />
+          filename="package://description/meshes/FL_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -618,7 +618,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/FL_Wheel.STL" />
+          filename="package://description/meshes/FL_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -659,7 +659,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/ML_Wheel.STL" />
+          filename="package://description/meshes/ML_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -673,7 +673,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/ML_Wheel.STL" />
+          filename="package://description/meshes/ML_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -714,7 +714,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BL_Wheel.STL" />
+          filename="package://description/meshes/BL_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -728,7 +728,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BL_Wheel.STL" />
+          filename="package://description/meshes/BL_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -769,7 +769,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TL_Wheel.STL" />
+          filename="package://description/meshes/TL_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -783,7 +783,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TL_Wheel.STL" />
+          filename="package://description/meshes/TL_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -824,7 +824,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/FR_Wheel.STL" />
+          filename="package://description/meshes/FR_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -838,7 +838,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/FR_Wheel.STL" />
+          filename="package://description/meshes/FR_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -879,7 +879,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/MR_Wheel.STL" />
+          filename="package://description/meshes/MR_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -893,7 +893,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/MR_Wheel.STL" />
+          filename="package://description/meshes/MR_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -934,7 +934,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BR_Wheel.STL" />
+          filename="package://description/meshes/BR_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -948,7 +948,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/BR_Wheel.STL" />
+          filename="package://description/meshes/BR_Wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -989,7 +989,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TR_Wheel.STL" />
+          filename="package://description/meshes/TR_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -1003,7 +1003,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find description)/meshes/TR_Wheel.STL" />
+          filename="package://description/meshes/TR_Wheel.STL" />
       </geometry>
     </collision>
   </link>
