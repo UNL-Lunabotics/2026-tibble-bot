@@ -43,15 +43,6 @@ def generate_launch_description():
     #     condition=IfCondition(LaunchConfiguration("gui")),
     # )
     
-    foxglove_bridge = Node(
-        package='foxglove_bridge',
-        executable='foxglove_bridge',
-        name='foxglove_bridge',
-        parameters=[{
-            'port': 8765
-        }]
-    )
-    
     foxglove_web_app = ExecuteProcess(
         cmd=['xdg-open', 'http://localhost:8080'],
         shell=True
@@ -64,6 +55,5 @@ def generate_launch_description():
         state_manager_node,
         teleop_node,
         # rviz_node
-        foxglove_bridge,
         foxglove_web_app,
     ])
