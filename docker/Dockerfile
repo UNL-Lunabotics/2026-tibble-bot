@@ -65,7 +65,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Network package
     ros-${ROS_DISTRO}-rmw-zenoh-cpp \
     # Visualization
-    ros-${ROS_DISTRO}-foxglove-bridge
+    ros-${ROS_DISTRO}-foxglove-bridge \ 
+    ros-${ROS_DISTRO}-realsense2-camera \
+    ros-${ROS_DISTRO}-realsense2-description
 
 RUN curl -s --compressed -o /usr/share/keyrings/ctr-pubkey.gpg "https://deb.ctr-electronics.com/ctr-pubkey.gpg" && \
     curl -s --compressed -o /etc/apt/sources.list.d/ctr2026.list "https://deb.ctr-electronics.com/ctr2026.list" && \
