@@ -59,21 +59,12 @@
 
     <!-- Load the ROS2 Control information for just sim purposes -->
     <xacro:if value="$(arg use_sim)">
-        <ros2_control name="name" type="system">
-
-            <hardware>
-                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-            </hardware>
-
-            <!-- Define all joints and their command/state interfaces necessary for sim -->
-
-        </ros2_control>
-
-        <gazebo>
-            <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
-                <parameters>$(find control)/config/tibble_controller.yaml</parameters>
-            </plugin>
-        </gazebo>
+        <ros2_control name="MujocoSystem" type="system">
+        <hardware>
+            <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
+            <param name="mujoco_model">$(find my_description)/description/scene.xml</param>
+            <param name="odom_topic">/odom</param>
+        </hardware>
     </xacro:if>
 
 </robot>
