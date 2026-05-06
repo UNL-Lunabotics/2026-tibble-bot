@@ -45,6 +45,17 @@ def generate_launch_description():
                     },
                 ],
             ),
+            # Mujoco urdf conversion node
+            Node(
+                package="mujoco_ros2_control",
+                executable="robot_description_to_mjcf.sh",
+                output="screen",
+                arguments=[
+                    "-p",
+                    "mujoco_robot_description",
+                    "-c",
+                ],
+            ),
             # RViz2 node
             Node(
                 package="rviz2",
