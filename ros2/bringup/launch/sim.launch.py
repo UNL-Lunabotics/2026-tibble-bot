@@ -1,0 +1,127 @@
+import os
+from launch import LaunchDescription
+from launch.actions import AppendEnvironmentVariable, IncludeLaunchDescription, RegisterEventHandler, DeclareLaunchArgument
+from launch.event_handlers import OnProcessExit
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, PathSubstitution, LaunchConfiguration
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+from launch.conditions import IfCondition
+from launch_ros.parameter_descriptions import ParameterValue
+
+def generate_launch_description():
+  
+  control_pkg = FindPackageShare("control")
+  description_pkg = FindPackageShare("description")
+  bringup_pkg = FindPackageShare("bringup")
+  slam_toolbox_pkg = FindPackageShare("slam_toolbox")
+  nav2_bringup_pkg = FindPackageShare("nav2_bringup")
+  ros_gz_sim_pkg = FindPackageShare("ros_gz_sim")
+    
+  bridge_params = os.path.join(
+      bringup_pkg.find("bringup"),
+      "config",
+      "gz_bridge.yaml"
+  )
+  
+  world_path = os.path.join(
+    description_pkg.find("description"),
+    "mujoco",
+    "scene.xml"
+  )
+  
+  robot_description_content = ParameterValue(
+      Command([
+          "xacro ",
+          PathSubstitution(description_pkg) / "urdf" / "tibble.urdf.xacro",
+          " use_sim:=true",
+          " use_control:=true"
+      ]),
+      value_type=str
+  )
+  robot_description = {"robot_description": robot_description_content}
+  
+  joy_node = Node(
+    package = "joy",
+    executable = "joy_node",
+    name = "joy_node",
+    parameters = [{"device_id": 0}]
+  )
+  
+  teleop_node = Node(
+    package = "teleop_twist_joy",
+    executable = "teleop_node",
+    name = "teleop_twist_joy_node",
+    parameters = [PathSubstitution(control_pkg) / "config" / "joystick.yaml"],
+    # remappings = [("/cmd_vel", "/tibble_controller/cmd_vel")]
+  )
+  
+  robot_state_pub_node = Node(
+    package = "robot_state_publisher",
+    executable = "robot_state_publisher",
+    output = "both",
+    parameters = [robot_description]
+  )
+  
+  joint_state_broadcaster_spawner = Node(
+    package = "controller_manager",
+    executable = "spawner",
+    arguments = ["joint_state_broadcaster"]
+  )
+  
+  tibble_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["tibble_controller"]
+  )
+    
+  rviz_node = Node(
+      package="rviz2",
+      executable="rviz2",
+      name="rviz2",
+      output="log",
+      arguments=["-d", PathSubstitution(bringup_pkg) / "config" / "teleop.rviz"],
+      condition=IfCondition(LaunchConfiguration("gui"))
+  )
+  
+  foxglove_bridge = Node(
+    package="foxglove_bridge",
+    executable="foxglove_bridge",
+    name="foxglove_bridge",
+  )
+  
+  # Mujoco urdf conversion node
+  urdf_to_mjcf_node = Node(
+    package="mujoco_ros2_control",
+    executable="robot_description_to_mjcf.sh",
+    output="screen",
+    arguments=[
+      "-p",
+      "mujoco_robot_description",
+      "-c",
+    ],
+  )
+  
+  # Mujoco ROS2 Control node
+  control_node = Node(
+    package="mujoco_ros2_control",
+    executable="ros2_control_node",
+    output="both",
+    parameters=[
+      {"use_sim_time": True},
+      PathSubstitution(control_pkg) / "config" / "tibble_controller.yaml",
+    ],
+  )
+  
+  return LaunchDescription([
+    DeclareLaunchArgument("gui", default_value="true", description="Whether to launch RViz"),
+    joy_node,
+    teleop_node,
+    urdf_to_mjcf_node,
+    control_node,
+    robot_state_pub_node,
+    tibble_controller_spawner,
+    joint_state_broadcaster_spawner,
+    rviz_node,
+    foxglove_bridge,
+  ])
