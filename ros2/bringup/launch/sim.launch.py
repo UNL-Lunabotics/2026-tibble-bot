@@ -17,18 +17,6 @@ def generate_launch_description():
   slam_toolbox_pkg = FindPackageShare("slam_toolbox")
   nav2_bringup_pkg = FindPackageShare("nav2_bringup")
   ros_gz_sim_pkg = FindPackageShare("ros_gz_sim")
-    
-  bridge_params = os.path.join(
-      bringup_pkg.find("bringup"),
-      "config",
-      "gz_bridge.yaml"
-  )
-  
-  world_path = os.path.join(
-    description_pkg.find("description"),
-    "mujoco",
-    "scene.xml"
-  )
   
   robot_description_content = ParameterValue(
       Command([

@@ -20,8 +20,8 @@
         <xacro:include filename="ros2_control.xacro"/>
     </xacro:if>
 
-    <xacro:if value="$(arg use_sim)">
+    <!-- <xacro:if value="$(arg use_sim)">
         <xacro:include filename="gazebo.xacro"/>
-    </xacro:if>
+    </xacro:if> -->
 
 </robot>

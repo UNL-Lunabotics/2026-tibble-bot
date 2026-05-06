@@ -60,11 +60,12 @@
     <!-- Load the ROS2 Control information for just sim purposes -->
     <xacro:if value="$(arg use_sim)">
         <ros2_control name="MujocoSystem" type="system">
-        <hardware>
-            <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
-            <param name="mujoco_model">$(find my_description)/description/scene.xml</param>
-            <param name="odom_topic">/odom</param>
-        </hardware>
+            <hardware>
+                <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
+                <param name="mujoco_model">$(find description)/description/mujoco/scene.xml</param>
+                <param name="odom_topic">/odom</param>
+            </hardware>
+        </ros2_control>
     </xacro:if>
 
 </robot>
