@@ -9,7 +9,7 @@ services:
     privileged: true
     environment:
       - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1        # (optional, avoids some shared memory issues)
+      - QT_X11_NO_MITSHM=1
       - XDG_RUNTIME_DIR=/tmp/runtime-ubuntu
       - ROS_DOMAIN_ID=0
       - DISPLAY=:0
@@ -38,10 +38,3 @@ services:
       - dialout
       - video
       - input
-
-  foxglove:
-      image: husarion/foxglove
-      container_name: foxglove_studio
-      ports:
-        - "8080:8080"
-      restart: unless-stopped
