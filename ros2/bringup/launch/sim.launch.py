@@ -111,5 +111,5 @@ def generate_launch_description():
     tibble_controller_spawner,
     joint_state_broadcaster_spawner,
     rviz_node,
-    foxglove_bridge,
+    # foxglove_bridge,
   ])

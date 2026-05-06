@@ -62,7 +62,7 @@
         <ros2_control name="MujocoSystem" type="system">
             <hardware>
                 <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
-                <param name="mujoco_model">$(find description)/description/mujoco/scene.xml</param>
+                <param name="mujoco_model">$(find description)/mujoco/scene.xml</param>
                 <param name="odom_topic">/odom</param>
             </hardware>
         </ros2_control>
