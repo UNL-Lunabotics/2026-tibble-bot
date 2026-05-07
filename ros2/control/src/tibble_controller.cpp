@@ -360,15 +360,15 @@ namespace tibble_controller
                     break;
 
                 case STATE_EXCAVATE:
-                    speed_multiplier = 0.5; // Slow down drivetrain
-                    
+                    target_v = 0.2;
+                    target_w = 0.0;
+                    speed_multiplier = 1.0;
+
                     cmd_vibe = 1.0;
-                    if (state_timer_ < EXCAVATE_EXTEND_TIME) {
-                        cmd_la_pos = -1.0; // Retract LA
-                    } else {
-                        cmd_la_pos = 0.0;  // Stop LA
-                        cmd_excav_vel = paddle_speed_; // Start paddles
-                    }
+                    
+                    cmd_la_pos = -1.0; // retract LA's forever
+                    
+                    cmd_excav_vel = paddle_speed_;
                     break;
 
                 case STATE_DUMP:
