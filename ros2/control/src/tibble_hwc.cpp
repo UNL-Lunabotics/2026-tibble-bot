@@ -156,16 +156,11 @@ namespace tibble_hwc
             return hardware_interface::return_type::OK; // Skip the rest of the loop for this tick
         }
 
-        // 2. Linear Actuator Position -> PWM Conversion (P-Controller)
-        double la_error_meters = cmd_la_pos_ - state_la_pos_;
-        double kP = 2000.0; // Tuning parameter: higher = more aggressive approach
-        
-        // RoboClaw expects 64 = stop, 0 = full reverse, 127 = full forward
-        int la_pwm = 64 + std::clamp(static_cast<int>(la_error_meters * kP), -63, 63);
-        
-        // Deadband: If we are within 1mm of the target, stop the motor to prevent jittering
-        if (std::abs(la_error_meters) < 0.005) {
-            la_pwm = 64; 
+        int la_pwm = 64; // Default to stop (64)
+        if (cmd_la_pos_ > 0.5) {
+            la_pwm = 127; // Full extend
+        } else if (cmd_la_pos_ < -0.5) {
+            la_pwm = 1;   // Full retract
         }
 
         // 3. Excavation Rad/s -> PWM Conversion

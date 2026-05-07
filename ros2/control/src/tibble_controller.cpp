@@ -268,7 +268,7 @@ namespace tibble_controller
         double target_w = 0.0;
         double cmd_left_wheel = 0.0;
         double cmd_right_wheel = 0.0;
-        double cmd_la_pos = LA_EXCAV_POS;
+        double cmd_la_pos = 0.0;
         double cmd_excav_vel = 0.0;
         double cmd_vibe = 0.0;     // 0.0 = off, 1.0 = on
         double cmd_latch = 1.0;    // 1.0 = latched, 0.0 = unlatched
@@ -291,9 +291,9 @@ namespace tibble_controller
 
                 // Linear Actuator (Pseudo-Velocity)
                 if (extending) {
-                    cmd_la_pos = current_la_pos + 1.0;
+                    cmd_la_pos = 1.0;
                 } else if (retracting) {
-                    cmd_la_pos = current_la_pos - 1.0;
+                    cmd_la_pos = -1.0;
                 } else {
                     cmd_la_pos = current_la_pos;
                 }
@@ -363,11 +363,11 @@ namespace tibble_controller
                     speed_multiplier = 0.5; // Slow down drivetrain
                     
                     cmd_vibe = 1.0;
-                    cmd_la_pos = LA_EXCAV_POS;
-
-                    // Start paddles if LA is fully retracted
-                    if (std::abs(current_la_pos - LA_EXCAV_POS) < 0.01) {
-                        cmd_excav_vel = paddle_speed_;
+                    if (state_timer_ < EXCAVATE_EXTEND_TIME) {
+                        cmd_la_pos = -1.0; // Retract LA
+                    } else {
+                        cmd_la_pos = 0.0;  // Stop LA
+                        cmd_excav_vel = paddle_speed_; // Start paddles
                     }
                     break;
 
@@ -376,9 +376,12 @@ namespace tibble_controller
                     
                     cmd_latch = 0.0; // Unlatch immediately
 
-                    if (state_timer_ > DUMP_LA_DELAY) {
-                        cmd_la_pos = LA_DUMP_POS;
+                    if (state_timer_ > DUMP_LA_DELAY && state_timer_ < (DUMP_LA_DELAY + EXCAVATE_EXTEND_TIME)) {
+                        cmd_la_pos = 1.0; // Extend LA
+                    } else if (state_timer_ >= (DUMP_LA_DELAY + EXCAVATE_EXTEND_TIME)) {
+                        cmd_la_pos = 0.0; // Stop LA
                     }
+
                     if (state_timer_ > DUMP_VIBE_DELAY) {
                         cmd_vibe = 1.0;
                     }
@@ -396,7 +399,7 @@ namespace tibble_controller
         }
 
         // no matter what, clamp to LA max (no min enforced)
-        cmd_la_pos = std::min(cmd_la_pos, LA_DUMP_POS);
+        // cmd_la_pos = std::min(cmd_la_pos, LA_DUMP_POS);
 
         // --- Fifth, write commands ---
         
