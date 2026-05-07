@@ -100,7 +100,7 @@ namespace tibble_controller
             const double EXCAVATE_PADDLE_DELAY = 1.0; // Wait before starting paddles
             const double DUMP_LA_DELAY = 0.2;      // Wait after unlatching before lifting
             const double DUMP_VIBE_DELAY = 1.0;    // Wait for LA to extend before vibrating
-            const double EXCAVATE_EXTEND_TIME = 7.0;
+            const double EXCAVATE_EXTEND_TIME = 12.0; // assumes starting fully retracted
 
             // Button scheme
             // const int STATE_TRAVEL_B = 7;   // 8
