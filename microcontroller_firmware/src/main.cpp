@@ -121,4 +121,8 @@ void loop() {
             }
         }
     }
+
+    if (!(Serial.available() > 0)) {
+        execute_command('s');
+    }
 }
