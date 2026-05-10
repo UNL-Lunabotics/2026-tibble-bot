@@ -76,7 +76,11 @@ fi
 
 # Optionally append the antenna config
 if [ "$USE_ANTENNA" = "1" ]; then
-    WIFI_CMD="$SUDO_CMD nmcli device disconnect wlp3s0; $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
+    WIFI_CMD="echo \"Temporarily disabling internal Wi-Fi and Tailscale...\"; \
+              $SUDO_CMD nmcli device set wlp3s0 managed no; \
+              $SUDO_CMD ip link set wlp3s0 down; \
+              $SUDO_CMD systemctl stop tailscaled; \
+              $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
 else
     WIFI_CMD="$SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";"
 fi
