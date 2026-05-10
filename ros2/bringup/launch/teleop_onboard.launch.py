@@ -69,8 +69,8 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
         launch_arguments={
             'camera_name': 'camera_front',
-            'serial_no': "'033322071026'",
-            'enable_depth': 'true',
+            'serial_no': '_033322071026',
+            'enable_depth': 'false',
             'enable_color': 'true',
         }.items()
     )
@@ -79,8 +79,8 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
         launch_arguments={
             'camera_name': 'camera_rear',
-            'serial_no': "'048522075108'",
-            'enable_depth': 'true',
+            'serial_no': '_048522075108',
+            'enable_depth': 'false',
             'enable_color': 'true',
         }.items()
     )
