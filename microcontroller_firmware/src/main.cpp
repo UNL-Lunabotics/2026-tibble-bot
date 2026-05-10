@@ -7,7 +7,8 @@
 
 #define ROBOCLAW_ADDRESS_1 0x80     // Linear Actuators
 #define ROBOCLAW_ADDRESS_2 0x83     // Vibe and Excav
-#define HOPPER_SERVO_PIN 9          // correct
+#define HOPPER_SERVO_PIN 9
+#define LIMIT_SWITCH 11             
 
 // NEVER EVER TOUCH PINS 33 AND 34 THEY'RE JUMPERS NOW
 
@@ -28,6 +29,7 @@ void setup() {
 
     hopper_latch.attach(HOPPER_SERVO_PIN);
     pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(LIMIT_SWITCH, INPUT_PULLUP);
     
     // Ensure all motors are STOPPED on boot
     roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
@@ -50,6 +52,13 @@ void execute_command(const char* cmd) {
             int la1, la2, vibe, excav, latch;
             // Parse the 5 variables sent from the PC
             if (sscanf(cmd, "c %d %d %d %d %d", &la1, &la2, &vibe, &excav, &latch) == 5) {
+
+                // Limit switch hard stop
+                if (digitalRead(LIMIT_SWITCH) == LOW) {
+                    if (la1 > 64) la1 = 64; // Prevent extension, allow retract
+                    if (la2 > 64) la2 = 64;
+                }
+
                 // Address 1: Linear Actuators
                 roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la1);
                 roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, la2);
@@ -123,6 +132,6 @@ void loop() {
     }
 
     if (!(Serial.available() > 0)) {
-        execute_command('s');
+        execute_command("s");
     }
 }
