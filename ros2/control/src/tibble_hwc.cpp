@@ -127,15 +127,6 @@ namespace tibble_hwc
         // state_la_pos_ = (la_1_meters + la_2_meters) / 2.0;
         state_la_pos_ = la_2_meters;
 
-        static rclcpp::Clock steady_clock(RCL_STEADY_TIME);
-        RCLCPP_INFO_THROTTLE(
-            rclcpp::get_logger("TibbleHWC"), 
-            steady_clock, 
-            3000, // 1000ms = 1 second throttle
-            "LA Encoder Pos: %.4f m | Raw Ticks: %d",
-            la_2_meters, raw_la_2_ticks_
-        );
-
         // 4. Read from CAN bus for wheels
         state_left_wheel_pos_ = can_comms_.get_left_pos();
         state_right_wheel_pos_ = can_comms_.get_right_pos();
