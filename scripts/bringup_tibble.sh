@@ -9,7 +9,7 @@
 #               wireless control. Automates SSH and sudo password entry.
 #               Specifically meant to work with Fedora 43 and Ubuntu 24.04. 
 #               The -a option will use the wifi antenna instead of the built-in card.
-# USAGE:        ./bringup_tibble.sh [-a] [-5]
+# USAGE:        ./bringup_tibble.sh [-5]
 # DEPENDS:      bash, docker, docker compose, docker cli, ssh, tmux, sshpass
 # LICENSE:      Apache 2.0
 # -----------------------------------------------------------------------------
@@ -19,12 +19,10 @@ set -euo pipefail
 # Parse optional use antenna argument (default false)
 USE_ANTENNA=0
 USE_5G=0
-while getopts "a5" opt; do
+while getopts "5" opt; do
   case ${opt} in
-    a ) USE_ANTENNA=1 ;;
     5 ) USE_5G=1 ;;
-    \? ) echo "Usage: ./bringup_tibble.sh [-a] [-5]"
-         echo "  -a: Configure the optional Wi-Fi antenna on the onboard computer"
+    \? ) echo "Usage: ./bringup_tibble.sh [-5]"
          echo "  -5: Launch with 5g band"
          exit 1 ;;
   esac
@@ -74,22 +72,11 @@ else
   FINAL_WIFI_SSID="$WIFI_SSID"
 fi
 
-# Optionally append the antenna config
-if [ "$USE_ANTENNA" = "1" ]; then
-    WIFI_CMD="echo \"Temporarily disabling internal Wi-Fi and Tailscale...\"; \
-              $SUDO_CMD nmcli device set wlp3s0 managed no; \
-              $SUDO_CMD ip link set wlp3s0 down; \
-              $SUDO_CMD systemctl stop tailscaled; \
-              $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\" ifname $ANTENNA_SERIAL;"
-else
-    WIFI_CMD="$SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";"
-fi
-
 # SSH setup and can bringup
 tmux send-keys -t $SESSION_NAME "sshpass -p \"$ONBOARD_SSH_PASSWORD\" ssh -t $ONBOARD_USERNAME@$ONBOARD_IP '
     echo \"Configuring network interfaces...\";
-    $WIFI_CMD
-    echo \"Bringing up CAN interface (can0)...\";
+    $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";";
+    echo \"Bringing up CAN interface...\";
     $SUDO_CMD ip link set can0 down;
     $SUDO_CMD ip link set can0 up type can bitrate 1000000;
     $SUDO_CMD ip link set can0 txqueuelen 1000;
