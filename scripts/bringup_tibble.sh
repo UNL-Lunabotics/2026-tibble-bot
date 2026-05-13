@@ -4,7 +4,7 @@
 # FILE:         bringup_tibble.sh
 # AUTHOR:       Ella Moody <moodyellam@gmail.com>
 # CREATED:      04-25-2026
-# LAST EDITED:  04-28-2026
+# LAST EDITED:  05-10-2026
 # DESCRIPTION:  This script brings up ready terminals for onboard and groundstation
 #               wireless control. Automates SSH and sudo password entry.
 #               Specifically meant to work with Fedora 43 and Ubuntu 24.04. 
