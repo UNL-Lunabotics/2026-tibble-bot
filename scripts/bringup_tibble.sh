@@ -75,7 +75,7 @@ fi
 # SSH setup and can bringup
 tmux send-keys -t $SESSION_NAME "sshpass -p \"$ONBOARD_SSH_PASSWORD\" ssh -t $ONBOARD_USERNAME@$ONBOARD_IP '
     echo \"Configuring network interfaces...\";
-    $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";";
+    $SUDO_CMD nmcli device wifi connect \"$FINAL_WIFI_SSID\" password \"$WIFI_PASSWORD\";
     echo \"Bringing up CAN interface...\";
     $SUDO_CMD ip link set can0 down;
     $SUDO_CMD ip link set can0 up type can bitrate 1000000;
