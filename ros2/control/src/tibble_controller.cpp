@@ -271,7 +271,7 @@ namespace tibble_controller
         double cmd_la_pos = 0.0;
         double cmd_excav_vel = 0.0;
         double cmd_vibe = 0.0;     // 0.0 = off, 1.0 = on
-        double cmd_latch = 1.0;    // 1.0 = latched, 0.0 = unlatched
+        double cmd_latch = latch_state_ ? 1.0 : 0.0;
         double cmd_la_reset = 0.0;
 
         // Read drivetrain twist
@@ -352,7 +352,6 @@ namespace tibble_controller
             switch (local_state) {
                 case STATE_IDLE:
                     // Safe defaults are already set above
-                    cmd_latch = 1.0;
                     break;
 
                 case STATE_TRAVEL:
@@ -374,6 +373,7 @@ namespace tibble_controller
                 case STATE_DUMP:
                     speed_multiplier = 0.3; // Slow down drivetrain
                     
+                    latch_state_ = false;
                     cmd_latch = 0.0; // Unlatch immediately
 
                     if (state_timer_ > DUMP_LA_DELAY && state_timer_ < (DUMP_LA_DELAY + EXCAVATE_EXTEND_TIME)) {
