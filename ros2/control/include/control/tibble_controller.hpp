@@ -131,12 +131,12 @@ namespace tibble_controller
             // const int MANUAL_LA_RESET_B = 1;     // 12
 
             // Manual Mode Button/Axis scheme placeholders
-            const int MANUAL_TOGGLE_B = 11;       // +
+            const int MANUAL_TOGGLE_B = 7;       // +
             const int MANUAL_LA_EXTEND_B = 0;     // A
-            const int MANUAL_LA_RETRACT_B = 4;    // Y
-            const int MANUAL_LATCH_TOGGLE_B = 3;  // X
+            const int MANUAL_LA_RETRACT_B = 3;    // Y
+            const int MANUAL_LATCH_TOGGLE_B = 2;  // X
             const int MANUAL_VIBE_TOGGLE_B = 1;   // B
-            const int MANUAL_EXCAV_AXIS = 4;      // RT
+            const int MANUAL_EXCAV_AXIS = 5;      // RT
             const int MANUAL_LA_RESET_B = 12;      // unimportnat
 
             // Odometry vars

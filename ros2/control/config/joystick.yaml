@@ -3,7 +3,7 @@ teleop_twist_joy_node:
     axis_linear:
       x: 1  # forward/back
     axis_angular:
-      yaw: 2  # Twist
+      yaw: 3  # Turn
     scale_linear:
       x: 1.0
     scale_angular:
