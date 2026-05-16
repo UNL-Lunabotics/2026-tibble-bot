@@ -301,8 +301,9 @@ namespace tibble_controller
                 // Excavation
                 if (joy_msg->axes.size() > (size_t)MANUAL_EXCAV_AXIS) {
                     double excav_axis = joy_msg->axes[MANUAL_EXCAV_AXIS];
-                    // Map -1.0 -> 1.0 to 0.0 -> max_speed
-                    cmd_excav_vel = excav_axis;
+                    // Map 1.0 -> 0 and -1.0 to 1.0 * max speed
+                    // When not pressed at all, it is at 1.0, and when fully pressed it is -1.0
+                    cmd_excav_vel = (-(excav_axis - 1.0) / 2.0) * manual_paddle_max_speed_;
                 }
 
                 // Latch Toggle
