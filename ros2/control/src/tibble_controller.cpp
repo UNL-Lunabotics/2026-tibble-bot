@@ -302,7 +302,7 @@ namespace tibble_controller
                 if (joy_msg->axes.size() > (size_t)MANUAL_EXCAV_AXIS) {
                     double excav_axis = joy_msg->axes[MANUAL_EXCAV_AXIS];
                     // Map -1.0 -> 1.0 to 0.0 -> max_speed
-                    cmd_excav_vel = ((excav_axis + 1.0) / 2.0) * manual_paddle_max_speed_;
+                    cmd_excav_vel = excav_axis;
                 }
 
                 // Latch Toggle
