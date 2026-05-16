@@ -28,6 +28,9 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
+    spam_pattern = "fallen out of sync|Device firmware could not be retrieved|Status Signal"
+    filter_prefix = f"stdbuf -o L bash -c 'exec \"$@\" 2>&1 | grep -v -E \"{spam_pattern}\"' -- "
+
     # --- Nodes ---
     control_node = Node(
         package="controller_manager",
@@ -37,6 +40,11 @@ def generate_launch_description():
             PathSubstitution(control_pkg) / "config" / "tibble_controller.yaml"
         ],
         output="both",
+        prefix=[filter_prefix],
+        additional_env={
+            'RCUTILS_COLORIZED_OUTPUT': '1',
+            'LC_ALL': 'C'
+        }
     )
 
     robot_state_pub_node = Node(
