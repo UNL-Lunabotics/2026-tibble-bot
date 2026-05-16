@@ -31,10 +31,10 @@ private:
         };
 
         int target_state = -1;
-        if (button_just_pressed(6)) { target_state = interfaces::srv::SetTibbleState::Request::IDLE; }
-        else if (button_just_pressed(7)) { target_state = interfaces::srv::SetTibbleState::Request::TRAVEL; }
-        else if (button_just_pressed(8)) { target_state = interfaces::srv::SetTibbleState::Request::EXCAVATE; }
-        else if (button_just_pressed(9)) { target_state = interfaces::srv::SetTibbleState::Request::DUMP; }
+        if (button_just_pressed(0)) { target_state = interfaces::srv::SetTibbleState::Request::IDLE; }
+        else if (button_just_pressed(1)) { target_state = interfaces::srv::SetTibbleState::Request::TRAVEL; }
+        else if (button_just_pressed(3)) { target_state = interfaces::srv::SetTibbleState::Request::EXCAVATE; }
+        else if (button_just_pressed(4)) { target_state = interfaces::srv::SetTibbleState::Request::DUMP; }
 
         if (target_state != -1) {
             send_state_request(target_state);
