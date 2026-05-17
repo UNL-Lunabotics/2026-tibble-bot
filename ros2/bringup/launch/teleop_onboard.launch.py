@@ -83,15 +83,15 @@ def generate_launch_description():
         }.items()
     )
 
-    camera_rear = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
-        launch_arguments={
-            'camera_name': 'camera_rear',
-            'serial_no': '_048522075108',
-            'enable_depth': 'false',
-            'enable_color': 'true',
-        }.items()
-    )
+    # camera_rear = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([realsense_pkg, '/launch/rs_launch.py']),
+    #     launch_arguments={
+    #         'camera_name': 'camera_rear',
+    #         'serial_no': '_048522075108',
+    #         'enable_depth': 'false',
+    #         'enable_color': 'true',
+    #     }.items()
+    # )
 
     return LaunchDescription([
         DeclareLaunchArgument("gui", default_value="false"),
@@ -100,5 +100,5 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         delay_tibble_controller_spawner,
         camera_front,
-        camera_rear
+        # camera_rear
     ])
