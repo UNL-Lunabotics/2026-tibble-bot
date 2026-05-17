@@ -35,7 +35,7 @@ void setup() {
     roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
     roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
     roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-    roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+    // roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
 
     // Flash LED to show boot is complete
     digitalWrite(LED_BUILTIN, HIGH);
@@ -65,7 +65,7 @@ void execute_command(const char* cmd) {
                 
                 // Address 2: Vibe and Excav
                 roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, vibe);
-                roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
+                // roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, excav);
                 
                 hopper_latch.write(latch);
 
@@ -78,7 +78,7 @@ void execute_command(const char* cmd) {
             roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, 64);
             roboclaw_1.ForwardBackwardM2(ROBOCLAW_ADDRESS_1, 64);
             roboclaw_2.ForwardBackwardM1(ROBOCLAW_ADDRESS_2, 64);
-            roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
+            // roboclaw_2.ForwardBackwardM2(ROBOCLAW_ADDRESS_2, 64);
             break;
         }
         case 'r': {
