@@ -54,10 +54,10 @@ void execute_command(const char* cmd) {
             if (sscanf(cmd, "c %d %d %d %d %d", &la1, &la2, &vibe, &excav, &latch) == 5) {
 
                 // Limit switch hard stop
-                if (digitalRead(LIMIT_SWITCH) == LOW) {
-                    if (la1 > 64) la1 = 64; // Prevent extension, allow retract
-                    if (la2 > 64) la2 = 64;
-                }
+                // if (digitalRead(LIMIT_SWITCH) == LOW) {
+                //     if (la1 > 64) la1 = 64; // Prevent extension, allow retract
+                //     if (la2 > 64) la2 = 64;
+                // }
 
                 // Address 1: Linear Actuators
                 roboclaw_1.ForwardBackwardM1(ROBOCLAW_ADDRESS_1, la1);
