@@ -104,5 +104,5 @@ WORKDIR /workspaces/2026-Tibble-Bot/
 
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc && \
     echo "if [ -f /workspaces/2026-Tibble-Bot/install/setup.bash ]; then source /workspaces/2026-Tibble-Bot/install/setup.bash; fi" >> ~/.bashrc && \
-    echo "alias use_fastdds='export RMW_IMPLEMENTATION=rmw_fastrtps_cpp && echo \"[ROS 2] Middleware swapped to FastDDS (Local Testing Mode)\"'" >> ~/.bashrc && \
-    echo "alias use_zenoh='export RMW_IMPLEMENTATION=rmw_zenoh_cpp && echo \"[ROS 2] Middleware swapped to Zenoh (Production Mode)\"'" >> ~/.bashrc
+    echo "alias use_fastdds='export RMW_IMPLEMENTATION=rmw_fastrtps_cpp && echo \"[ROS 2] Middleware swapped to FastDDS\"'" >> ~/.bashrc && \
+    echo "alias use_zenoh='export RMW_IMPLEMENTATION=rmw_zenoh_cpp && echo \"[ROS 2] Middleware swapped to Zenoh\"'" >> ~/.bashrc
