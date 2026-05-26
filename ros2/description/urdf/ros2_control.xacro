@@ -6,10 +6,16 @@
         <ros2_control name="Tibble" type="system">
 
             <hardware>  <!-- This defines all the params needed for the hardware component -->
-                <plugin>tibble_hwc/TibbleHWC</plugin>
-                <param name="serial_port">/dev/ttyACM0</param>
-                <param name="baud_rate">115200</param>
-                <param name="can_interface">can0</param>
+                <xacro:if value="$(arg use_mock_hardware)">
+                    <plugin>mock_components/GenericSystem</plugin>
+                </xacro:if>
+
+                <xacro:unless value="$(arg use_mock_hardware)">
+                    <plugin>tibble_hwc/TibbleHWC</plugin>
+                    <param name="serial_port">/dev/ttyACM0</param>
+                    <param name="baud_rate">115200</param>
+                    <param name="can_interface">can0</param>
+                </xacro:unless>
             </hardware>
 
             <!-- Define all the joints that will have a command or state interface -->

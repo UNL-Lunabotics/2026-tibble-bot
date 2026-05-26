@@ -21,7 +21,8 @@ def generate_launch_description():
                 "xacro ",
                 PathSubstitution(description_pkg) / "urdf" / "tibble.urdf.xacro",
                 " use_sim:=false",
-                " use_control:=true"
+                " use_control:=true",
+                " use_mock_hardware:=false"
             ]
         ),
         value_type=str

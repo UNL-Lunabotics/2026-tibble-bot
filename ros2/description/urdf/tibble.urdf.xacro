@@ -4,6 +4,7 @@
     <!-- Declare any variables (including ones set by launch files) -->
     <xacro:arg name="use_sim" default="false"/>
     <xacro:arg name="use_control" default="false"/>
+    <xacro:arg name="use_mock_hardware" default="false" />
 
 
 
