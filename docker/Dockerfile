@@ -75,6 +75,11 @@ RUN curl -s --compressed -o /usr/share/keyrings/ctr-pubkey.gpg "https://deb.ctr-
     apt-get update && \
     apt-get install -y --no-install-recommends phoenix6
 
+RUN CTRE_LIB_PATH=$(dirname $(find /usr -name "libCTRE_Phoenix6.so" | head -n 1)) && \
+    echo "Found Phoenix6 at: $CTRE_LIB_PATH" && \
+    echo "$CTRE_LIB_PATH" > /etc/ld.so.conf.d/ctre.conf && \
+    ldconfig
+
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" > /etc/profile.d/ros2.sh
 
 # Add ubuntu user with same UID and GID as your host system, if it doesn't already exist
